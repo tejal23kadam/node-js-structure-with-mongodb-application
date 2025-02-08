@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios'
-import { useOutletContext } from "react-router-dom";
+
 
 function NewEmployee() {
 
@@ -12,8 +12,7 @@ function NewEmployee() {
     const [lastName, setLastName] = useState("");
     const [mobileNo, setMobileNo] = useState("");
     // const [LoginStatus, setLoginStatus] = useState("");
-    const [address, setAddress] = useState("");
-    const { eachPageMargine } = useOutletContext();
+    const [address, setAddress] = useState("");    
 
     const customStyles = {
         content: {
@@ -67,7 +66,7 @@ function NewEmployee() {
         }
     }
     return (
-        <div className={(window.innerWidth < 768) ? "header-left-Zero" : eachPageMargine}>
+        <div>
             <button className='btn m-5' onClick={openModal}>Add New Employee</button>
             <Modal
                 isOpen={modalIsOpen}
