@@ -5,7 +5,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import RegistrationPage from './components/RegistrationPage';
 import LoginPage from './components/LoginPage';
-// import Dashboard from './components/Dashboard';
+import Dashboard from './components/Dashboard';
 import Order from './components/Order';
 import Products from './components/Products';
 import Settings from './components/Settings';
@@ -16,7 +16,7 @@ import Contact from './components/Contact';
 import About from './components/About';
 import NewEmployee from './components/NewEmployee';
 import "bootstrap-icons/font/bootstrap-icons.css";
-import Dashboard123 from './components/Dashboard123';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { setIsAuth } from './redux/slice/AuthSlice';
 
@@ -54,7 +54,7 @@ function App() {
 
   useEffect(() => {
     verify();
-  }, [])
+  },[])
 
   return (
     <>
@@ -91,24 +91,8 @@ function App() {
             )} />
         <Route path='/signup' element={(!isAuth) && <RegistrationPage />} />
 
-        {/* {
-          (isAuth) ?
-            (<Route path="/admin" element={(user.userType === 1) ? <AdminLayout /> : <Navigate to="/" />} >
-              <Route index element={<Dashboard123 />} />
-              <Route path="order" element={<Order />} />
-              <Route path="products" element={<Products />} />
-              <Route path="newEmployee" element={<NewEmployee />} />
-              <Route path="settings" element={<Settings />} />
-            </Route>) :
-            (
-              <>
-                 <Route path='/' element={<LoginPage/>} />
-              </>
-            )
-        } */}
-
         {isAuth && <Route path="/admin" element={(user.userType === 1) ? <AdminLayout /> : <Navigate to="/" />} >
-          <Route index element={<Dashboard123 />} />
+          <Route index element={<Dashboard />} />
           <Route path="order" element={<Order />} />
           <Route path="products" element={<Products />} />
           <Route path="newEmployee" element={<NewEmployee />} />
@@ -121,9 +105,6 @@ function App() {
         </Route>
         }
       </Routes>
-
-
-
     </>
   );
 }

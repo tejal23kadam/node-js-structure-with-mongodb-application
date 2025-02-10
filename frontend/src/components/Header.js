@@ -1,24 +1,27 @@
 import React, { useState } from 'react'
-import { Link, Outlet, useLocation } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
+import { Link, Outlet } from 'react-router-dom';
+import { unSetIsAuth } from '../redux/slice/AuthSlice';
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Alert from 'react-bootstrap/Alert';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import OffCanvasContent from './OffCanvasContent';
 
-function AdminHeader() {
+
+function Header(props) {
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const location = useLocation();
-    const data = location.state;
+    const dispatch = useDispatch();
+    const naviget = useNavigate();
+    const user = useSelector((state) => state.auth.user);
+    const logoutUser = () => {
+        localStorage.removeItem("token");
+        dispatch(unSetIsAuth());
+        naviget("/");
 
+    }
     return (
         <div class="container-fluid">
             <div class="row ">
@@ -40,7 +43,7 @@ function AdminHeader() {
                         </div>
                     </div>
                     <div class="p-2 ">
-                        <button type="button" class="navbar-mobile-toggler" data-toggle="app-sidebar-mobile">
+                        <button type="button" class="navbar-mobile-toggler" onClick={() => logoutUser()} data-toggle="app-sidebar-mobile">
                             Logout
                         </button>
                     </div>
@@ -52,33 +55,22 @@ function AdminHeader() {
                             <Offcanvas.Title>Responsive offcanvas</Offcanvas.Title>
                         </Offcanvas.Header>
                         <Offcanvas.Body>
-                            <div className='bg-primary p-5' >
+                            <div className='bg-primary p-4' >
                                 <div className="profile-img">
                                     <img src={require('../images/User-Profile-PNG-Image.png')} alt="" className="img-fluid rounded-circle" />
                                 </div>
-                                <h1 className="sitename text-capitalize">{(data !== null) ? (data.name) : ("admin")}</h1>
+                                <h1 className="sitename text-capitalize">{(user !== null) ? (user.name) : ("admin")}</h1>
                                 <nav id="navmenu" className="navmenu">
-                                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
 
-                                        <li className="nav-item">
-                                            <Link className="nav-link" to="/admin"><i class="bi bi-building-fill-dash"></i>Dashboard</Link>
-                                        </li>
-                                        <li className="nav-item">
-                                            <Link className="nav-link" to="/admin/order"><i class="bi bi-box-seam"></i>order</Link>
-                                        </li>
-                                        <li className="nav-item">
-                                            <Link className="nav-link" to="/admin/products"><i class="bi bi-card-list"></i>products</Link>
-                                        </li>
-                                        <li className="nav-item">
-                                            <Link className="nav-link" to="/admin/newEmployee"><i class="bi bi-person-add"></i>New Employee</Link>
-                                        </li>
-                                        <li className="nav-item">
-                                            <Link className="nav-link" to="/admin/settings"><i class="bi bi-gear"></i>settings</Link>
-                                        </li>
+                                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                                        {props.navSections.map((section, i) => (
+                                            <li key={i} className="nav-item">
+                                                <Link className="nav-link" to={section.linkTo} ><i class={section.icon}></i>{section.secName}</Link>
+                                            </li>
+                                        ))}
                                     </ul>
                                 </nav>
                             </div>
-
                         </Offcanvas.Body>
                     </Navbar.Offcanvas>
                 </div>
@@ -90,5 +82,5 @@ function AdminHeader() {
         </div>
     )
 }
-export default AdminHeader
+export default Header
 

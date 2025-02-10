@@ -1,12 +1,13 @@
 import React from 'react'
-import EndUserHeader from '../components/EndUserHeader'
-import { Outlet } from 'react-router-dom'
+import AdminHeader from '../components/Header'
+import { navSections } from '../layout/EndUseNavSections';
 
 function EnduserLayout() {
     return (
         <>
-            <EndUserHeader />
-            <Outlet />
+
+            <AdminHeader navSections={navSections} />
+
         </>
     )
 }
