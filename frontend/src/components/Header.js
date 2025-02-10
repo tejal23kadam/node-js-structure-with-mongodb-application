@@ -25,27 +25,33 @@ function Header(props) {
     return (
         <div class="container-fluid">
             <div class="row ">
-                <div className="col-lg-6 d-flex">
-                    <div class="p-2 flex-grow-1">
-                        <h1>LOGO</h1>
-                    </div>
-                    <div class="p-2 ">
-                        <button type="button" class="navbar-mobile-toggler d-lg-none" data-toggle="app-sidebar-mobile">
-                            <i class="bi bi-layout-text-sidebar" onClick={handleShow}></i>
-                        </button>
-                    </div>
-                </div>
-                <div className="col-lg-6 d-flex ">
-                    <div class="p-2 flex-grow-1">
-                        <div class="form-group has-search">
-                            <span class="bi bi-search form-control-feedback"></span>
-                            <input type="text" class="form-control" placeholder="Search" />
+                <div className='top-navbar'>
+                    <div class="container-fluid">
+                        <div class="row ">
+                            <div className="col-lg-6 d-flex">
+                                <div class="p-2 flex-grow-1">
+                                    <h1>LOGO</h1>
+                                </div>
+                                <div class="p-2 ">
+                                    <button type="button" class="navbar-mobile-toggler d-lg-none" data-toggle="app-sidebar-mobile">
+                                        <i class="bi bi-layout-text-sidebar" onClick={handleShow}></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="col-lg-6 d-flex ">
+                                <div class="p-2 flex-grow-1">
+                                    <div class="form-group has-search">
+                                        <span class="bi bi-search form-control-feedback"></span>
+                                        <input type="text" class="form-control" placeholder="Search" />
+                                    </div>
+                                </div>
+                                <div class="p-2 ">
+                                    <button type="button" class="navbar-mobile-toggler" onClick={() => logoutUser()} data-toggle="app-sidebar-mobile">
+                                        Logout
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="p-2 ">
-                        <button type="button" class="navbar-mobile-toggler" onClick={() => logoutUser()} data-toggle="app-sidebar-mobile">
-                            Logout
-                        </button>
                     </div>
                 </div>
 
@@ -55,7 +61,7 @@ function Header(props) {
                             <Offcanvas.Title>Responsive offcanvas</Offcanvas.Title>
                         </Offcanvas.Header>
                         <Offcanvas.Body>
-                            <div className='bg-primary p-4' >
+                            <div className=' p-4' >
                                 <div className="profile-img">
                                     <img src={require('../images/User-Profile-PNG-Image.png')} alt="" className="img-fluid rounded-circle" />
                                 </div>
@@ -75,7 +81,7 @@ function Header(props) {
                     </Navbar.Offcanvas>
                 </div>
 
-                <div class=" col-xl-10 col-lg-9 col-md-12">
+                <div class=" col-xl-10 col-lg-9 col-md-12 section-color mt-1" >
                     <Outlet />
                 </div>
             </div>
