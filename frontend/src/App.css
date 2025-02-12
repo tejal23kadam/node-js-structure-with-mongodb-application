@@ -1,3 +1,44 @@
+:root {
+  --default-font: "Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --heading-font: "Raleway", sans-serif;
+  --nav-font: "Poppins", sans-serif;
+}
+
+/* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
+:root {
+  --background-color: #ffffff;
+  /* Background color for the entire website, including individual sections */
+  --default-color: #272829;
+  /* Default color used for the majority of the text content across the entire website */
+  --heading-color: #050d18;
+  /* Color for headings, subheadings and title throughout the website */
+  --accent-color: red;
+  /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
+  --surface-color: #ffffff;
+  /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
+  --contrast-color: red;
+  /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
+
+
+}
+
+/* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
+:root {
+  --nav-color: #7b8190;
+  /* The default color of the main navmenu links */
+  --nav-hover-color: #038EDC;
+  /* Applied to main navmenu links when they are hovered over or active */
+  --accent-color: red;
+}
+
+/* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
+
+.light-background {
+  --background-color: #f4fafd;
+  --surface-color: #ffffff;
+}
+
+
 * {
   margin: 0;
   padding: 0;
@@ -8,6 +49,58 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px
 }
 
+/* top navbar profile image css start */
+.profile {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  
+  gap: 12px;
+  cursor: pointer;
+  text-align: end;
+}
+
+.profile h3 {
+  text-align: end;
+  line-height: 1;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.profile p {
+  line-height: 1;
+  font-size: 14px;
+  opacity: .6;
+}
+
+.profile .img-box {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profile .img-box img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* .btn:focus,.btn:active {
+  outline: none !important;
+  box-shadow: none;
+} */
+.dropdown-toggle::after{
+  display: none !important;
+}
+.btn:focus {
+  outline: none !important;
+}
+
+/* top navbar profile image css end */
 .section-color {
   background-color: #F7F8FA;
 }
@@ -22,7 +115,7 @@
   display: block;
   width: 2.375rem;
   height: 2.375rem;
-  line-height: 2.375rem;
+  line-height: 2.875rem;
   text-align: center;
   pointer-events: none;
   color: #aaa;
@@ -225,16 +318,14 @@
   font-size: 24px;
   margin: 0;
   text-align: center;
-  color: #fff;
+  color: var(--nav-color);
   font-weight: 700;
 }
 
 /*--------------------------------------------------------------
 # Navigation Menu
 --------------------------------------------------------------*/
-.mobile-nav-toggle {
-  display: none;
-}
+
 
 .navmenu {
   padding: 0;
@@ -248,10 +339,11 @@
   text-align: center;
 }
 
-.navmenu a{
-  color: #7b8190;
+.navmenu a {
+  color: var(--nav-color);
   padding: 15px 10px;
-  font-size: 18px;
+  font-family: var(--nav-font);
+  font-size: 16px;
   font-weight: 400;
   display: flex;
   align-items: center;
@@ -260,10 +352,12 @@
   width: 100%;
   text-decoration: none;
 }
+
 .navmenu a:focus {
-  color:#038EDC;
+  color: var(--nav-hover-color);
   padding: 15px 10px;
-  font-size: 18px;
+  font-family: var(--nav-font);
+  font-size: 16px;
   font-weight: 400;
   display: flex;
   align-items: center;
@@ -274,38 +368,15 @@
 }
 
 
+.navmenu a .navicon,
+.navmenu a:focus .navicon {
+  font-size: 20px;
+  margin-right: 10px;
+}
 
 .navmenu i {
-  font-size: 30px;
-  margin-right: 10px;
-  color: #7b8190;
+  font-size: 40px;
 
-}
-.navmenu i:focus {
-  color:#038EDC;
-}
-
-
-.navmenu a .toggle-dropdown,
-.navmenu a:focus .toggle-dropdown {
-  font-size: 12px;
-  line-height: 0;
-  margin-left: auto;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  /* transition: 0.3s; */
-  flex-shrink: 0;
-  background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
-}
-
-.navmenu a .toggle-dropdown:hover,
-.navmenu a:focus .toggle-dropdown:hover {
-  background-color: var(--accent-color);
-  color: var(--contrast-color);
 }
 
 .navmenu a:hover,
@@ -320,28 +391,6 @@
   color: var(--accent-color);
 }
 
-.navmenu .active .toggle-dropdown,
-.navmenu .active:focus .toggle-dropdown {
-  background-color: var(--accent-color);
-  color: var(--contrast-color);
-  transform: rotate(180deg);
-}
-
-.navmenu .dropdown {
-  display: block;
-}
-
-.navmenu .dropdown a,
-.navmenu .dropdown a:focus {
-  color: --nav-dropdown-color;
-}
-
-.navmenu .dropdown a:hover,
-.navmenu .dropdown .active,
-.navmenu .dropdown .active:focus {
-  color: var(--nav-dropdown-hover-color);
-}
-
 .navmenu .dropdown ul {
   position: static;
   display: none;
@@ -351,15 +400,5 @@
   background-color: var(--nav-dropdown-background-color);
   border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
   box-shadow: none;
-  color:#038EDC;
-  /* transition: all 0.5s ease-in-out; */
-}
-
-.navmenu .dropdown ul ul {
-  background-color: rgba(33, 37, 41, 0.1);
-}
-
-.navmenu .dropdown>.dropdown-active {
-  display: block;
-  background-color: rgba(33, 37, 41, 0.03);
+  transition: all 0.5s ease-in-out;
 }

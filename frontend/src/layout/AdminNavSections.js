@@ -23,5 +23,6 @@ export const navSections = [
                 linkTo: "/admin/settings",
                 secName:"Settings",
                 icon: "bi bi-gear"
-        }
+        },
+        
 ]; 
