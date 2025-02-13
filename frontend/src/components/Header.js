@@ -7,6 +7,17 @@ import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { Dropdown } from 'react-bootstrap';
 import Modal from 'react-modal';
+import CloseButton from 'react-bootstrap/CloseButton';
+import {
+    CButton,
+    CCloseButton,
+    COffcanvas,
+    COffcanvasBody,
+    COffcanvasHeader,
+    COffcanvasTitle,
+} from '@coreui/react'
+
+
 
 function Header(props) {
 
@@ -14,6 +25,7 @@ function Header(props) {
     const [modalIsOpen, setIsOpen] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [visible, setVisible] = useState(false)
 
     const dispatch = useDispatch();
     const naviget = useNavigate();
@@ -33,6 +45,8 @@ function Header(props) {
             border: 'none',
             background: 'none',
             overflow: 'hidden',
+
+
             // z-index:'2000'
         },
     };
@@ -74,7 +88,7 @@ function Header(props) {
                                     </div>
                                 </div>
                                 <div class="p-lg-4 px-2 py-4 flex-grow-1 d-block d-lg-none">
-                                    <svg xmlns="http://www.w3.org/2000/svg" onClick={openModal} width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                    <svg xmlns="http://www.w3.org/2000/svg" onClick={() => setVisible(true)} width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 
                                         1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5
                                          0 0 1 11 0" />
@@ -121,24 +135,29 @@ function Header(props) {
                                 style={customStyles}
                                 contentLabel="Example Modal" >
                                 <div className="container bg-light">
-
                                     <div className="row rounded-border">
                                         <div className="col-12 text-end">
-                                            <button onClick={closeModal}>X</button>
+                                            <button onClick={closeModal} className='border-0'>X</button>
                                         </div>
                                         <div className="col-12 ">
                                             <div class="form-group has-search">
                                                 <span class="bi bi-search form-control-feedback"></span>
                                                 <input type="text" class="form-control" placeholder="Search" />
-
                                             </div>
-
                                         </div>
                                     </div >
                                 </div>
-
-
                             </Modal >
+                            {(visible) ? (
+                                <div className='abcd d-lg-none d-flex w-100 p-4' onClick={() => setVisible(false)}>
+                                    <div class="has-search flex-grow-1 ">
+                                        <span class="bi bi-search form-control-feedback p-2"></span>
+                                        <input type="text" class="form-control" placeholder="Search" />
+                                    </div>
+                                    
+                                    <CloseButton className="p-2" onClick={() => setVisible(false)} />
+                                    
+                                </div>) : (<></>)}
                             {/* 
                             <div className="d-flex col-lg-2 ">
                                 <div >
