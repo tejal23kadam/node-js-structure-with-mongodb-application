@@ -45,10 +45,9 @@
   box-sizing: border-box;
 }
 
-.top-navbar {
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px
+.navbar a.active{
+  color: red;
 }
-
 /* top navbar profile image css start */
 .profile {
   position: relative;
@@ -89,10 +88,7 @@
   height: 100%;
   object-fit: cover;
 }
-/* .btn:focus,.btn:active {
-  outline: none !important;
-  box-shadow: none;
-} */
+
 .dropdown-toggle::after{
   display: none !important;
 }
@@ -132,7 +128,7 @@
   padding: 0;
   overflow: hidden;
 }
-.abcd{ 
+.search-section{ 
     height: 70px;    
     position: absolute;
     width: 100%;
@@ -281,10 +277,6 @@
   font-size: 1.1em;
 }
 
-.navbar-brand {
-  font-size: 1.5em;
-  font-weight: bold;
-}
 
 @media (max-width: 1199px) {
   .header {
@@ -360,9 +352,11 @@
   text-align: center;
 }
 
-.navmenu a {
+.navmenu a ,
+.navmenu a:focus
+{
   color: var(--nav-color);
-  padding: 15px 10px;
+  padding: 10px 0px;
   font-family: var(--nav-font);
   font-size: 16px;
   font-weight: 400;
@@ -374,10 +368,9 @@
   text-decoration: none;
 }
 
-.navmenu a:focus {
+.navmenu .active{
   color: var(--nav-hover-color);
-  padding: 15px 10px;
-  font-family: var(--nav-font);
+  background-color: rgba(62, 121, 247, 0.1);    
   font-size: 16px;
   font-weight: 400;
   display: flex;
@@ -386,40 +379,21 @@
   transition: 0.3s;
   width: 100%;
   text-decoration: none;
-}
-
-
-.navmenu a .navicon,
-.navmenu a:focus .navicon {
-  font-size: 20px;
-  margin-right: 10px;
-}
-
-.navmenu i {
-  font-size: 40px;
-
-}
+}  
 
 .navmenu a:hover,
-.navmenu .active,
 .navmenu .active:focus {
   color: var(--nav-hover-color);
 }
 
-.navmenu a:hover .navicon,
-.navmenu .active .navicon,
-.navmenu .active:focus .navicon {
-  color: var(--accent-color);
+.navmenu a .navicon,
+.navmenu a:focus .navicon {
+  font-size: 10px;
+  margin-right: 10px;
 }
 
-.navmenu .dropdown ul {
-  position: static;
-  display: none;
-  z-index: 99;
-  padding: 5px 10px;
-  margin: 5px 10px;
-  background-color: var(--nav-dropdown-background-color);
-  border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
-  box-shadow: none;
-  transition: all 0.5s ease-in-out;
+.navmenu i {
+  font-size: 20px;
+
 }
+ 
