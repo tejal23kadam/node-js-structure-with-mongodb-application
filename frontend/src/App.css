@@ -396,4 +396,14 @@
   font-size: 20px;
 
 }
+
+.redColor{
+  background-color: red;
+  width:50%;
+}
+
+.greenColor{
+  width: 100%;
+  background-color: green;
+}
  
