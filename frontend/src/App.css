@@ -128,6 +128,10 @@
   padding: 0;
   overflow: hidden;
 }
+
+.offcanvas {
+  width: 33rem !important ;
+}
 .search-section{ 
     height: 70px;    
     position: absolute;
@@ -370,7 +374,7 @@
 
 .navmenu .active{
   color: var(--nav-hover-color);
-  background-color: rgba(62, 121, 247, 0.1);    
+  /* background-color: rgba(62, 121, 247, 0.1);     */
   font-size: 16px;
   font-weight: 400;
   display: flex;
@@ -394,7 +398,6 @@
 
 .navmenu i {
   font-size: 20px;
-
 }
 
 .redColor{
