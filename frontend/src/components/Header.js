@@ -178,9 +178,9 @@ function Header(props) {
                     <div className='section-color h-100 flex-grow-1'>
                         <Outlet />
                     </div>                  
-                    {/* pages section end  */}
+                    {/* pages section end  */}    
 
-                </div>
+                </div>   
             </div>
         </div >
     )
