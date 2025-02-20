@@ -125,13 +125,17 @@
 
 }
 .offcanvas-body {
-  padding: 0;
+  padding: 15px;
   overflow: hidden;
 }
 
-.offcanvas {
-  width: 33rem !important ;
+.offcanvas-start {
+  width: 250px !important ;
 }
+.offcanvas-end {
+  width: 250px !important ;
+}
+
 .search-section{ 
     height: 70px;    
     position: absolute;
@@ -147,9 +151,6 @@
     transition: 0.3s;
 }
 
-.offcanvas{
-  --bs-offcanvas-height:10vh;
-}
 
 .form-control {
   height: 48px;
@@ -249,12 +250,20 @@
   z-index: 0;
   border-right: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
 }
+.verticleNavbar{
+  border-right: 1px solid #e3e3e3;
+}
+.top-navbar{
+height:70px;
+border-bottom: 1px solid #e3e3e3;
+}
 
-.header .profile-img img {
+
+.profile-img img {
   margin: 15px auto;
   display: block;
-  width: 220px;
-  border: 8px solid color-mix(in srgb, var(--default-color), transparent 85%);
+  width: 170px;
+  border: 4px solid color-mix(in srgb, #038EDC, transparent 35%);
 }
 
 @media screen and (min-width: 992px) {
@@ -400,13 +409,11 @@
   font-size: 20px;
 }
 
-.redColor{
-  background-color: red;
-  width:50%;
+@media (max-width: 769px) {
+  .verticleNavbar {      
+      border: none;
+  }
 }
 
-.greenColor{
-  width: 100%;
-  background-color: green;
-}
+
  

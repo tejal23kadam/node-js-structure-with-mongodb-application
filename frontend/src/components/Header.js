@@ -15,6 +15,12 @@ function Header(props) {
     const handleClose = () => setShow(!show);
     const handleShow = () => setShow(true);
 
+    const [rightshow, setRightShow] = useState(false);
+
+    const handleRightClose = () => setRightShow(false);
+    const handleRightShow = () => setRightShow(true);
+
+
     const [visibleSearchBar, setVisibleSearchBar] = useState(false);
     const [activeLink, setActiveLink] = useState("Dashboard");
 
@@ -32,35 +38,36 @@ function Header(props) {
     return (
         <div class="container-fluid">
             <div class="row ">
-                {/* offcanvas setion start */}
-                <div className='d-flex '>
-                    {(!show) ? (
+                {/* left setion start */}
+                <div className='d-flex top-navbar ' >
+                     {(!show) ? (
                         <div className='px-2 mx-2 mx-md-0 px-md-3 py-3 d-none d-lg-block'>
-                            <h1>L</h1>
+                            <img src={require('../images/logo.png')} />
                         </div>
                     ) :
                         (
                             <div>
-                                <div class="px-5 py-3 bd-highlight col-xl-2 d-none d-lg-block ">
-                                    <h1>LOGO</h1>
+                                <div class="py-4 px-4 bd-highlight col-xl-2 d-none d-lg-block ">
+                                    <img src={require('../images/logo.png')} />
                                 </div>
-
                             </div>
-                        )}
-                    {/* offcanvas setion end */}
+                        )} 
+                        
+                    {/* left setion end */}
 
 
 
                     {/* pages section start */}
 
 
-                    <button className='border-0 bg-light' >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" onClick={handleClose} class="bi bi-text-indent-right" viewBox="0 0 16 16">
+                    <div class=" py-4 px-2 ">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" onClick={handleClose} class="bi bi-text-indent-right text-center" viewBox="0 0 16 16">
                             <path d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5m10.646 2.146a.5.5 0 0 1 .708.708L11.707 8l1.647 
                                                     1.646a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708zM2 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m0 3a.5.5 
                                                     0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m0 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5" />
                         </svg>
-                    </button>
+                    </div>
                     <div class="p-2 flex-grow-1 d-none d-lg-block">
                         <div class="form-group has-search">
                             <span class="bi bi-search form-control-feedback"></span>
@@ -74,13 +81,17 @@ function Header(props) {
                                          0 0 1 11 0" />
                         </svg>
                     </div>
-                    <div class=" py-4 px-2 ">
+                    <div class=" py-4 px-2 d-block flex-grow-1 d-lg-none text-center ">
+                    <img src={require('../images/logo.png')} />
+                    </div>
+                    
+                    <div class=" py-4 px-2 d-none d-lg-block ">
                         <Link to="/"><i className="bi bi-bell-fill" onClick={handleShow}></i>                                         </Link>
                     </div>
-                    <div class="py-4 px-2">
+                    <div class="py-4 px-2 d-none d-lg-block">
                         <Link to="/"><i className='bi bi-gear'></i></Link>
                     </div>
-                    <div class="py-1 px-2 ">
+                    {/* <div class="py-1 px-2 ">
                         <Dropdown>
                             <Dropdown.Toggle variant="transparent" className='btn-outline-light text-dark '>
                                 <div class="profile">
@@ -98,6 +109,23 @@ function Header(props) {
                                 <Dropdown.Item><i class="bi bi-gear px-2"></i>Sign Out</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
+
+                    </div> */}
+                    <div class="py-1 px-2 ">
+                        <div class="profile">
+                            <div class="img-box">
+                                <img src="https://i.postimg.cc/BvNYhMHS/user-img.jpg" onClick={handleRightShow} alt="some user image" />
+                            </div>
+                        </div>
+                        <Offcanvas show={rightshow} onHide={handleRightClose} placement='end'>
+                            <Offcanvas.Header closeButton>
+                                <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+                            </Offcanvas.Header>
+                            <Offcanvas.Body>
+                                Some text as placeholder. In real life you can have the elements you
+                                have chosen. Like, text, images, lists, etc.
+                            </Offcanvas.Body>
+                        </Offcanvas>
                     </div>
                     {(visibleSearchBar) ? (
                         <div className='search-section d-lg-none d-flex w-100 p-4'>
@@ -117,7 +145,7 @@ function Header(props) {
                 {/* offcanvas setion start */}
                 <div className='d-flex'>
                     {(!show) ? (
-                        <div className='px-1 px-md-3 py-2 d-none d-lg-block'>
+                        <div className='px-1 px-md-3 py-2 d-none d-lg-block verticleNavbar'>
 
                             <nav id="navmenu" className="navmenu">
                                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
@@ -137,15 +165,15 @@ function Header(props) {
                         (
                             <div>
                                 <Offcanvas show={show} onHide={handleClose} responsive="lg">
-                                    <Offcanvas.Header  className=' px-4' closeButton>
-                                        <h1>LOGO</h1>
+                                    <Offcanvas.Header className=' px-4' closeButton>
+                                        <img src={require('../images/logo.png')} />
                                     </Offcanvas.Header>
                                     <Offcanvas.Body>
-                                        <div style={{ maxWidth: '200px' }}>
+                                        <div className='verticleNavbar px-4'>
                                             <p className="mb-0">
-                                                <div className=' px-2' >                                                   
+                                                <div className=' px-2' >
                                                     <div className="profile-img">
-                                                        <img src={require('../images/User-Profile-PNG-Image.png')} alt="" className="img-fluid rounded-circle" />
+                                                        <img src="https://i.postimg.cc/BvNYhMHS/user-img.jpg" alt="" className="img-fluid rounded-circle" />
                                                     </div>
                                                     <h1 className="sitename text-capitalize">{(user !== null) ? (user.name) : ("admin")}</h1>
                                                     <nav id="navmenu" className="navmenu">
@@ -175,12 +203,12 @@ function Header(props) {
 
                     {/* pages section start */}
 
-                    <div className='section-color h-100 flex-grow-1'>
+                    <div className='container-fluid section-color h-100 flex-grow-1'>
                         <Outlet />
-                    </div>                  
-                    {/* pages section end  */}    
+                    </div>
+                    {/* pages section end  */}
 
-                </div>   
+                </div>
             </div>
         </div >
     )
