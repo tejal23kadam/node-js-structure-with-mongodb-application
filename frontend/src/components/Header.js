@@ -38,9 +38,9 @@ function Header(props) {
     return (
         <div class="container-fluid">
             <div class="row ">
-                {/* left setion start */}
+
                 <div className='d-flex top-navbar ' >
-                     {(!show) ? (
+                    {(!show) ? (
                         <div className='px-2 mx-2 mx-md-0 px-md-3 py-3 d-none d-lg-block'>
                             <img src={require('../images/logo.png')} />
                         </div>
@@ -51,15 +51,7 @@ function Header(props) {
                                     <img src={require('../images/logo.png')} />
                                 </div>
                             </div>
-                        )} 
-                        
-                    {/* left setion end */}
-
-
-
-                    {/* pages section start */}
-
-
+                        )}
                     <div class=" py-4 px-2 ">
 
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" onClick={handleClose} class="bi bi-text-indent-right text-center" viewBox="0 0 16 16">
@@ -74,17 +66,10 @@ function Header(props) {
                             <input type="text" class="form-control" placeholder="Search" />
                         </div>
                     </div>
-                    <div class="p-lg-4 px-2 py-4 flex-grow-1 d-block d-lg-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" onClick={() => setVisibleSearchBar(true)} width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 
-                                        1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5
-                                         0 0 1 11 0" />
-                        </svg>
-                    </div>
                     <div class=" py-4 px-2 d-block flex-grow-1 d-lg-none text-center ">
-                    <img src={require('../images/logo.png')} />
+                        <img src={require('../images/logo.png')} />
                     </div>
-                    
+
                     <div class=" py-4 px-2 d-none d-lg-block ">
                         <Link to="/"><i className="bi bi-bell-fill" onClick={handleShow}></i>                                         </Link>
                     </div>
@@ -111,7 +96,7 @@ function Header(props) {
                         </Dropdown>
 
                     </div> */}
-                    <div class="py-1 px-2 ">
+                    <div class="py-3 px-2 ">
                         <div class="profile">
                             <div class="img-box">
                                 <img src="https://i.postimg.cc/BvNYhMHS/user-img.jpg" onClick={handleRightShow} alt="some user image" />
@@ -122,11 +107,21 @@ function Header(props) {
                                 <Offcanvas.Title>Offcanvas</Offcanvas.Title>
                             </Offcanvas.Header>
                             <Offcanvas.Body>
-                                Some text as placeholder. In real life you can have the elements you
-                                have chosen. Like, text, images, lists, etc.
+                                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                                    <li key={0} className="nav-item">
+                                        <Link to="/" ><i class="bi bi-gear px-2"></i>Sign In</Link>
+                                    </li>
+                                    <li key={0} className="nav-item">
+                                        <Link to="/" onClick={() => logoutUser()} ><i class="bi bi-gear px-2"></i>Sign Out</Link>
+                                    </li>
+
+                                </ul>
+
                             </Offcanvas.Body>
                         </Offcanvas>
                     </div>
+
+                    {/* searchbar section start  */}
                     {(visibleSearchBar) ? (
                         <div className='search-section d-lg-none d-flex w-100 p-4'>
                             <div class="has-search flex-grow-1 ">
@@ -137,13 +132,14 @@ function Header(props) {
                         </div>) : (<></>)}
 
 
-                    {/* pages section end  */}
+                    {/* searchbar section end  */}
 
                 </div>
+                {/* top navbar section end */}
 
 
                 {/* offcanvas setion start */}
-                <div className='d-flex'>
+                <div className='d-flex main-section'>
                     {(!show) ? (
                         <div className='px-1 px-md-3 py-2 d-none d-lg-block verticleNavbar'>
 
@@ -208,7 +204,28 @@ function Header(props) {
                     </div>
                     {/* pages section end  */}
 
+
                 </div>
+            </div>
+
+            <div className='d-block d-lg-none'>
+                <nav id="navmenu" className="navmenu">
+                    <ul className="navbar-nav me-auto mb-lg-0 list-group-horizontal bottom-navbar d-flex justify-content-around">
+                        {props.navSections.map((section, i) => (
+                            <li key={i} className="nav-item d-flex justify-content-between flex-column ">
+                                <Link className={activeLink === section.secName ? "active text-white" : "" + "text-dark"}
+                                    onClick={() => setActiveLink(section.secName)}
+                                    to={section.linkTo} >
+                                    <i className={section.icon}></i>
+                                </Link>
+                            </li>
+                        ))}
+                        <li className={(activeLink) ? 'text-dark' : " text-white " + " nav-item d-flex justify-content-between flex-column"} onClick={() => setVisibleSearchBar(true)}>
+                            <i class="bi bi-search"></i>
+
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div >
     )
