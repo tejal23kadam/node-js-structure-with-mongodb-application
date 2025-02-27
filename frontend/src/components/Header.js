@@ -40,7 +40,7 @@ function Header(props) {
             <div class="row ">
 
                 <div className='d-flex top-navbar ' >
-                    {(!show) ? (
+                    {/* {(!show) ? (
                         <div className='px-2 mx-2 mx-md-0 px-md-3 py-3 d-none d-lg-block'>
                             <img src={require('../images/logo.png')} />
                         </div>
@@ -51,7 +51,12 @@ function Header(props) {
                                     <img src={require('../images/logo.png')} />
                                 </div>
                             </div>
-                        )}
+                        )} */}
+                    <div>
+                        <div class="py-4 px-4 bd-highlight col-xl-2 d-none d-lg-block ">
+                            <img src={require('../images/logo.png')} />
+                        </div>
+                    </div>
                     <div class=" py-4 px-2 ">
 
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" onClick={handleClose} class="bi bi-text-indent-right text-center" viewBox="0 0 16 16">
@@ -114,9 +119,7 @@ function Header(props) {
                                     <li key={0} className="nav-item">
                                         <Link to="/" onClick={() => logoutUser()} ><i class="bi bi-gear px-2"></i>Sign Out</Link>
                                     </li>
-
                                 </ul>
-
                             </Offcanvas.Body>
                         </Offcanvas>
                     </div>
@@ -142,7 +145,6 @@ function Header(props) {
                 <div className='d-flex main-section'>
                     {(!show) ? (
                         <div className='px-1 px-md-3 py-2 d-none d-lg-block verticleNavbar'>
-
                             <nav id="navmenu" className="navmenu">
                                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                                     {props.navSections.map((section, i) => (
@@ -159,13 +161,13 @@ function Header(props) {
                         </div>
                     ) :
                         (
-                            <div>
+                            <div className='verticleNavbar'>
                                 <Offcanvas show={show} onHide={handleClose} responsive="lg">
                                     <Offcanvas.Header className=' px-4' closeButton>
                                         <img src={require('../images/logo.png')} />
                                     </Offcanvas.Header>
                                     <Offcanvas.Body>
-                                        <div className='verticleNavbar px-4'>
+                                        <div className='px-4'>
                                             <p className="mb-0">
                                                 <div className=' px-2' >
                                                     <div className="profile-img">
@@ -199,7 +201,7 @@ function Header(props) {
 
                     {/* pages section start */}
 
-                    <div className='container-fluid section-color h-100 flex-grow-1'>
+                    <div className='container-fluid section-color h-100'>
                         <Outlet />
                     </div>
                     {/* pages section end  */}
