@@ -1,14 +1,17 @@
 import { React, useState } from 'react';
 //import Modal from 'react-modal';
 import axios from 'axios'
+import { ToastContainer, toast } from "react-toastify";
+
 
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+//toast.config;
 
 
 function NewEmployee() {
     const [show, setShow] = useState(false);
-    const [modalIsOpen, setIsOpen] = useState(false);
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [firstName, setFirstName] = useState("");
@@ -31,13 +34,6 @@ function NewEmployee() {
             // z-index:'2000'
         },
     };
-    function openModal() {
-        setIsOpen(true);
-    }
-
-    function closeModal() {
-        setIsOpen(false);
-    }
 
     const employee = {
         firstName: firstName,
@@ -62,16 +58,48 @@ function NewEmployee() {
 
 
             console.log(res)
+            setShow(false);
 
         }
         catch (error) {
             console.log(error)
         }
     }
+
+    const notify = () => {
+
+        console.log("skjdhskjd");
+        toast('🦄 Wow so easy!', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+
+        });
+
+        <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+
+        />
+
+    }
     return (
         <div>
             <Button variant="primary" onClick={() => setShow(true)}>
-               add new employee 
+                add new employee
             </Button>
 
             <Modal
@@ -82,44 +110,44 @@ function NewEmployee() {
             >
                 <Modal.Header className='bg-color' closeButton>
                     <Modal.Title id="example-custom-modal-styling-title">
-                    Welcome To Registration
+                        Welcome To Registration
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className="container mt-3 ">                       
+                    <div className="container mt-3 ">
 
                         {/* <div className="row bg-light p-5 p-sm-none "> */}
 
-                            <div className="col-sm-12 col-lg-4 form-group">
-                                <label>First Name</label>
-                                <input type="text" className="form-control" placeholder="First name." onChange={e => setFirstName(e.target.value)} required />
-                            </div>
-                            <div className="col-sm-12 col-lg-4 form-group">
-                                <label>Last Name</label>
-                                <input type="text" className="form-control" placeholder="Last name." onChange={e => setLastName(e.target.value)} required />
-                            </div>
-                            <div className="col-sm-12 col-lg-4 form-group">
-                                <label >Mobile No.</label>
-                                <input type="mobile" className="form-control" placeholder="Mobile No." onChange={e => setMobileNo(e.target.value)} required />
-                            </div>
-                            <div className="col-sm-12 form-group">
-                                <label >Address</label>
-                                <input type="address" className="form-control" placeholder="Address" onChange={e => setAddress(e.target.value)} required />
-                            </div>
-
-                            <div className="col-sm-12 form-group">
-                                <label >Email</label>
-                                <input type="email" className="form-control" placeholder="Enter your email." onChange={e => setEmail(e.target.value)} required />
-                            </div>
-
-                            <div className="col-sm-12 form-group">
-                                <label >Password</label>
-                                <input type="Password" name="password" className="form-control" placeholder="Enter your password." onChange={e => setPassword(e.target.value)} required />
-                            </div>
-                            <div className="col-sm-12 form-group mb-0">
-                                <button className="form-control btn bg-color btn-outline text-white" onClick={() => addEmployee()} >Submit</button>
-                            </div>
+                        <div className="col-sm-12 form-group">
+                            <label>First Name</label>
+                            <input type="text" className="form-control" placeholder="First name." onChange={e => setFirstName(e.target.value)} required />
                         </div>
+                        <div className="col-sm-12 form-group">
+                            <label>Last Name</label>
+                            <input type="text" className="form-control" placeholder="Last name." onChange={e => setLastName(e.target.value)} required />
+                        </div>
+                        <div className="col-sm-12 form-group">
+                            <label >Mobile No.</label>
+                            <input type="mobile" className="form-control" placeholder="Mobile No." onChange={e => setMobileNo(e.target.value)} required />
+                        </div>
+                        <div className="col-sm-12 form-group">
+                            <label >Address</label>
+                            <input type="address" className="form-control" placeholder="Address" onChange={e => setAddress(e.target.value)} required />
+                        </div>
+
+                        <div className="col-sm-12 form-group">
+                            <label >Email</label>
+                            <input type="email" className="form-control" placeholder="Enter your email." onChange={e => setEmail(e.target.value)} required />
+                        </div>
+
+                        <div className="col-sm-12 form-group">
+                            <label >Password</label>
+                            <input type="Password" name="password" className="form-control" placeholder="Enter your password." onChange={e => setPassword(e.target.value)} required />
+                        </div>
+                        <div className="col-sm-12 form-group mb-0">
+                            <button className="form-control btn bg-color btn-outline text-white" onClick={() => { addEmployee(); notify(); }} >Submit</button>
+                        </div>
+                    </div>
 
                     {/* </div> */}
                 </Modal.Body>

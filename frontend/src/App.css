@@ -169,8 +169,7 @@
   width: 100vw;
   height: 100vh;
   /* position: relative; */
-  background-image: linear-gradient(19deg, #ddd6f3 0%, #faaca8 100%);
-  ;
+  background-image: linear-gradient(to bottom, #081941, #143365, #1a4f8b, #196db3, #038edc);
 }
 
 .btn-animation {
@@ -196,7 +195,8 @@
 }
 
 .bg-color {
-  background: linear-gradient(135deg, #f75959 0%, #f35587 100%);
+  /* background: linear-gradient(to bottom, #038edc, #196db3, #1a4f8b, #143365, #081941) */
+  background-image: linear-gradient(to right bottom, #081941, #143365, #1a4f8b, #196db3, #038edc);;
 }
 
 .rounded-border {
