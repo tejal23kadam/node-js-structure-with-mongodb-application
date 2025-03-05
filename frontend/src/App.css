@@ -99,6 +99,7 @@
 /* top navbar profile image css end */
 .section-color {
   background-color: #F7F8FA;
+  transition:0.3s;
 }
 
 .has-search .form-control {
@@ -252,9 +253,12 @@
 }
 .verticleNavbar{
   border-right: 1px solid #e3e3e3;
-  transition: 0.5s;
-  
+  background-image: linear-gradient(to bottom, #081941, #143365, #1a4f8b, #196db3, #038edc);
+  position:fixed;  
   height: 100%;
+}
+.myclass{
+  color:red;
 }
 .top-navbar{
 height:70px;
@@ -276,6 +280,7 @@ border-bottom: 1px solid #e3e3e3;
 
 .main-section{
   margin-top: 70px !important;
+  transition: 0.5s ease;
 }
 
 .profile-img img {
@@ -388,7 +393,7 @@ border-bottom: 1px solid #e3e3e3;
 .navmenu a:focus
 {
   color: var(--nav-color);
-  padding: 10px 0px;
+  padding: 8px 25px;
   font-family: var(--nav-font);
   font-size: 16px;
   font-weight: 400;
@@ -417,8 +422,8 @@ border-bottom: 1px solid #e3e3e3;
 .navmenu .active:focus {
   color: white;
   box-shadow: inset 200px 0 0 0 #54b3d6;
-  padding: 5px 28px;
-  border-radius: 20px;
+  /* padding: 5px 28px; */
+  border-radius: 50px;
   }
 
 .navmenu a .navicon,

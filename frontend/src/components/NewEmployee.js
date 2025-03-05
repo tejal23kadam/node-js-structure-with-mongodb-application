@@ -108,7 +108,7 @@ function NewEmployee() {
                 dialogClassName="modal-90w"
                 aria-labelledby="example-custom-modal-styling-title"
             >
-                <Modal.Header className='bg-color' closeButton>
+                <Modal.Header className='bg-color text-white text-center' closeButton>
                     <Modal.Title id="example-custom-modal-styling-title">
                         Welcome To Registration
                     </Modal.Title>
