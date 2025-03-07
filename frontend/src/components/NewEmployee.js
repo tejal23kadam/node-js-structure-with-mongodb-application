@@ -145,7 +145,7 @@ function NewEmployee() {
                             <input type="Password" name="password" className="form-control" placeholder="Enter your password." onChange={e => setPassword(e.target.value)} required />
                         </div>
                         <div className="col-sm-12 form-group mb-0">
-                            <button className="form-control btn bg-color btn-outline text-white" onClick={() => { addEmployee(); notify(); }} >Submit</button>
+                            <button type="button" className="form-control btn bg-color btn-outline text-white" onClick={() => { addEmployee(); notify(); }} >Submit</button>
                         </div>
                     </div>
 

@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const studentModel = mongoose.model('student')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const {JWT_SECRET} = require('../utility/config')
+const {JWT_SECRET} = require('../utility/config');
+const { sendmail } = require('../utility/nodemailer');
 
 const checkConn = (req, res) => {
     res.status(200).json({ message: 'connection done successfully' })
@@ -22,6 +23,7 @@ const addStudent = async (req, res) => {
         const newStudent = new studentModel({ name: data.name, std: data.std, mobile: data.mobile, email: data.email, password: hashPassword,userType: data.userType});
 
         await newStudent.save();
+        await sendmail(data.email,"welcome to gmail","hello sir",'<a href="www.google.com">google.com</a>')
         return res.status(200).json({ status: true, data: { message: "data added successfully" } })
     }
     catch (error) {

@@ -54,7 +54,8 @@ function LoginPage() {
                                     </p>
                                     <p>Don't have an account ?</p>
                                 </div>
-                                <button type="button" className="form-control btn  btn-outline text-white btn-animation" ><Link style={{ textDecoration: 'none' }} to="/signup">Sign Up</Link></button>
+                                <button type="button" className="form-control btn-outline text-white btn-animation" ><Link style={{ textDecoration: 'none' }} to="/signup">Sign Up</Link></button>
+                                
                             </div>
                         </div>
                         <div className='col-md-6 bg-white ml-3 mr-3 ml-md-0 mr-md-0 p-3 sign-up-right'>
