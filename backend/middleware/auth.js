@@ -18,7 +18,7 @@ const Auth = async(req, res, next) => {
                 }
                 const user = await studentModel.findById(verified.user_id).select("-password");
 
-                if(user){
+                if(user){                                     
                         req.user = user;
                         next();
                 }

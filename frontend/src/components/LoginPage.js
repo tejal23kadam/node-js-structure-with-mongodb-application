@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { setIsAuth } from '../redux/slice/AuthSlice';
+import { useDispatch } from 'react-redux';
+import { setToast} from '../redux/slice/toastSlice';
 
 function LoginPage() {
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [LoginStatus, setLoginStatus] = useState("");
+    const [password, setPassword] = useState("");    
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -22,10 +22,11 @@ function LoginPage() {
     const CheckStudent = async () => {
         try {
             const res = await axios.post('http://localhost:2000/api/validateStudent', studentData)
-            setLoginStatus(res.data.data.message);
+            
             if (res.data.status) {
                 localStorage.setItem("token", res.data.data.token)
                 dispatch(setIsAuth(res.data.data.user));
+                dispatch(setToast({message:res.data.data.message,type:"success"}));
 
                 if (res.data.data.user.userType === 1) {
                     navigate("/admin", { state: { name: res.data.data.user.name } });
@@ -87,9 +88,7 @@ function LoginPage() {
                                             <p>Don't have an account ?<Link to="/signup"> Sign Up</Link></p>
                                         </div>
                                     </div>
-                                    <div className="col-sm-12 text-center ">
-                                        <p>{LoginStatus}</p>
-                                    </div>
+                                   
                                 </form>
                             </div>
 

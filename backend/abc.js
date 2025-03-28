@@ -1,28 +1,23 @@
-const nodemail = require('nodemailer');
-const { EMAIL, PASSWORD } = require('./utility/config')
+// let data = {a:10,b:20};
+// let newData = data;
+// newData.b=50;
+// console.log(data.b);
 
-const transporter = nodemail.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
-        auth: {
-                user: EMAIL,
-                pass: PASSWORD
-        }
-})
+let a = 10;
+let b = a;
+b = 20;
+console.log(a);
+console.log(b);
+[0, 1,
+        [2,
+                [3,
+                        [4, 5]
+                ]
+        ]
+]
 
-const sendMail = async (to, subject, text, html) => {
-        const mailOption = {
-                from: EMAIL,
-                to: to,
-                subject: subject,
-                text: text,
-                html: html
-        }
-        try {
-                await transporter.sendMail(mailOption);
-        }
-        catch (error) {
-                console.log(error);
-        }
-}
+[1, 2,
+[3,
+        [4, 5, 6],
+        7],
+        8];

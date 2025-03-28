@@ -1,26 +1,18 @@
-import React, { useState, useEffect, use } from 'react'
+import React, { useState } from 'react'
 import { Link, Outlet } from 'react-router-dom';
 import { unSetIsAuth } from '../redux/slice/AuthSlice';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import { Dropdown } from 'react-bootstrap';
 import CloseButton from 'react-bootstrap/CloseButton';
 
 function Header(props) {
 
     const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(!show);
-    const handleShow = () => setShow(true);
-
+    const handleClose = () => setShow(!show);    
     const [rightshow, setRightShow] = useState(false);
-
     const handleRightClose = () => setRightShow(false);
     const handleRightShow = () => setRightShow(true);
-
-
     const [visibleSearchBar, setVisibleSearchBar] = useState(false);
     const [activeLink, setActiveLink] = useState("Dashboard");
 
@@ -32,20 +24,18 @@ function Header(props) {
         localStorage.removeItem("token");
         dispatch(unSetIsAuth());
         naviget("/");
-
     }
 
     return (
-        <div class="container-fluid">
+        <div>
             <div class="row ">
                 <div className='d-flex top-navbar ' >
                     <div>
                         <div class="py-4 px-4 bd-highlight col-xl-2 d-none d-lg-block ">
-                            <img src={require('../images/logo.png')} />
+                            <img src={require('../images/logo.png')} alt='no img' />
                         </div>
                     </div>
                     <div class=" py-4 px-2 ">
-
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" onClick={handleClose} class="bi bi-text-indent-right text-center" viewBox="0 0 16 16">
                             <path d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5m10.646 2.146a.5.5 0 0 1 .708.708L11.707 8l1.647 
                                                     1.646a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708zM2 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m0 3a.5.5 
@@ -54,7 +44,7 @@ function Header(props) {
                     </div>
 
                     <div class=" py-4 px-2 d-block flex-grow-1 d-lg-none text-center ">
-                        <img src={require('../images/logo.png')} />
+                        <img src={require('../images/logo.png')} alt='no img' />
                     </div>
                     <div className='d-flex justify-content-end flex-lg-grow-1'>
                         <div class="p-2 d-none d-lg-block">
@@ -64,15 +54,15 @@ function Header(props) {
                             </div>
                         </div>
                         <div class=" py-4 px-2 d-none d-lg-block ">
-                            <Link to="/"><i className="bi bi-bell-fill" onClick={handleShow}></i>                                         </Link>
+                            <Link><i className="bi bi-bell-fill"></i></Link>
                         </div>
                         <div class="py-4 px-2 d-none d-lg-block">
-                            <Link to="/"><i className='bi bi-gear'></i></Link>
+                            <Link><i className='bi bi-gear'></i></Link>
                         </div>
                         <div class="py-3 px-2 ">
                             <div class="profile">
                                 <div class="img-box">
-                                    <img src="https://i.postimg.cc/BvNYhMHS/user-img.jpg" onClick={handleRightShow} alt="some user image" />
+                                    <img src="https://i.postimg.cc/BvNYhMHS/user-img.jpg" onClick={handleRightShow} alt="no img" />
                                 </div>
                             </div>
 
@@ -104,7 +94,7 @@ function Header(props) {
                                 <span class="bi bi-search form-control-feedback p-2"></span>
                                 <input type="text" class="form-control" placeholder="Search" />
                             </div>
-                            <CloseButton className="p-2" onClick={() => {setVisibleSearchBar(false); setActiveLink(activeLink); }}/>
+                            <CloseButton className="p-2" onClick={() => { setVisibleSearchBar(false); setActiveLink(activeLink); }} />
                         </div>) : (<></>)}
 
 
@@ -205,10 +195,12 @@ function Header(props) {
                         <Outlet />
                     </div>
 
-                    {/* if screen size is less than lg */}
-                    <div className='container-fluid section-color h-100 d-block d-lg-none'>
+                    {/* if screeen size is greater than lg */}
+                    <div className='container-fluid section-color h-100 d-lg-none d-block'>
                         <Outlet />
                     </div>
+
+
                     {/* pages section end  */}
                 </div>
             </div>
@@ -216,42 +208,42 @@ function Header(props) {
             {/* bottom position fixed navbar start */}
             <nav class="navbar fixed-bottom d-lg-none bottom-navbar-bg-color px-3">
                 <div>
-                    <Link className={activeLink === "Dashboard" ? "active text-white" : "" + "text-dark"}
+                    <Link className={activeLink === ("Dashboard" ? "active text-white" : "") + "text-dark"}
                         onClick={() => setActiveLink("Dashboard")}
                         to="/admin" >
                         <i className="bi bi-building-fill-dash px-2"></i>
                     </Link>
                 </div>
                 <div>
-                    <Link className={activeLink === "Order" ? "active text-white" : "" + "text-dark"}
+                    <Link className={activeLink === ("Order" ? "active text-white" : "") + "text-dark"}
                         onClick={() => setActiveLink("Order")}
                         to="/admin/order" >
                         <i className="bi bi-box-seam px-2"></i>
                     </Link>
                 </div>
                 <div>
-                    <Link className={activeLink === "Products" ? "active text-white" : "" + "text-dark"}
+                    <Link className={activeLink === ("Products" ? "active text-white" : "") + "text-dark"}
                         onClick={() => setActiveLink("Products")}
                         to="/admin/products" >
                         <i className="bi bi-card-list px-2"></i>
                     </Link>
                 </div>
                 <div>
-                    <Link className={activeLink === "Employee" ? "active text-white" : "" + "text-dark"}
+                    <Link className={activeLink === ("Employee" ? "active text-white" : "") + "text-dark"}
                         onClick={() => setActiveLink("Employee")}
                         to="/admin/newEmployee" >
                         <i className="bi bi-person-add px-2"></i>
                     </Link>
                 </div>
                 <div>
-                    <Link className={activeLink === "Settings" ? "active text-white" : "" + "text-dark"}
+                    <Link className={activeLink === ("Settings" ? "active text-white" : "") + "text-dark"}
                         onClick={() => setActiveLink("Settings")}
                         to="/admin/settings" >
                         <i className="bi bi-gear px-2"></i>
                     </Link>
                 </div>
                 <div>
-                    <Link className={visibleSearchBar === true ? "active text-white" : "" + "text-dark"}
+                    <Link className={(visibleSearchBar === true ? "active text-white" : "") + "text-dark"}
                         onClick={() => { setVisibleSearchBar(true) }}>
                         <i className="bi bi-search px-2"></i>
                     </Link>

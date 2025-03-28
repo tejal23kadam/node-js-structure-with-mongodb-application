@@ -20,12 +20,6 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { useSelector, useDispatch } from 'react-redux';
 import { setIsAuth } from './redux/slice/AuthSlice';
 
-
-
-
-
-
-
 function App() {
 
   const isAuth = useSelector((state) => state.auth.isAuth);
@@ -54,7 +48,7 @@ function App() {
 
   useEffect(() => {
     verify();
-  },[])
+  }, [])
 
   return (
     <>
@@ -89,6 +83,9 @@ function App() {
             : (
               (user.userType === 1) ? <Navigate to="/admin" /> : <Navigate to="/user" />
             )} />
+
+        <Route path='/signup' element={(!isAuth) && <RegistrationPage />} />
+
         <Route path='/signup' element={(!isAuth) && <RegistrationPage />} />
 
         {isAuth && <Route path="/admin" element={(user.userType === 1) ? <AdminLayout /> : <Navigate to="/" />} >

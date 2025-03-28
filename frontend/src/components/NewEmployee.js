@@ -2,8 +2,7 @@ import { React, useState } from 'react';
 //import Modal from 'react-modal';
 import axios from 'axios'
 import { ToastContainer, toast } from "react-toastify";
-
-
+import 'react-toastify/dist/ReactToastify.css';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 //toast.config;
@@ -11,30 +10,13 @@ import Modal from 'react-bootstrap/Modal';
 
 function NewEmployee() {
     const [show, setShow] = useState(false);
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [mobileNo, setMobileNo] = useState("");
-    // const [LoginStatus, setLoginStatus] = useState("");
+    const [mobileNo, setMobileNo] = useState("");    
     const [address, setAddress] = useState("");
-
-    const customStyles = {
-        content: {
-            // top: '55%',
-            // left: '55%',
-            // right: 'auto',
-            // bottom: 'auto',
-            // marginRight: '-50%',
-            // transform: 'translate(-50%, -50%)',
-            border: 'none',
-            background: 'none',
-            overflow: 'hidden',
-            // z-index:'2000'
-        },
-    };
-
+   
     const employee = {
         firstName: firstName,
         lastName: lastName,
@@ -59,6 +41,7 @@ function NewEmployee() {
 
             console.log(res)
             setShow(false);
+            alert("successfully added")
 
         }
         catch (error) {
@@ -68,33 +51,9 @@ function NewEmployee() {
 
     const notify = () => {
 
-        console.log("skjdhskjd");
-        toast('🦄 Wow so easy!', {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-
+        toast.success("success notification ! ", {
+            position: "top-right"
         });
-
-        <ToastContainer
-            position="top-center"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick={false}
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-
-        />
-
     }
     return (
         <div>
@@ -145,7 +104,7 @@ function NewEmployee() {
                             <input type="Password" name="password" className="form-control" placeholder="Enter your password." onChange={e => setPassword(e.target.value)} required />
                         </div>
                         <div className="col-sm-12 form-group mb-0">
-                            <button type="button" className="form-control btn bg-color btn-outline text-white" onClick={() => { addEmployee(); notify(); }} >Submit</button>
+                            <button type="button" className="form-control btn bg-color btn-outline text-white" onClick={() => { addEmployee(); }} >Submit</button>
                         </div>
                     </div>
 

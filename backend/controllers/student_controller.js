@@ -11,10 +11,8 @@ const checkConn = (req, res) => {
 }
 
 const addStudent = async (req, res) => {
-
     try {
         const data = req.body;
-
         if (!data) {
             return res.status(404).json({ status: true, data: { message: " data can not be null or empty " } })
         }

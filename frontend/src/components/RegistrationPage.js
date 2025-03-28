@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from 'react-redux';
+import { setToast } from '../redux/slice/toastSlice';
+
 
 function RegistrationPage() {
 
@@ -11,7 +13,7 @@ function RegistrationPage() {
   const [name, setName] = useState("");
   const [mobileNo, setMobileNo] = useState("");
   const [Standard, setStandard] = useState("");
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [userType, setUserType] = useState(0);
   const student = {
     name: name,
@@ -21,11 +23,14 @@ function RegistrationPage() {
     password: password,
     userType: userType
   };
+
+  const dispatch = useDispatch();
   const addStudent = async () => {
     try {
       const res = await axios.post('http://localhost:2000/api/addnewStudent', student)
       // setLoginStatus(res.data.data.message);
       console.log(res);
+      dispatch(setToast({ message: res.data.data.message, type: "success" }));
     }
     catch (error) {
       console.log(error)
@@ -33,15 +38,15 @@ function RegistrationPage() {
   }
 
   const handleSubmit = () => {
-
-
     if (password !== confirmPassword) {
       console.log(password + " " + confirmPassword + "  Passwords Don't Match")
     } else {
       console.log("password match done")
       addStudent();
-      navigate("/");
+      //navigate("/");
     }
+
+    
 
   }
   return (
@@ -50,7 +55,7 @@ function RegistrationPage() {
         <div className="row p-5 bg-color rounded-border text-white">
           <h2 className="text-center ">Welcome To Registration</h2>
         </div>
-        <form className='needs-validation was-validated' novalidate  >
+        
           <div className="row p-sm-5 bg-light p-none pt-3">
             <div className="col-sm-6 form-group">
               <label>Name</label>
@@ -89,10 +94,10 @@ function RegistrationPage() {
               <div class="invalid-feedback">Please select user type</div>
             </div>
             <div className="col-sm-12 form-group mb-0">
-              <button className="form-control btn bg-color btn-outline text-white" onClick={() => handleSubmit()}>submit</button>
+              <button className="form-control btn bg-color btn-outline text-white" onClick={handleSubmit}>submit</button>
             </div>
           </div>
-        </form>
+        
       </div>
     </div>
   )

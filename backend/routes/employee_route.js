@@ -5,9 +5,4 @@ const Auth = require('../middleware/auth')
 router.get('/conncheckemp', checkConnemp);
 router.post('/authVerify',Auth,authVerify);
 router.post('/addnewEmployee',Auth ,addEmployee);
-
-
-
-
-
 module.exports = router
