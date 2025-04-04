@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 //import Modal from 'react-modal';
 import axios from 'axios'
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';

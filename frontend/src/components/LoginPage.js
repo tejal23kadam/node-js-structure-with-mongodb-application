@@ -7,6 +7,7 @@ import { setIsAuth } from '../redux/slice/AuthSlice';
 import { useDispatch } from 'react-redux';
 import { setToast} from '../redux/slice/toastSlice';
 
+
 function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");    
@@ -68,14 +69,14 @@ function LoginPage() {
                                 <form>
                                     <div className="col-sm-none pl-0 pr-0 pl-md-4 pr-md-4">
                                         <label >Email Id</label>
-                                        <input type="email" class="form-control" onChange={e => setEmail(e.target.value)} />
+                                        <input type="email" class="form-control" onChange={e => setEmail(e.target.value)} value={email}/>
 
                                     </div>
 
 
                                     <div className="col-sm-none pl-0 pr-0 pl-md-4 pr-md-4">
                                         <label >Password</label>
-                                        <input type="password" class="form-control" onChange={e => setPassword(e.target.value)} />
+                                        <input type="password" class="form-control" onChange={e => setPassword(e.target.value)} value={password}/>
                                     </div>
 
 

@@ -8,15 +8,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import ToastProvider from './components/ToastProvider';
+import AuthProvider from './components/AuthProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <ToastProvider>
-          <App />
-        </ToastProvider>
+        <AuthProvider>
+          <ToastProvider>
+            <App />
+          </ToastProvider>
+        </AuthProvider>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>
