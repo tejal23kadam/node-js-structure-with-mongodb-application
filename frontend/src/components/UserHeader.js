@@ -6,6 +6,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import CloseButton from 'react-bootstrap/CloseButton';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
+import userImage from '../images/User-Profile.png'
 import { setToast } from '../redux/slice/toastSlice';
 
 function UserHeader() {
@@ -23,13 +24,14 @@ function UserHeader() {
         const naviget = useNavigate();
         const user = useSelector((state) => state.auth.user);
         const navigate = useNavigate();
-        const [email, setEmail] = useState("dfdsfds");
+        const [email, setEmail] = useState("");
         const [password, setPassword] = useState("");
         const studentData = {
                 email: email,
                 password: password,
-                
+
         };
+        let isToken = localStorage.getItem("token")
 
         const logoutUser = () => {
                 localStorage.removeItem("token");
@@ -38,6 +40,7 @@ function UserHeader() {
         }
 
         const openLoginModal = () => {
+
                 setShow(!show);
                 setShowModal(true);
         }
@@ -104,7 +107,13 @@ function UserHeader() {
                                                                 <div class="img-box">
                                                                         {/* below commented code opens right side canvas */}
                                                                         {/* <img src="https://i.postimg.cc/BvNYhMHS/user-img.jpg" onClick={handleRightShow} alt="no img" /> */}
-                                                                        <img src="https://i.postimg.cc/BvNYhMHS/user-img.jpg" onClick={openLoginModal} alt="no img" />
+                                                                        {
+                                                                                (isToken !== null) ? (
+                                                                                        <img src="https://i.postimg.cc/BvNYhMHS/user-img.jpg" onClick={handleRightShow} alt="no img" />
+                                                                                ) : (<img src={userImage} onClick={handleRightShow} alt="no img" />)
+
+                                                                        }
+
                                                                 </div>
                                                         </div>
 
@@ -159,21 +168,21 @@ function UserHeader() {
                                                         <div className='container'>
                                                                 <div className='row  '>
                                                                         <div>
-                
+
                                                                                 <div className='bg-white '>
-                                                                                        
+
                                                                                         <div >
                                                                                                 <form>
                                                                                                         <div>
                                                                                                                 <label >Email Id</label>
-                                                                                                                <input type="email" class="form-control" />{/*onChange={e => setEmail(e.target.value)} value={email}/> */}
+                                                                                                                <input type="email" class="form-control" onChange={e => setEmail(e.target.value)} value={email}/> 
 
                                                                                                         </div>
 
 
                                                                                                         <div className="col-sm-none pl-0 pr-0 pl-md-4 pr-md-4">
                                                                                                                 <label >Password</label>
-                                                                                                                <input type="password" class="form-control" />  {/*onChange={e => setPassword(e.target.value)} value={password} /> */}
+                                                                                                                <input type="password" class="form-control" onChange={e => setPassword(e.target.value)} value={password} /> 
                                                                                                         </div>
 
 

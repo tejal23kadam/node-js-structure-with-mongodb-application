@@ -34,7 +34,7 @@ function NavBar() {
                                         <li className="dropdown-item nav-item" onClick={() => { dispatch(addToCategoryFilter('tv')) }}><Link to="/tv">tv</Link></li>
                                     </ul>
                                 </li>
-                                <li className="nav-item"><Link to="/aboutUs">About US</Link></li>
+                                <li className="nav-item"><Link to="/about">About US</Link></li>
                                 <li className="nav-item"><Link to="/eWest">E-Waste</Link></li>
                                 <li className="nav-item"><Link to="/contactUs">Contact Us</Link></li>
                                 <li className="nav-item"><Link to="/termsAndConditions">Terms & Conditions</Link></li>

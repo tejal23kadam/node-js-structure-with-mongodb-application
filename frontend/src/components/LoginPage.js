@@ -23,11 +23,12 @@ function LoginPage() {
     const CheckStudent = async () => {
         try {
             const res = await axios.post('http://localhost:2000/api/validateStudent', studentData)
-            
+            console.log("res= ",res);
             if (res.data.status) {
                 localStorage.setItem("token", res.data.data.token)
                 dispatch(setIsAuth(res.data.data.user));
                 dispatch(setToast({message:res.data.data.message,type:"success"}));
+                // dispatch(setToast({message:res.data,type:"success"}));
 
                 if (res.data.data.user.userType === 1) {
                     navigate("/admin", { state: { name: res.data.data.user.name } });
