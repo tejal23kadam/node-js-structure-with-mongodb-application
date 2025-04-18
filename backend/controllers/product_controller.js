@@ -16,21 +16,19 @@ const addProduct = async (req, res) => {
         if (!data) {
             return res.status(404).json({ status: true, data: { message: " data can not be null or empty " } })
         }
-        console.log(data.password)
-        const hashPassword = await bcrypt.hash(data.password, 10);
-    
-          const newProduct = new productModel({          
-            Id: data.firstName,
-            title: data.lastName,
-            image : data.mobile,
-            address: data.address,
-            email: data.email,
-            password: hashPassword,
-            userType: 2
+        const newProduct = new productModel({
+            title: data.title,
+            price: data.price,
+            description: data.description,
+            brand: data.brand,
+            modal: data.modal,
+            color: data.color,
+            category: data.category,
+            discount: 0
         });
 
         await newProduct.save();
-        return res.status(200).json({ status: true, data: { message: "product data added successfully", data:newProduct } })
+        return res.status(200).json({ status: true, data: { message: "product data added successfully", data: newProduct } })
     }
     catch (error) {
         console.error(error);
@@ -120,8 +118,8 @@ const validatEmployee = async (req, res) => {
     }
 }
 
-const authVerify=async(req,res)=>{
-    return res.status(200).json({status:true,data:{message:"user verified",data:req.user}}) ;
+const authVerify = async (req, res) => {
+    return res.status(200).json({ status: true, data: { message: "user verified", data: req.user } });
 }
 
-module.exports = { checkConnemp, addProduct, updateEmployee, getAllEmployee, deteleEmployee, validatEmployee,authVerify }
+module.exports = { checkConnemp, addProduct, updateEmployee, getAllEmployee, deteleEmployee, validatEmployee, authVerify }

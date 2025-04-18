@@ -5,9 +5,9 @@ import RegistrationPage from './components/RegistrationPage';
 import LoginPage from './components/LoginPage';
 import Dashboard from './components/Dashboard';
 import Order from './components/Order';
-import Products from './components/Products';
 import Settings from './components/Settings';
 import AdminLayout from './layout/AdminLayout';
+import NewProduct from './components/NewProducts';
 import EnduserLayout from './layout/EnduserLayout';
 import Home from './components/Home';
 import Contact from './components/sections/ContactUs';
@@ -19,6 +19,7 @@ import IndexPage from './components/sections/IndexPage';
 import AboutUs from './components/sections/AboutUs';
 import ContactUs from './components/sections/ContactUs';
 import EWest from './components/sections/EWest';
+
 
 function App() {
 
@@ -41,7 +42,7 @@ function App() {
         {isAuth && <Route path="/admin" element={(user.userType === 1) ? <AdminLayout /> : <Navigate to="/" />} >
           <Route index element={<Dashboard />} />
           <Route path="order" element={<Order />} />
-          <Route path="products" element={<Products />} />
+          <Route path="products" element={<NewProduct />} />
           <Route path="newEmployee" element={<NewEmployee />} />
           <Route path="settings" element={<Settings />} />
         </Route>}

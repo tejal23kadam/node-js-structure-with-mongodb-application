@@ -236,7 +236,7 @@ function UserHeader() {
                                 <div>
                                         <Link className={activeLink === ("Products" ? "active text-white" : "") + "text-dark"}
                                                 onClick={() => setActiveLink("Products")}
-                                                to="/admin/products" >
+                                                to="/admin/NewProduct" >
                                                 <i className="bi bi-card-list px-2"></i>
                                         </Link>
                                 </div>
