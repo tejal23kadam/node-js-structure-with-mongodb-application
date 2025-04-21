@@ -4,11 +4,6 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { addToProductIDFilter } from '../../redux/slice/ProductIdSlice';
 import { addToCart } from '../../redux/slice/CartSlice';
-// import OwlCarousel from 'react-owl-carousel';
-// import 'owl.carousel/dist/assets/owl.carousel.css';
-// import 'owl.carousel/dist/assets/owl.theme.default.css';
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
 
 
 

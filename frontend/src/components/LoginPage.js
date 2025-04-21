@@ -40,7 +40,7 @@ function LoginPage() {
 
         }
         catch (error) {
-            console.log(error)
+            console.log("axios error "+error)
         }
     }
 

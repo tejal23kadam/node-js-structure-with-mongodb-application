@@ -6,8 +6,8 @@ const jwt = require('jsonwebtoken')
 const { JWT_SECRET } = require('../utility/config')
 
 
-const checkConnemp = (req, res) => {
-    res.status(200).json({ message: 'connection done successfully' })
+const checkConnProduct = (req, res) => {
+    res.status(200).json({ message: 'product connection done successfully' })
 }
 
 const addProduct = async (req, res) => {
@@ -122,4 +122,4 @@ const authVerify = async (req, res) => {
     return res.status(200).json({ status: true, data: { message: "user verified", data: req.user } });
 }
 
-module.exports = { checkConnemp, addProduct, updateEmployee, getAllEmployee, deteleEmployee, validatEmployee, authVerify }
+module.exports = { checkConnProduct, addProduct, updateEmployee, getAllEmployee, deteleEmployee, validatEmployee, authVerify }

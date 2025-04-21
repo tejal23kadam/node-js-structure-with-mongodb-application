@@ -8,7 +8,10 @@ import Modal from 'react-bootstrap/Modal';
 
 
 const NewProduct = () => {
-        const [show, setShow] = useState(false);      
+
+        const [imgPrev, setImgPrev] = useState([]);
+        const [selectedFile, setSelectedFile] = useState([]);
+        const [show, setShow] = useState(false);
         const [formdata, setFormdata] = useState()
 
         const initialState = {
@@ -22,6 +25,58 @@ const NewProduct = () => {
                 discount: 0
 
         };
+
+        const handleImageChange = (e) => {
+
+                const files = e.target.files;
+                const fileArray = Array.from(files);
+
+                const imagePreview = fileArray.map(file => {
+                        const reader = new FileReader()
+                        return new Promise((resolve) => {
+                                reader.onloadend = () => {
+                                        resolve({
+                                                src: reader.result,
+                                                name: file.name
+                                        })
+                                }
+                                reader.readAsDataURL(file)
+                        })
+                })
+                Promise.all(imagePreview).then(image => {
+                        setImgPrev(image)
+
+                        setSelectedFile(fileArray)
+                })
+        }
+
+        const handleSubmit = async () => {
+                const formData = new FormData();
+                // formData.append("folder", "user/profile");
+                formData.append("folder", "user/profile");
+
+                selectedFile.forEach(file => {
+                        formData.append('image', file)
+                })
+                const formValues = Object.fromEntries(formData)
+                console.log("form values " + JSON.stringify(selectedFile))
+
+                const config = {
+                        headers: {
+                                'Content-Type': 'multipart/form-data'
+                        }
+                }
+                try {
+
+                        await axios.post('http://localhost:5000/upload', formData, config)
+                                .then((data) => {
+                                        console.log(data)
+                                })
+                }
+                catch (error) {
+                        console.log("error" + error)
+                }
+        }
         const addProduct = async () => {
                 try {
 
@@ -72,6 +127,10 @@ const NewProduct = () => {
                                                         <input type="text" className="form-control" name="title" placeholder="Title" onChange={handleChange} required />
                                                 </div>
                                                 <div className="col-sm-12 form-group">
+                                                        <input type='file' accept='image/*' multiple onChange={handleImageChange} style={{ height: "200px", width: "200px" }}></input>
+                                                        <button onClick={handleSubmit}> submit</button>
+                                                </div>
+                                                <div className="col-sm-12 form-group">
                                                         <label>price</label>
                                                         <input type="text" className="form-control" name="price" placeholder="price" onChange={handleChange} required />
                                                 </div>
@@ -96,7 +155,7 @@ const NewProduct = () => {
                                                         <label >category</label>
                                                         <input type="address" className="form-control" name="category" placeholder="category" onChange={handleChange} required />
                                                 </div>
-                                               
+
                                                 <div className="col-sm-12 form-group mb-0">
                                                         <button type="button" className="form-control btn bg-color btn-outline text-white" onClick={() => { addProduct(); }} >Submit</button>
                                                 </div>

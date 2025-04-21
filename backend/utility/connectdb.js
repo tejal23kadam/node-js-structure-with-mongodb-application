@@ -2,12 +2,14 @@ const mongoose = require('mongoose');
 const { MONGODB_URL } = require('./config')
 const { student } = require('../models/student_model')
 const { employee } = require('../models/employee_model')
+const { product } = require('../models/product_model')
 
 const connectdb = async () => {
     try {
         await mongoose.connect(MONGODB_URL);
         student;
         employee;
+        product;
         console.log("connection done successfully");
     }
     catch (error) {

@@ -39,7 +39,7 @@ function NewEmployee() {
 
 
 
-            console.log(res)
+            console.log("res api " +res)
             setShow(false);
             alert("successfully added")
 

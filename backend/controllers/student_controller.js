@@ -85,6 +85,7 @@ const deteleStudent = async (req, res) => {
 const validateStudent = async (req, res) => {
     try {
         const data = req.body;
+        console.log("data = ",data);
        // console.log(data);
         const Student = await studentModel.findOne({email:data.email});
         console.log("student", Student);

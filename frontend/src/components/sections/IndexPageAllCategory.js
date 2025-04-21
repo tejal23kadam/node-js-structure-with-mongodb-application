@@ -1,11 +1,8 @@
 import React from 'react'
 import '../../App.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import OwlCarousel from 'react-owl-carousel';
-import { Link } from 'react-router-dom';
-import 'owl.carousel/dist/assets/owl.carousel.css';
-import 'owl.carousel/dist/assets/owl.theme.default.css';
 
+import { Link } from 'react-router-dom';
 //Owl Carousel Settings
 const options = {
     loop: true,
