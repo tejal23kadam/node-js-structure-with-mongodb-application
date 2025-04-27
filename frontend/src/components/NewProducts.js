@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 //import Modal from 'react-modal';
 import axios from 'axios'
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,11 +8,6 @@ import Modal from 'react-bootstrap/Modal';
 
 
 const NewProduct = () => {
-
-        const [imgPrev, setImgPrev] = useState([]);
-        const [selectedFile, setSelectedFile] = useState([]);
-        const [show, setShow] = useState(false);
-        const [formdata, setFormdata] = useState()
 
         const initialState = {
                 title: '',
@@ -25,6 +20,12 @@ const NewProduct = () => {
                 discount: 0
 
         };
+
+        const [imgPrev, setImgPrev] = useState([]);
+        const [selectedFile, setSelectedFile] = useState([]);
+        const [show, setShow] = useState(false);
+        const [formdata, setFormdata] = useState(initialState)
+
 
         const handleImageChange = (e) => {
 
@@ -47,47 +48,54 @@ const NewProduct = () => {
                         setImgPrev(image)
 
                         setSelectedFile(fileArray)
+                        console.log("selected files  : " + selectedFile)
                 })
+
         }
+
+        useEffect(() => {
+                console.log(selectedFile)
+        }, [selectedFile])
 
         const handleSubmit = async () => {
-                const formData = new FormData();
+                // const formData = new FormData();
+                // // formData.append("folder", "user/profile");
                 // formData.append("folder", "user/profile");
-                formData.append("folder", "user/profile");
 
-                selectedFile.forEach(file => {
-                        formData.append('image', file)
-                })
-                const formValues = Object.fromEntries(formData)
-                console.log("form values " + JSON.stringify(selectedFile))
+                // selectedFile.forEach(file => {
+                //         formData.append('image', file)
+                // })
 
-                const config = {
-                        headers: {
-                                'Content-Type': 'multipart/form-data'
-                        }
-                }
-                try {
+                // formdata.
+                // const formValues = Object.fromEntries(formData)
+                // console.log("form values " + JSON.stringify(formData))
 
-                        await axios.post('http://localhost:5000/upload', formData, config)
-                                .then((data) => {
-                                        console.log(data)
-                                })
-                }
-                catch (error) {
-                        console.log("error" + error)
-                }
+
         }
-        const addProduct = async () => {
+        const addProduct = async (req, res) => {
                 try {
+                        const imgdata = new FormData();
+                        imgdata.append("folder", "user/profile");
 
+                        selectedFile.forEach(file => {
+                                imgdata.append('image', file)
+                        })
+
+                        for (let key in formdata){
+                                imgdata.append(key, formdata[key] )
+                        }
+                        imgdata.forEach((value, key) => {
+                                console.log(key, value);
+                              });
                         const tokenStr = localStorage.getItem('token');
                         const config = {
                                 headers: {
+                                        'Content-Type': 'multipart/form-data',
                                         "Authorization": `${tokenStr}`
                                 }
                         }
-                        const res = await axios.post('http://localhost:2000/api/addnewProduct', formdata, config)
-                        console.log(res)
+                        const res = await axios.post('http://localhost:2000/api/addnewProduct', imgdata, config)
+                        console.log("add new product api response ] "+res)
                         setShow(false);
                         alert("successfully added")
 
@@ -127,8 +135,8 @@ const NewProduct = () => {
                                                         <input type="text" className="form-control" name="title" placeholder="Title" onChange={handleChange} required />
                                                 </div>
                                                 <div className="col-sm-12 form-group">
-                                                        <input type='file' accept='image/*' multiple onChange={handleImageChange} style={{ height: "200px", width: "200px" }}></input>
-                                                        <button onClick={handleSubmit}> submit</button>
+                                                        <input type='file' name="image" accept='image/*' multiple onChange={handleImageChange} style={{ height: "200px", width: "200px" }}></input>
+                                                        <Button type="button" onClick={handleSubmit}> submit</Button>
                                                 </div>
                                                 <div className="col-sm-12 form-group">
                                                         <label>price</label>

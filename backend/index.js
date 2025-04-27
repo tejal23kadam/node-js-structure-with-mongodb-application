@@ -15,13 +15,6 @@ app.use('/api', studentroute);
 app.use('/api', employeeroute);
 app.use('/api', productroute);
 
-//app.post("/upload", upload.array("image"), (req, res) => {
-// const filename = req.files.map(file => file.filename)
-//return res.status(200).json({ status: true, data: { message: "image uploading successfully.", data: filename } });
-//}
-//);
-
-
 const startServer = async () => {
   await conn();
   app.listen(port, () => {

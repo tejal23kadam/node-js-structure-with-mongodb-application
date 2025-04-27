@@ -9,7 +9,7 @@ const newProduct = mongoose.Schema({
                 type: String,
                 require: true
         },
-        Image: [{
+        image: [{
                 name: { type: String, require: true },
                 path: { type: String, require:true }
 
