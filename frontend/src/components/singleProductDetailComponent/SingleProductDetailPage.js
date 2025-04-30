@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { addToCart } from '../sliceComponent/CartSlice';
+//import { addToCart } from '../sliceComponent/CartSlice';
 
 
 function SingleProductDetailPage({ isOpen, onClose, productId }) {

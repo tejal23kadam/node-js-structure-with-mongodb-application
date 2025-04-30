@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import './App.css';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import RegistrationPage from './components/RegistrationPage';
@@ -17,6 +16,14 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { useSelector } from 'react-redux';
 import IndexPage from './components/sections/IndexPage';
 import AboutUs from './components/sections/AboutUs';
+import AudioCategory from './components/sections/AudioCategory';
+import AppliancesCategory from './components/sections/AppliancesCategory';
+import GamingCategory from './components/sections/GamingCategory';
+import LaptopCategory from './components/sections/LaptopCategory';
+import MobileCategory from './components/sections/MobileCategory';
+import TvCategory from './components/sections/TvCategory';
+import ShoppingCartData from './components/sections/ShoppingCartData';
+import SingleProductDetailPageNew from './components/singleProductDetailComponent/SingleProductDetailPageNew';
 import ContactUs from './components/sections/ContactUs';
 import EWest from './components/sections/EWest';
 
@@ -36,6 +43,8 @@ function App() {
               (user.userType === 1) ? <Navigate to="/admin" /> : <Navigate to="/user" />
             )} />
 
+
+
         <Route path='/signup' element={(!isAuth) && <RegistrationPage />} />
         <Route path='/login' element={(!isAuth) && <LoginPage />} />
 
@@ -53,7 +62,15 @@ function App() {
         </Route>
         }
         <Route path="about" element={<AboutUs />} />
+        <Route path="audio" element={<AudioCategory />} />
+        <Route path="appliances" element={<AppliancesCategory />} />
+        <Route path="gaming" element={<GamingCategory />} />
         <Route path="contactUs" element={<ContactUs />} />
+        <Route path="laptop" element={<LaptopCategory />} />
+        <Route path="mobile" element={<MobileCategory />} />
+        <Route path="tv" element={<TvCategory />} />
+        <Route path="product-details" element={<SingleProductDetailPageNew />} />
+        <Route path="cartData" element={<ShoppingCartData />} />
         <Route path="eWest" element={<EWest />} />
       </Routes>
     </>

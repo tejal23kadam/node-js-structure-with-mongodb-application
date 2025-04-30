@@ -30,6 +30,7 @@ const addProduct = async (req, res) => {
             return res.status(404).json({ status: true, data: { message: " data can not be null or empty " } })
         }
         const newProduct = new productModel({
+            productId:data.productId,
             title: data.title,
             price: data.price,
             image: filename,

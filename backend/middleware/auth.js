@@ -1,7 +1,7 @@
 const { JWT_SECRET } = require('../utility/config');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
-const studentModel = mongoose.model('student')
+const userModel = mongoose.model('user')
 
 const Auth = async (req, res, next) => {
     try {
@@ -16,7 +16,7 @@ const Auth = async (req, res, next) => {
         if (!verified) {
             return res.status(401).json({ message: "Unauthorized" });
         }
-        const user = await studentModel.findById(verified.user_id).select("-password");
+        const user = await userModel.findById(verified.user_id).select("-password");
 
         if (user) {
             req.user = user;

@@ -57,36 +57,21 @@ const NewProduct = () => {
                 console.log(selectedFile)
         }, [selectedFile])
 
-        const handleSubmit = async () => {
-                // const formData = new FormData();
-                // // formData.append("folder", "user/profile");
-                // formData.append("folder", "user/profile");
-
-                // selectedFile.forEach(file => {
-                //         formData.append('image', file)
-                // })
-
-                // formdata.
-                // const formValues = Object.fromEntries(formData)
-                // console.log("form values " + JSON.stringify(formData))
-
-
-        }
-        const addProduct = async (req, res) => {
+        const addProduct = async () => {
                 try {
-                        const imgdata = new FormData();
-                        imgdata.append("folder", "user/profile");
+                        const allFormData = new FormData();
+                        allFormData.append("folder", "productImg");
 
                         selectedFile.forEach(file => {
-                                imgdata.append('image', file)
+                                allFormData.append('image', file)
                         })
 
-                        for (let key in formdata){
-                                imgdata.append(key, formdata[key] )
+                        for (let key in formdata) {
+                                allFormData.append(key, formdata[key])
                         }
-                        imgdata.forEach((value, key) => {
+                        allFormData.forEach((value, key) => {
                                 console.log(key, value);
-                              });
+                        });
                         const tokenStr = localStorage.getItem('token');
                         const config = {
                                 headers: {
@@ -94,8 +79,8 @@ const NewProduct = () => {
                                         "Authorization": `${tokenStr}`
                                 }
                         }
-                        const res = await axios.post('http://localhost:2000/api/addnewProduct', imgdata, config)
-                        console.log("add new product api response ] "+res)
+                        const res = await axios.post('http://localhost:2000/api/addnewProduct', allFormData, config)
+                        console.log("add new product api response ] " + res)
                         setShow(false);
                         alert("successfully added")
 
@@ -135,8 +120,13 @@ const NewProduct = () => {
                                                         <input type="text" className="form-control" name="title" placeholder="Title" onChange={handleChange} required />
                                                 </div>
                                                 <div className="col-sm-12 form-group">
+                                                        {imgPrev.map((image, index) => (
+                                                                <div key={index}>
+                                                                        <img src={image.src} alt={image.name} style={{ width: '150px', height: 'auto', borderRadius: '10px' }} />
+                                                                </div>
+                                                        ))}
                                                         <input type='file' name="image" accept='image/*' multiple onChange={handleImageChange} style={{ height: "200px", width: "200px" }}></input>
-                                                        <Button type="button" onClick={handleSubmit}> submit</Button>
+                                                        <Button type="button" > submit</Button>
                                                 </div>
                                                 <div className="col-sm-12 form-group">
                                                         <label>price</label>
