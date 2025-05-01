@@ -1,15 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, Outlet } from 'react-router-dom';
-import { unSetIsAuth } from '../redux/slice/AuthSlice';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import Modal from 'react-bootstrap/Modal';
 import CloseButton from 'react-bootstrap/CloseButton';
+import axios from 'axios';
+import { unSetIsAuth, setIsAuth } from '../redux/slice/AuthSlice';
+import { setToast } from '../redux/slice/toastSlice';
 
 function Header(props) {
 
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(!show);    
+    const [showmodal, setShowModal] = useState(false); //shows modal
+    const handleClose = () => setShow(!show);
     const [rightshow, setRightShow] = useState(false);
     const handleRightClose = () => setRightShow(false);
     const handleRightShow = () => setRightShow(true);
@@ -17,14 +21,65 @@ function Header(props) {
     const [activeLink, setActiveLink] = useState("Dashboard");
 
     const dispatch = useDispatch();
-    const naviget = useNavigate();
+    const navigate = useNavigate();
     const user = useSelector((state) => state.auth.user);
+    const [profileImg, setProfileImg] = useState('');
+    const initialState = {
+        email: '',
+        password: ''
+
+    };
+
+    const [formdata, setFormdata] = useState(initialState)
+
+
+    const openLoginModal = () => {
+
+        setShow(!show);
+        setShowModal(true);
+    }
+
 
     const logoutUser = () => {
         localStorage.removeItem("token");
         dispatch(unSetIsAuth());
-        naviget("/");
+        navigate("/");
     }
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormdata({ ...formdata, [name]: value })
+    }
+
+    const CheckStudent = async () => {
+        try {
+            const res = await axios.post('http://localhost:2000/api/validateUser', formdata)
+
+            if (res.data.status) {
+                setProfileImg(res.data.data.user.image[0].path);
+
+                localStorage.setItem("token", res.data.data.token)
+                dispatch(setIsAuth(res.data.data.user));
+                dispatch(setToast({ message: res.data.data.message, type: "success" }));
+
+                if (res.data.data.user.userType === 1) {
+                        navigate("/admin", { state: { name: res.data.data.user.name } });
+                }
+                else {
+                        navigate("/user", { state: { name: res.data.data.user.name } })
+                }
+            }
+
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        console.log("profile imaeg" + profileImg)
+    }, [profileImg])
+
+
 
     return (
         <div>
@@ -62,7 +117,8 @@ function Header(props) {
                         <div class="py-3 px-2 ">
                             <div class="profile">
                                 <div class="img-box">
-                                    <img src="https://i.postimg.cc/BvNYhMHS/user-img.jpg" onClick={handleRightShow} alt="no img" />
+                                    <img src={profileImg} onClick={handleRightShow} alt="no img" />
+                                    {/* <img src="https://tse2.mm.bing.net/th?id=OIP.B39-1EvwOFXOffOfIKZT0AHaEK&pid=Api&P=0&h=220" onClick={handleRightShow} alt="no img" /> */}
                                 </div>
                             </div>
 
@@ -74,8 +130,9 @@ function Header(props) {
                                     </Offcanvas.Header>
                                     <Offcanvas.Body>
                                         <ul className="navmenu navbar-nav me-auto mb-2 mb-lg-0">
-                                            <li key={0} className="nav-item mx-3">
-                                                <Link to="/" ><i class="bi bi-gear px-2"></i>Sign In</Link>
+                                            <li key={0} className="nav-item mx-3" >
+                                                <Link onClick={openLoginModal} ><i class="bi bi-gear px-2"></i>Sign In</Link>
+
                                             </li>
                                             <li key={0} className="nav-item mx-3">
                                                 <Link to="/" onClick={() => logoutUser()} ><i class="bi bi-gear px-2"></i>Sign Out</Link>
@@ -96,6 +153,60 @@ function Header(props) {
                             </div>
                             <CloseButton className="p-2" onClick={() => { setVisibleSearchBar(false); setActiveLink(activeLink); }} />
                         </div>) : (<></>)}
+
+                    {/*login modal start */}
+
+                    <Modal
+                        show={showmodal}
+                        onHide={() => setShowModal(false)}
+                        dialogClassName="modal-90w"
+                        aria-labelledby="example-custom-modal-styling-title"
+                        centered
+                    >
+                        <Modal.Header className='bg-color text-white text-center' closeButton>
+                            <Modal.Title id="example-custom-modal-styling-title">
+                                Welcome To Registration
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <div className='container'>
+                                <div className='row  '>
+                                    <div>
+                                        <div className='bg-white '>
+                                            <div >
+                                                <form>
+                                                    <div>
+                                                        <label >Email Id</label>
+                                                        <input type="email" name="email" class="form-control" onChange={handleChange} />
+
+                                                    </div>
+
+
+                                                    <div className="col-sm-none pl-0 pr-0 pl-md-4 pr-md-4">
+                                                        <label >Password</label>
+                                                        <input type="password" name="password" class="form-control" onChange={handleChange} />
+                                                    </div>
+
+
+                                                    <div className="col-sm-none pl-0 pr-0 pl-md-4 pr-md-4">
+                                                        <button type="button" className="form-control btn bg-color btn-outline text-white btn-animation" onClick={() => CheckStudent()}>Sign  in</button>
+                                                    </div>
+
+                                                    <div className='text-wrap p-1 text-center '>
+                                                        <div className='text '>
+                                                            <p>Don't have an account ?<Link to="/signup"> Sign Up</Link></p>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/* </div> */}
+                        </Modal.Body>
+                    </Modal>
+                    {/*login modal ends*/}
 
 
                     {/* searchbar section end  */}

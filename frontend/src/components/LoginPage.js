@@ -22,7 +22,7 @@ function LoginPage() {
 
     const CheckStudent = async () => {
         try {
-            const res = await axios.post('http://localhost:2000/api/validateStudent', studentData)
+            const res = await axios.post('http://localhost:2000/api/validateUser', studentData)
             console.log("res= ",res);
             if (res.data.status) {
                 localStorage.setItem("token", res.data.data.token)

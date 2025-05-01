@@ -32,7 +32,7 @@ function UserHeader() {
 
         };
         let isToken = localStorage.getItem("token")
-
+        let profileImg;
         const logoutUser = () => {
                 localStorage.removeItem("token");
                 dispatch(unSetIsAuth());
@@ -47,19 +47,20 @@ function UserHeader() {
 
         const CheckStudent = async () => {
                 try {
-                        const res = await axios.post('http://localhost:2000/api/validateStudent', studentData)
+                        const res = await axios.post('http://localhost:2000/api/validateUser', studentData)
 
                         if (res.data.status) {
+                                profileImg = res.data.data.user.image[0].path
                                 localStorage.setItem("token", res.data.data.token)
                                 dispatch(setIsAuth(res.data.data.user));
                                 dispatch(setToast({ message: res.data.data.message, type: "success" }));
 
-                                if (res.data.data.user.userType === 1) {
-                                        navigate("/admin", { state: { name: res.data.data.user.name } });
-                                }
-                                else {
-                                        navigate("/user", { state: { name: res.data.data.user.name } })
-                                }
+                                // if (res.data.data.user.userType === 1) {
+                                //         navigate("/admin", { state: { name: res.data.data.user.name } });
+                                // }
+                                // else {
+                                //         navigate("/user", { state: { name: res.data.data.user.name } })
+                                // }
                         }
 
                 }
@@ -87,7 +88,7 @@ function UserHeader() {
                                         </div>
 
                                         <div class=" py-4 px-2 d-block flex-grow-1 d-lg-none text-center ">
-                                                <img src={require('../images/logo.png')} alt='no img' />
+                                                <img src="C:\Users\Tejal\Desktop\tejal\node-js-structure-with-mongodb-application\backend\assets\userImg\1746083215162-62793607.png" alt='no img' />
                                         </div>
                                         <div className='d-flex justify-content-end flex-lg-grow-1'>
                                                 <div class="p-2 d-none d-lg-block">
@@ -109,9 +110,9 @@ function UserHeader() {
                                                                         {/* <img src="https://i.postimg.cc/BvNYhMHS/user-img.jpg" onClick={handleRightShow} alt="no img" /> */}
                                                                         {
                                                                                 (isToken !== null) ? (
-                                                                                        <img src="https://i.postimg.cc/BvNYhMHS/user-img.jpg" onClick={handleRightShow} alt="no img" />
+                                                                                        <img src="C:\Users\Tejal\Desktop\tejal\node-js-structure-with-mongodb-application\backend\assets\userImg\1746083215162-62793607.png" onClick={handleRightShow} alt="no img" />
                                                                                 ) : (<img src={userImage} onClick={handleRightShow} alt="no img" />)
-
+   
                                                                         }
 
                                                                 </div>

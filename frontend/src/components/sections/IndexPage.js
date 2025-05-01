@@ -6,10 +6,12 @@ import IndexPageAllCategory from './IndexPageAllCategory'
 import Footer from './Footer'
 import FetchAllCategoryData from './FetchAllCategoryData'
 import UserHeader from '../UserHeader'
+import Header from '../Header'
 
 function IndexPage() {
     return (
         <div>
+            <Header/>
             <UserHeader />
             <NavBar />
             <Slider />

@@ -36,13 +36,15 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/' element={
+        {/* <Route path='/' element={
           (!isAuth) ?
-            (<IndexPage />)
+            (<EnduserLayout />)
             : (
               (user.userType === 1) ? <Navigate to="/admin" /> : <Navigate to="/user" />
             )} />
+ */}
 
+        <Route path='/' element={<EnduserLayout />} />
 
 
         <Route path='/signup' element={(!isAuth) && <RegistrationPage />} />
