@@ -19,14 +19,14 @@ function SingleProductDetailPage({ isOpen, onClose, productId }) {
                                
                                     <section id="product-info">
 
-                                        <div class="item-image-parent">
+                                        <div className="item-image-parent">
 
-                                            <div class="item-image-main">
+                                            <div className="item-image-main">
                                                 <img src={product.image} alt="Product" />
                                             </div>
                                         </div>
 
-                                        <div class="item-info-parent">
+                                        <div className="item-info-parent">
 
                                             <div className="main-info">
                                                 <h4>{product.title}</h4>
@@ -42,7 +42,7 @@ function SingleProductDetailPage({ isOpen, onClose, productId }) {
                                                 <h6>Color : <span>{product.color}</span></h6>
                                             </div>
 
-                                            <div class="select-items">
+                                            <div className="select-items">
                                                 <h5>About This Product</h5>
                                                 <p>{product.description}</p>
                                             </div>

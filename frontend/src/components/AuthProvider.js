@@ -16,7 +16,7 @@ const AuthProvider = ({ children }) => {
                                 }
                         }
                         const res = await axios.post('http://localhost:2000/api/authVerify', {}, config)
-                        console.log("res.data" + JSON.stringify(res.data))
+                        
                         if (res.data.status === true) {
                                 dispatch(setIsAuth(res.data.data.data));
                         }

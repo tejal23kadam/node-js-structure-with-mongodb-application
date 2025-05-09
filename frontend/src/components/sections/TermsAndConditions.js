@@ -3,11 +3,11 @@ import React from 'react'
 function TermsAndConditions() {
     return (
         <div>
-            <section class="page-title">
+            <section className="page-title">
                 {/* <!-- Container Start --> */}
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-8 offset-md-2 text-center">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-8 offset-md-2 text-center">
                             {/* <!-- Title text --> */}
                             <h3>Terms & Conditions</h3>
                         </div>
@@ -16,12 +16,12 @@ function TermsAndConditions() {
                 {/* <!-- Container End --> */}
             </section>
 
-            <section class="section">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-10 mx-auto p-0">
-                            <div class="terms-condition-content">
-                                <h3 class="py-3">Terms & Condition</h3>
+            <section className="section">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-10 mx-auto p-0">
+                            <div className="terms-condition-content">
+                                <h3 className="py-3">Terms & Condition</h3>
                                 <p>Please read the following carefully to understand how we will collect and use your personal data in
                                     relation to the Service. If you do not understand this policy, or do not accept any part of it, then you
                                     should not use the Service. The Service may include and link to features and services (such as social
@@ -33,8 +33,8 @@ function TermsAndConditions() {
                                     collected through these websites or services. You should always read the privacy policy of any feature or
                                     service you access carefully in order to understand the specific privacy and information usage practices.
                                     Information we may collect from you and how we use it. </p>
-                                <h5 class="py-3">We may collect and process the following data about you via the Service: </h5>
-                                <p><span class="font-weight-bold text-dark">• Personal Information you provide to us:</span> We receive and
+                                <h5 className="py-3">We may collect and process the following data about you via the Service: </h5>
+                                <p><span className="font-weight-bold text-dark">• Personal Information you provide to us:</span> We receive and
                                     store any information that you enter on the Service or provide to us in any other way, for example, when you
                                     download the Service, set up a profile within the Service, or access, upload or download material to or from
                                     the Service, including when that material is accessed on a third party platform, service or social network
@@ -51,7 +51,7 @@ function TermsAndConditions() {
                                     of the Service and to ensure that the Service is presented in the most effective manner for you and your
                                     device. Details of Correspondence: If you contact us, we may keep a record of that correspondence. We will
                                     not retain a record of that correspondence for longer than is reasonably necessary. </p>
-                                <p><span class="font-weight-bold text-dark">• Personal Information that we automatically collect:</span> When
+                                <p><span className="font-weight-bold text-dark">• Personal Information that we automatically collect:</span> When
                                     you use the Service, we automatically collect information about the device you use to access it and your
                                     usage of the Service. The information we collect may include (where available) the type and model of device
                                     you use, the device's unique device identifier, operating system, browser type, language options, current
@@ -64,7 +64,7 @@ function TermsAndConditions() {
                                     Please note that the Service requires access to your devices€TMs photograph storage application in order to
                                     store the completed videos, but we do not take any information, videos, photos or other content from your
                                     devices photograph storage application. </p>
-                                <p><span class="font-weight-bold text-dark">• Log information:</span> When you use the Service, we may
+                                <p><span className="font-weight-bold text-dark">• Log information:</span> When you use the Service, we may
                                     automatically collect and store the following information in server logs: Internet protocol (IP) addresses,
                                     Internet service provider (ISP), clickstream data, browser type and language, viewed and exit pages and date
                                     or time stamps. We use this information to communicate with the Service and to better understand our users'

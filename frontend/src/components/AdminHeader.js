@@ -1,43 +1,24 @@
-import React, { useEffect, useState } from 'react'
-import { Link, Outlet } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react'
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import Modal from 'react-bootstrap/Modal';
-import CloseButton from 'react-bootstrap/CloseButton';
-import axios from 'axios';
-import { unSetIsAuth, setIsAuth } from '../redux/slice/AuthSlice';
-import { setToast } from '../redux/slice/toastSlice';
+import CloseButton from 'react-bootstrap/esm/CloseButton';
+import { unSetIsAuth } from '../redux/slice/AuthSlice';
+import RightSideOffCanvas from './RightSideOffCanvas';
 
-function Header(props) {
+function AdminHeader(props) {
 
     const [show, setShow] = useState(false);
-    const [showmodal, setShowModal] = useState(false); //shows modal
+
     const handleClose = () => setShow(!show);
-    const [rightshow, setRightShow] = useState(false);
-    const handleRightClose = () => setRightShow(false);
-    const handleRightShow = () => setRightShow(true);
-    const [visibleSearchBar, setVisibleSearchBar] = useState(false);
+        const [visibleSearchBar, setVisibleSearchBar] = useState(false);
     const [activeLink, setActiveLink] = useState("Dashboard");
-
-    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const user = useSelector((state) => state.auth.user);
-    
-    const initialState = {
-        email: '',
-        password: ''
 
-    };
-
-    const [formdata, setFormdata] = useState(initialState)
-
-
-    const openLoginModal = () => {
-
-        setShow(!show);
-        setShowModal(true);
-    }
+    console.log("user is" + JSON.stringify(user));
 
 
     const logoutUser = () => {
@@ -45,37 +26,6 @@ function Header(props) {
         dispatch(unSetIsAuth());
         navigate("/");
     }
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormdata({ ...formdata, [name]: value })
-    }
-
-    const CheckStudent = async () => {
-        
-        try {
-            const res = await axios.post('http://localhost:2000/api/validateUser', formdata)
-            console.log("res = " + res.data.status);
-            console.log("formdata = " + formdata);
-            if (res.data.status) {
-                localStorage.setItem("token", res.data.data.token)
-                dispatch(setIsAuth(res.data.data.user));
-                dispatch(setToast({ message: res.data.data.message, type: "success" }));
-                console.log("res.data123" + res.data)
-                if (res.data.data.user.userType === 1) {
-                    navigate("/admin", { state: { name: res.data.data.user.name, image: res.data.data.user.image[0].name } });
-                }
-                else {
-                    navigate("/user", { state: { name: res.data.data.user.name } })
-                }
-            }
-        }
-        catch (error) {
-            console.log("error = "+error)
-        }
-    }
-   
-
 
     return (
         <div>
@@ -86,6 +36,7 @@ function Header(props) {
                             <img src={require('../images/logo.png')} alt='no img' />
                         </div>
                     </div>
+
                     <div className=" py-4 px-2 ">
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" onClick={handleClose} className="bi bi-text-indent-right text-center" viewBox="0 0 16 16">
                             <path d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5m10.646 2.146a.5.5 0 0 1 .708.708L11.707 8l1.647 
@@ -113,29 +64,13 @@ function Header(props) {
                         <div className="py-3 px-2 ">
                             <div className="profile">
                                 <div className="img-box">
-                                 <img src="https://tse2.mm.bing.net/th?id=OIP.B39-1EvwOFXOffOfIKZT0AHaEK&pid=Api&P=0&h=220" onClick={handleRightShow} alt="no img" /> 
+                                    <img src={"http://localhost:2000/images/userImg/" + user.image[0].name} onClick={handleRightShow} alt="no img123" />
                                 </div>
                             </div>
 
-                            {/* right side off canvas start */}
-                            <div >
-                                <Offcanvas show={rightshow} onHide={handleRightClose} placement='end' className='navbar-bg-color'>
-                                    <Offcanvas.Header closeButton>
-                                        <Offcanvas.Title className="sitename text-capitalize text-center text-white">{(user !== null) ? (user.name) : ("User")}</Offcanvas.Title>
-                                    </Offcanvas.Header>
-                                    <Offcanvas.Body>
-                                        <ul className="navmenu navbar-nav me-auto mb-2 mb-lg-0">
-                                            <li key={0} className="nav-item mx-3" >
-                                                <Link onClick={openLoginModal} ><i className="bi bi-gear px-2"></i>Sign In</Link>
-
-                                            </li>
-                                            <li key={1} className="nav-item mx-3">
-                                                <Link to="/" onClick={() => logoutUser()} ><i className="bi bi-gear px-2"></i>Sign Out</Link>
-                                            </li>
-                                        </ul>
-                                    </Offcanvas.Body>
-                                </Offcanvas>
-                            </div>
+                            {/* right side off canvas start */}                        
+                                <RightSideOffCanvas/>                            
+                            
                             {/* right side off canvas end */}
                         </div>
                     </div>
@@ -147,61 +82,8 @@ function Header(props) {
                                 <input type="text" className="form-control" placeholder="Search" />
                             </div>
                             <CloseButton className="p-2" onClick={() => { setVisibleSearchBar(false); setActiveLink(activeLink); }} />
-                        </div>) : (<></>)}
+                        </div>) : (<></>)} 
 
-                    {/*login modal start */}
-
-                    <Modal
-                        show={showmodal}
-                        onHide={() => setShowModal(false)}
-                        dialogClassName="modal-90w"
-                        aria-labelledby="example-custom-modal-styling-title"
-                        centered
-                    >
-                        <Modal.Header className='bg-color text-white text-center' closeButton>
-                            <Modal.Title id="example-custom-modal-styling-title">
-                                Welcome To Registration
-                            </Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <div className='container'>
-                                <div className='row  '>
-                                    <div>
-                                        <div className='bg-white '>
-                                            <div >
-                                                <form>
-                                                    <div>
-                                                        <label >Email Id</label>
-                                                        <input type="email" name="email" className="form-control" onChange={handleChange} />
-
-                                                    </div>
-
-
-                                                    <div className="col-sm-none pl-0 pr-0 pl-md-4 pr-md-4">
-                                                        <label >Password</label>
-                                                        <input type="password" name="password" className="form-control" onChange={handleChange} />
-                                                    </div>
-
-
-                                                    <div className="col-sm-none pl-0 pr-0 pl-md-4 pr-md-4">
-                                                        <button type="button" className="form-control btn bg-color btn-outline text-white btn-animation" onClick={CheckStudent}>Sign  in123</button>
-                                                    </div>
-
-                                                    <div className='text-wrap p-1 text-center '>
-                                                        <div className='text '>
-                                                            <p>Don't have an account ?<Link to="/signup"> Sign Up</Link></p>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* </div> */}
-                        </Modal.Body>
-                    </Modal>
-                    {/*login modal ends*/}
 
 
                     {/* searchbar section end  */}
@@ -219,6 +101,10 @@ function Header(props) {
                             <div className='px-1 py-3 d-none d-lg-block verticleNavbar navbar-bg-color'>
                                 <nav id="navmenu" className="navmenu">
                                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                                        <li>
+                                            <h2 className='text-white text-center'>{user.name}</h2>
+
+                                        </li>
                                         {props.navSections.map((section, i) => (
                                             <li key={i} className="nav-item">
                                                 <Link className={activeLink === section.secName ? "active" : ""}
@@ -236,12 +122,12 @@ function Header(props) {
                                 /* left side navbar with icons and title view */
                                 <div className=' d-none d-lg-block'>
                                     <div className='verticleNavbar navbar-bg-color'>
-                                        <div className="mb-0">
+                                        <p className="mb-0">
                                             <div >
-                                                {/* <div className="profile-img">
-                                                    <img src="https://i.postimg.cc/BvNYhMHS/user-img.jpg" alt="" className="img-fluid rounded-circle" />
-                                                </div> */}
-                                                {/* <h1 className="py-4 sitename text-capitalize">{(user !== null) ? (user.name) : ("admin")}</h1> */}
+                                                <div className="profile-img">
+                                                    <img src={"http://localhost:2000/images/userImg/" + user.image[0].name} alt="" className="img-fluid rounded-circle" />
+                                                </div>
+                                                <h1 className="py-4 sitename text-capitalize">{(user !== null) ? (user.name) : ("admin")}</h1>
                                                 <nav id="navmenu" className="navmenu">
                                                     <ul className="navbar-nav me-auto mb-2 py-3 mb-lg-0" style={{ width: "250px" }}>
                                                         {props.navSections.map((section, i) => (
@@ -257,7 +143,7 @@ function Header(props) {
                                                     </ul>
                                                 </nav>
                                             </div>
-                                        </div>
+                                        </p>
                                     </div>
                                 </div>
                             )}
@@ -297,7 +183,7 @@ function Header(props) {
                     {/* pages section start */}
 
                     {/* if screeen size is greater than lg */}
-                    <div className='container-fluid section-color h-100 d-none d-lg-block' style={(show) ? { marginLeft: "250px" } : { marginLeft: "100px" }}>
+                    <div className={((show) ? 'setMarginLeft' : 'setMarginLeft1') + 'container-fluid section-color h-100 d-none d-lg-block'}>
                         <Outlet />
                     </div>
 
@@ -359,5 +245,5 @@ function Header(props) {
         </div >
     )
 }
-export default Header
+export default AdminHeader
 

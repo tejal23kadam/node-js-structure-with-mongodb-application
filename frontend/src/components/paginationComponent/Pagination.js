@@ -47,14 +47,14 @@ const Pagination = ({ length, postsPerPage, currentPage, handlePagination }) => 
         <div className="pagination1">
             <div className="pages">
                 <button style={{ display: (renderPageNumbers.length > 0 ) ? 'block' : 'none' }} onClick={handlePrevbtn} disabled={currentPage === paginationNumber[0] ? true : false}>
-                    <i class="bi bi-chevron-left"></i>
+                    <i className="bi bi-chevron-left"></i>
                 </button>
                 {/* Render page numbers if they exist */}
                 <div className="page-number">
                     {renderPageNumbers.length > 0 ? renderPageNumbers : <h1>No Results</h1>}
                 </div>
                 <button style={{ display:(renderPageNumbers.length > 0 ) ? 'block' : 'none' }} onClick={handleNextbtn} disabled={currentPage === paginationNumber.length ? true : false}>
-                    <i class="bi-chevron-right"></i>
+                    <i className="bi-chevron-right"></i>
                 </button>
             </div>
         </div>

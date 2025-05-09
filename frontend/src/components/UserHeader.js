@@ -72,46 +72,46 @@ function UserHeader() {
 
         return (
                 <div>
-                        <div class="row ">
+                        <div className="row ">
                                 <div className='d-flex ' >
                                         <div>
-                                                <div class="py-4 px-4 bd-highlight col-xl-2 d-none d-lg-block ">
+                                                <div className="py-4 px-4 bd-highlight col-xl-2 d-none d-lg-block ">
                                                         <img src={require('../images/logo.png')} alt='no img' />
                                                 </div>
                                         </div>
-                                        <div class=" py-4 px-2 ">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" onClick={handleClose} class="bi bi-text-indent-right text-center" viewBox="0 0 16 16">
+                                        <div className=" py-4 px-2 ">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" onClick={handleClose} className="bi bi-text-indent-right text-center" viewBox="0 0 16 16">
                                                         <path d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5m10.646 2.146a.5.5 0 0 1 .708.708L11.707 8l1.647 
                                                     1.646a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708zM2 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m0 3a.5.5 
                                                     0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m0 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5" />
                                                 </svg>
                                         </div>
 
-                                        <div class=" py-4 px-2 d-block flex-grow-1 d-lg-none text-center ">
+                                        {/* <div className=" py-4 px-2 d-block flex-grow-1 d-lg-none text-center ">
                                                 <img src="C:\Users\Tejal\Desktop\tejal\node-js-structure-with-mongodb-application\backend\assets\userImg\1746083215162-62793607.png" alt='no img' />
-                                        </div>
+                                        </div> */}
                                         <div className='d-flex justify-content-end flex-lg-grow-1'>
-                                                <div class="p-2 d-none d-lg-block">
-                                                        <div class="form-group has-search">
-                                                                <span class="bi bi-search form-control-feedback"></span>
-                                                                <input type="text" class="form-control" placeholder="Search" />
+                                                <div className="p-2 d-none d-lg-block">
+                                                        <div className="form-group has-search">
+                                                                <span className="bi bi-search form-control-feedback"></span>
+                                                                <input type="text" className="form-control" placeholder="Search" />
                                                         </div>
                                                 </div>
-                                                {/* <div class=" py-4 px-2 d-none d-lg-block ">
+                                                {/* <div className=" py-4 px-2 d-none d-lg-block ">
                                                         <Link><i className="bi bi-bell-fill"></i></Link>
                                                 </div>
-                                                <div class="py-4 px-2 d-none d-lg-block">
+                                                <div className="py-4 px-2 d-none d-lg-block">
                                                         <Link><i className='bi bi-gear'></i></Link>
                                                 </div> */}
-                                                <div class="py-3 px-2 ">
-                                                        <div class="profile">
-                                                                <div class="img-box">
+                                                <div className="py-3 px-2 ">
+                                                        <div className="profile">
+                                                                <div className="img-box">
                                                                         {/* below commented code opens right side canvas */}
                                                                         {/* <img src="https://i.postimg.cc/BvNYhMHS/user-img.jpg" onClick={handleRightShow} alt="no img" /> */}
                                                                         {
-                                                                                (isToken !== null) ? (
-                                                                                        <img src="C:\Users\Tejal\Desktop\tejal\node-js-structure-with-mongodb-application\backend\assets\userImg\1746083215162-62793607.png" onClick={handleRightShow} alt="no img" />
-                                                                                ) : (<img src={userImage} onClick={handleRightShow} alt="no img" />)
+                                                                                // (isToken !== null) ? (
+                                                                                //         <img src="C:\Users\Tejal\Desktop\tejal\node-js-structure-with-mongodb-application\backend\assets\userImg\1746083215162-62793607.png" onClick={handleRightShow} alt="no img" />
+                                                                                // ) : (<img src={userImage} onClick={handleRightShow} alt="no img" />)
    
                                                                         }
 
@@ -127,11 +127,11 @@ function UserHeader() {
                                                                         <Offcanvas.Body>
                                                                                 <ul className="navmenu navbar-nav me-auto mb-2 mb-lg-0">
                                                                                         <li key={0} className="nav-item mx-3" >
-                                                                                                <Link onClick={openLoginModal} ><i class="bi bi-gear px-2"></i>Sign In</Link>
+                                                                                                <Link onClick={openLoginModal} ><i className="bi bi-gear px-2"></i>Sign In</Link>
 
                                                                                         </li>
                                                                                         <li key={0} className="nav-item mx-3">
-                                                                                                <Link to="/" onClick={() => logoutUser()} ><i class="bi bi-gear px-2"></i>Sign Out</Link>
+                                                                                                <Link to="/" onClick={() => logoutUser()} ><i className="bi bi-gear px-2"></i>Sign Out</Link>
                                                                                         </li>
                                                                                 </ul>
                                                                         </Offcanvas.Body>
@@ -143,9 +143,9 @@ function UserHeader() {
                                         {/* searchbar section start  */}
                                         {(visibleSearchBar) ? (
                                                 <div className='search-section d-lg-none d-flex w-100 p-4'>
-                                                        <div class="has-search flex-grow-1 ">
-                                                                <span class="bi bi-search form-control-feedback p-2"></span>
-                                                                <input type="text" class="form-control" placeholder="Search" />
+                                                        <div className="has-search flex-grow-1 ">
+                                                                <span className="bi bi-search form-control-feedback p-2"></span>
+                                                                <input type="text" className="form-control" placeholder="Search" />
                                                         </div>
                                                         <CloseButton className="p-2" onClick={() => { setVisibleSearchBar(false); setActiveLink(activeLink); }} />
                                                 </div>) : (<></>)}
@@ -176,14 +176,14 @@ function UserHeader() {
                                                                                                 <form>
                                                                                                         <div>
                                                                                                                 <label >Email Id</label>
-                                                                                                                <input type="email" class="form-control" onChange={e => setEmail(e.target.value)} value={email}/> 
+                                                                                                                <input type="email" className="form-control" onChange={e => setEmail(e.target.value)} value={email}/> 
 
                                                                                                         </div>
 
 
                                                                                                         <div className="col-sm-none pl-0 pr-0 pl-md-4 pr-md-4">
                                                                                                                 <label >Password</label>
-                                                                                                                <input type="password" class="form-control" onChange={e => setPassword(e.target.value)} value={password} /> 
+                                                                                                                <input type="password" className="form-control" onChange={e => setPassword(e.target.value)} value={password} /> 
                                                                                                         </div>
 
 
@@ -219,7 +219,7 @@ function UserHeader() {
                         </div>
 
                         {/* bottom position fixed navbar start */}
-                        <nav class="navbar d-lg-none bottom-navbar-bg-color px-3">
+                        <nav className="navbar d-lg-none bottom-navbar-bg-color px-3">
                                 <div>
                                         <Link className={activeLink === ("Dashboard" ? "active text-white" : "") + "text-dark"}
                                                 onClick={() => setActiveLink("Dashboard")}

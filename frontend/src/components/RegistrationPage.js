@@ -134,28 +134,28 @@ function RegistrationPage() {
           <div className="col-sm-6 form-group">
             <label>Name</label>
             <input type="text" className="form-control" name="name" onChange={handleChange} placeholder="Enter your name." required />
-            <div class="invalid-feedback">Name field is required.</div>
+            <div className="invalid-feedback">Name field is required.</div>
           </div>
           <div className="col-sm-6 form-group">
             <label >Email</label>
             <input type="email" className="form-control" name="email" onChange={handleChange} placeholder="Enter your email." required />
-            <div class="invalid-feedback">Email is required.</div>
+            <div className="invalid-feedback">Email is required.</div>
           </div>
 
           <div className="col-sm-6 form-group">
             <label >Password</label>
             <input type="Password" name="password" className="form-control" onChange={handleChange} placeholder="Enter your password." required />
-            <div class="invalid-feedback">Password is required.</div>
+            <div className="invalid-feedback">Password is required.</div>
           </div>
           <div className="col-sm-6 form-group">
             <label >Confirm Password</label>
             <input type="Password" name="cnf-password" onKeyUp={(e) => { setConfirmPassword(e.target.value) }} className="form-control" id="pass2" placeholder="Re-enter your password." required />
-            <div class="invalid-feedback">Confirm Password is required.</div>
+            <div className="invalid-feedback">Confirm Password is required.</div>
           </div>
           <div className="col-sm-12 form-group">
             <label >User Type</label>
             <input type="number" className="form-control" placeholder="Enter your user type" name="userType" onChange={handleChange} required />
-            <div class="invalid-feedback">Please select user type</div>
+            <div className="invalid-feedback">Please select user type</div>
           </div>
           <div className="col-sm-12 form-group mb-0">
             <button className="form-control btn bg-color btn-outline text-white" onClick={addUser}>submit</button>

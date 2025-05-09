@@ -1,12 +1,11 @@
 import React from 'react'
-import Header from '../components/Header'
 import { navSections } from '../layout/AdminNavSections';
+import AdminHeader from '../components/AdminHeader';
 
 function AdminLayout() {
   return (
     <>
-      <Header navSections={navSections} />
-      
+      <AdminHeader navSections={navSections} />
     </>
   )
 }

@@ -44,7 +44,12 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+.setMarginLeft{
+  margin-left: 250px;
+}
+.setMarginLeft1{
+  margin-left: 100px;
+}
 .navbar a.active{
   color: red;
 }

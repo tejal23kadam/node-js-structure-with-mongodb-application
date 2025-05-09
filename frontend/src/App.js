@@ -8,9 +8,6 @@ import Settings from './components/Settings';
 import AdminLayout from './layout/AdminLayout';
 import NewProduct from './components/NewProducts';
 import EnduserLayout from './layout/EnduserLayout';
-import Home from './components/Home';
-import Contact from './components/sections/ContactUs';
-import About from './components/About';
 import NewEmployee from './components/NewEmployee';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useSelector } from 'react-redux';
@@ -26,6 +23,7 @@ import ShoppingCartData from './components/sections/ShoppingCartData';
 import SingleProductDetailPageNew from './components/singleProductDetailComponent/SingleProductDetailPageNew';
 import ContactUs from './components/sections/ContactUs';
 import EWest from './components/sections/EWest';
+import NewCategory from './components/NewCategory';
 
 
 function App() {
@@ -55,6 +53,7 @@ function App() {
           <Route path="order" element={<Order />} />
           <Route path="products" element={<NewProduct />} />
           <Route path="newEmployee" element={<NewEmployee />} />
+          <Route path="newCategory" element={<NewCategory />} />
           <Route path="settings" element={<Settings />} />
         </Route>}
         {/* {isAuth && <Route path="/user" element={(user.userType === 0) ? <EnduserLayout /> : <Navigate to="/" />}> */}

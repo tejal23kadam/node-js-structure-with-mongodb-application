@@ -67,7 +67,7 @@ function IndividualCategoryDetailPage(props) {
             (
               (filteredData.slice(indexOfFirstPost, indexOfLastPost).map((data) => (
                 <div className="pro" key={data.id} >
-                  <div class="des" >
+                  <div className="des" >
                     <img src={data.image} alt="noImage" onClick={() => handleOpen(data.id)} />
                     <h5 className="overme">{data.title} </h5>
                     <div>
@@ -77,7 +77,7 @@ function IndividualCategoryDetailPage(props) {
                             <h5><s>{data.price}</s> </h5>
                             <h4>${Math.trunc(data.price - ((data.price * data.discount) / 100))}</h4>
                             <div style={{ display: "flex", paddingTop: "6px" }}>
-                              <p class="discount">{data.discount}%</p>
+                              <p className="discount">{data.discount}%</p>
                               <p>off no</p>
                             </div>
                           </div>

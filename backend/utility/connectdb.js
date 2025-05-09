@@ -3,6 +3,7 @@ const { MONGODB_URL } = require('./config')
 const { user } = require('../models/user_model')
 const { employee } = require('../models/employee_model')
 const { product } = require('../models/product_model')
+const { category } = require('../models/category_model')
 
 const connectdb = async () => {
     try {
@@ -10,10 +11,16 @@ const connectdb = async () => {
         user;
         employee;
         product;
+        category;
         console.log("connection done successfully");
     }
     catch (error) {
-        console.log("failed db connection");
+        if (error.name === "MongooseServerSelectionError") {
+            console.log("Please check server is running or not")
+        }
+        else {
+            console.log("failed to connect database")
+        }
     }
 }
 

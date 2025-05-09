@@ -17,7 +17,6 @@ const Auth = async (req, res, next) => {
             return res.status(401).json({ message: "Unauthorized" });
         }
         const user = await userModel.findById(verified.user_id).select("-password");
-
         if (user) {
             req.user = user;
             next();

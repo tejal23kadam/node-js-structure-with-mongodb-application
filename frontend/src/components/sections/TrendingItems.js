@@ -45,18 +45,18 @@ function TrendingItems() {
     console.log("random items ++ ", randomItems);
 
     return (
-        <section class="popular-deals section bg-gray">
+        <section className="popular-deals section bg-gray">
 
 
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="section-title">
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-12">
+                        <div className="section-title">
                             <h2>Trending Items</h2>
                         </div>
                     </div>
                 </div>
-                <div class="row ">
+                <div className="row ">
                     {/* <!-- offer 01 --> */}
 
                      {/* <Carousel
@@ -67,13 +67,13 @@ function TrendingItems() {
                         showDots={true}
                         infinite={true}
                         partialVisible={false}
-                        dotListClass="custom-dot-list-style"
+                        dotListclassName="custom-dot-list-style"
                     />  */}
                         {randomItems.length > 0 ? (
                             randomItems.map((item) => (
-                                <div class="card mb-3" >
+                                <div className="card mb-3" >
 
-                                    <div class="col-md-6">
+                                    <div className="col-md-6">
                                         <div className="card-body">
                                             <div >
                                                 <div className="des">
@@ -106,8 +106,8 @@ function TrendingItems() {
                                                         )}
                                                     </div>
                                                 </div>
-                                                <div class="cardbuttons">
-                                                    <button class="atc-btn" >
+                                                <div className="cardbuttons">
+                                                    <button className="atc-btn" >
                                                         <i onClick={() => addToCart(item)} className="fal bi bi-cart "></i>
                                                         Add to cart
                                                     </button>

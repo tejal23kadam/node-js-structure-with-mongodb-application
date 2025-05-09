@@ -99,37 +99,37 @@ function IndividualCategoryDetailPageNew(props) {
     return (
         <div>
             <NavBar />
-            <section class="page-search">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-10 col-xl-10 col-md-8 advance-search ">
-                            <input type="text" onChange={e => setSearchVal(e.target.value)} class="form-control my-2 my-lg-0" id="inputtext4" placeholder="What are you looking for ?" />
+            <section className="page-search">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-10 col-xl-10 col-md-8 advance-search ">
+                            <input type="text" onChange={e => setSearchVal(e.target.value)} className="form-control my-2 my-lg-0" id="inputtext4" placeholder="What are you looking for ?" />
                         </div>
                         <div className='col-lg-2 col-xl-2 col-md-4 advance-search align-self-center'>
-                            <button type="submit" class="btn btn-primary active w-100" onClick={() => handleSearchClick()}>Search Now</button>
+                            <button type="submit" className="btn btn-primary active w-100" onClick={() => handleSearchClick()}>Search Now</button>
                         </div>
                     </div>
                 </div>
             </section>
-            <section class="section-sm">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="search-result bg-gray">
+            <section className="section-sm">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <div className="search-result bg-gray">
                                 <h2 style={{ textTransform: "capitalize" }}>Results For {props.category}</h2>
                                 <p>{filteredData ? `${filteredData.length} Results Available` : 'No data available'}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-3 col-md-4">
-                            <div class="category-sidebar">
+                    <div className="row">
+                        <div className="col-lg-3 col-md-4">
+                            <div className="category-sidebar">
                                 <div>
-                                    <button type="button" data-index="0" class="btn btn-main" onClick={() => handleClearAll()}>Clear All</button>
+                                    <button type="button" data-index="0" className="btn btn-main" onClick={() => handleClearAll()}>Clear All</button>
                                 </div>
 
-                                <div class="widget filter">
-                                    <h4 class="widget-header">Show Brands</h4>
+                                <div className="widget filter">
+                                    <h4 className="widget-header">Show Brands</h4>
                                     <form>
                                         <select onChange={handlebrandChange}>
                                             <option defaultValue="⬇️ Select a brand ⬇️"> -- Select a brand -- </option>
@@ -138,8 +138,8 @@ function IndividualCategoryDetailPageNew(props) {
                                     </form>
                                 </div>
 
-                                <div class="widget product-shorting">
-                                    <h4 class="widget-header">By Price</h4>
+                                <div className="widget product-shorting">
+                                    <h4 className="widget-header">By Price</h4>
                                     <div>
                                         <button type="button" className={activePriceColor === "first" ? "activeButton" : ""} onClick={() => { handlePriceFilter(0, 500); setActivePriceColor("first"); }}> Under 500 </button>
                                     </div>
@@ -154,8 +154,8 @@ function IndividualCategoryDetailPageNew(props) {
                                     </div>
                                 </div>
 
-                                <div class="widget product-shorting">
-                                    <h4 class="widget-header">By Discount</h4>
+                                <div className="widget product-shorting">
+                                    <h4 className="widget-header">By Discount</h4>
                                     <div>
                                         <button type="button" className={activeDiscountColor === "first" ? "activeButton" : ""} onClick={() => { handleDiscountFilter(5); setActiveDiscountColor("first"); }}> 5%off or more </button>
                                     </div>
@@ -174,7 +174,7 @@ function IndividualCategoryDetailPageNew(props) {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-9 col-md-8">
+                        <div className="col-lg-9 col-md-8">
 
                             {/* <!--new comment start --> */}
                             <div className='pro-container'>
@@ -182,7 +182,7 @@ function IndividualCategoryDetailPageNew(props) {
                                     (
                                         (filteredData.slice(indexOfFirstPost, indexOfLastPost).map((data) => (
                                             <div className="pro " key={data.id} >
-                                                <div class="des" >
+                                                <div className="des" >
                                                     <Link to="/product-details"><img src={data.image} onClick={() => { dispatch(addToProductIDFilter(data.id)) }} alt="noImage" /></Link>
                                                     <h5 className="overme">{data.title} </h5>
                                                     <div>
@@ -192,7 +192,7 @@ function IndividualCategoryDetailPageNew(props) {
                                                                     <h5><s>{data.price}</s> </h5>
                                                                     <h4><span>$</span>{Math.trunc(data.price - ((data.price * data.discount) / 100))}</h4>
                                                                     {/* <div style={{ display: "flex" }}>
-                                                                        <p class="discount">{data.discount}%</p> off
+                                                                        <p className="discount">{data.discount}%</p> off
 
                                                                     </div> */}
                                                                 </div>
@@ -203,8 +203,8 @@ function IndividualCategoryDetailPageNew(props) {
                                                         }
                                                     </div>
                                                 </div>
-                                                <div class="cardbuttons">
-                                                    <button class="atc-btn"  onClick={() => { dispatch(addToCart(data)) }}>
+                                                <div className="cardbuttons">
+                                                    <button className="atc-btn"  onClick={() => { dispatch(addToCart(data)) }}>
                                                        <i  className="fal bi bi-cart " ></i>
                                                         Add to cart
                                                     </button>

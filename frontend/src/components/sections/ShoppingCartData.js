@@ -10,11 +10,11 @@ function ShoppingCartData() {
     const dispatch = useDispatch();
     return (
         <div>
-            <section class="page-title">
+            <section className="page-title">
                 {/* <!-- Container Start --> */}
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-8 offset-md-2 text-center">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-8 offset-md-2 text-center">
                             {/* <!-- Title text --> */}
                             <h3>Shopping Cart</h3>
                         </div>
@@ -24,35 +24,35 @@ function ShoppingCartData() {
             </section>
             {
                 (cartOrdersData.length > 0) ?
-                    (<div class="pt-4 pb-4 container" >
+                    (<div className="pt-4 pb-4 container" >
                         <h1 className='text-center'>Cart Items</h1>
-                        <div class="mt-5 gap-3 gap-md-0 gap-lg-0 row">
-                            <div class="col-lg-8 col-md-7" >
-                                <div class="card">
+                        <div className="mt-5 gap-3 gap-md-0 gap-lg-0 row">
+                            <div className="col-lg-8 col-md-7" >
+                                <div className="card">
                                     {
                                         cartOrdersData.map((product) => {
                                             return (
-                                                <div class="mt-2 store-item bottom-line pb-3" >
-                                                    <div class="row">
-                                                        <div class="col-lg-3">
-                                                            <img class="image-store" src={product.image} alt='no data' />
+                                                <div className="mt-2 store-item bottom-line pb-3" >
+                                                    <div className="row">
+                                                        <div className="col-lg-3">
+                                                            <img className="image-store" src={product.image} alt='no data' />
                                                         </div>
-                                                        <div class="col-lg-9">
-                                                            <div class="mt-3 mt-lg-0 d-flex align-items-center justify-content-between">
+                                                        <div className="col-lg-9">
+                                                            <div className="mt-3 mt-lg-0 d-flex align-items-center justify-content-between">
                                                                 <h5>{product.title}</h5>
                                                                 <div>
-                                                                    <div class="btn-quantity-container d-flex align-items-center justify-content-center" style={{ gap: ".5rem" }}>
-                                                                        <button class="btn-quantity btn btn-default" onClick={() => { dispatch(minusFromCart(product)) }}>−</button>
-                                                                        <span class="p-quantiry">{product.quantity}</span>
-                                                                        <button class="btn-quantity btn btn-default" onClick={() => { dispatch(addToCart(product)) }}>+</button>
+                                                                    <div className="btn-quantity-container d-flex align-items-center justify-content-center" style={{ gap: ".5rem" }}>
+                                                                        <button className="btn-quantity btn btn-default" onClick={() => { dispatch(minusFromCart(product)) }}>−</button>
+                                                                        <span className="p-quantiry">{product.quantity}</span>
+                                                                        <button className="btn-quantity btn btn-default" onClick={() => { dispatch(addToCart(product)) }}>+</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
 
-                                                            <div class="list-store d-flex align-items-center justify-content-between" >
+                                                            <div className="list-store d-flex align-items-center justify-content-between" >
                                                                 <h6> Original Price : ${product.price} </h6>
                                                             </div>
-                                                            <div class="list-store d-flex align-items-center justify-content-between" >
+                                                            <div className="list-store d-flex align-items-center justify-content-between" >
                                                                 {
                                                                     (product.discount) ? (
                                                                         <h6> Discount : {product.discount}% </h6>)
@@ -61,7 +61,7 @@ function ShoppingCartData() {
                                                                         )
                                                                 }
                                                             </div>
-                                                            <div class="list-store d-flex align-items-center justify-content-between mb-3" >
+                                                            <div className="list-store d-flex align-items-center justify-content-between mb-3" >
                                                                 {(product.discount) ? (
                                                                     < h6 > Total Price : ${Math.trunc(product.price - ((product.price * product.discount) / 100))}</h6>)
                                                                     : (
@@ -69,14 +69,14 @@ function ShoppingCartData() {
                                                                     )
                                                                 }
                                                             </div>
-                                                            <div class="list-store d-flex align-items-center justify-content-between">
-                                                                <div class="d-flex gap-2">
-                                                                    <button class="btn-list btn btn-xs btn-default" onClick={() => { dispatch(deleteFromCart(product.id)) }} >
-                                                                        <i class="bi bi-trash" ></i>
+                                                            <div className="list-store d-flex align-items-center justify-content-between">
+                                                                <div className="d-flex gap-2">
+                                                                    <button className="btn-list btn btn-xs btn-default" onClick={() => { dispatch(deleteFromCart(product.id)) }} >
+                                                                        <i className="bi bi-trash" ></i>
                                                                         Remove Item
                                                                     </button>
                                                                 </div>
-                                                                <div class="d-flex">
+                                                                <div className="d-flex">
                                                                     {(product.discount) ? (
                                                                         <h5>${Math.trunc(product.price - ((product.price * product.discount) / 100))}</h5>)
                                                                         : (
@@ -93,45 +93,45 @@ function ShoppingCartData() {
                                     }
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-5">
-                                <div class="gap-3 row">
+                            <div className="col-lg-4 col-md-5">
+                                <div className="gap-3 row">
                                     <div>
-                                        <div class="card">
+                                        <div className="card">
                                             <h4>The total amount of</h4>
-                                            <div class="store-item mt-2">
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <p class="p-total-label" >No. of Items</p>
+                                            <div className="store-item mt-2">
+                                                <div className="row">
+                                                    <div className="col-6">
+                                                        <p className="p-total-label" >No. of Items</p>
                                                     </div>
-                                                    <div class="col-6" data-reactid=".0.1.1.0.0.0.1.1.1">
-                                                        <p class="p-total">{
+                                                    <div className="col-6" data-reactid=".0.1.1.0.0.0.1.1.1">
+                                                        <p className="p-total">{
                                                             cartOrdersData.reduce((totalQty, item) => {
                                                                 return totalQty += item.quantity;
                                                             }, 0)
                                                         }</p>
                                                     </div>
                                                 </div>
-                                                <div class="mt-2 row">
+                                                <div className="mt-2 row">
                                                     <div>
-                                                        <div class="list-store d-flex align-items-center justify-content-between">
+                                                        <div className="list-store d-flex align-items-center justify-content-between">
                                                             <p>Sub Total</p>
                                                             <p>${cartTotalPayableAmout}</p>
                                                         </div>
-                                                        <div class="bottom-line" ></div>
+                                                        <div className="bottom-line" ></div>
                                                     </div>
                                                 </div>
 
-                                                <div class="mt-2 row">
-                                                    <div class="col-6">
-                                                        <p class="p-total-label" >total amount</p>
+                                                <div className="mt-2 row">
+                                                    <div className="col-6">
+                                                        <p className="p-total-label" >total amount</p>
                                                     </div>
-                                                    <div class="col-6" data-reactid=".0.1.1.0.0.0.1.1.1">
-                                                        <p class="p-total"> <p>${cartTotalPayableAmout}</p></p>
+                                                    <div className="col-6" data-reactid=".0.1.1.0.0.0.1.1.1">
+                                                        <p className="p-total"> <p>${cartTotalPayableAmout}</p></p>
                                                     </div>
                                                 </div>
-                                                <div class="mt-1 row">
+                                                <div className="mt-1 row">
                                                     <div>
-                                                        <button type="button" class="w-100 btn btn-md btn-primary btn-block">Go To Checkout</button></div>
+                                                        <button type="button" className="w-100 btn btn-md btn-primary btn-block">Go To Checkout</button></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -141,7 +141,7 @@ function ShoppingCartData() {
                         </div>
                     </div >
                     ) : (
-                        <h1 class="text-center mt-5" >oops!!   Your Cart is Empty</h1>
+                        <h1 className="text-center mt-5" >oops!!   Your Cart is Empty</h1>
                     )
             }
         </div >

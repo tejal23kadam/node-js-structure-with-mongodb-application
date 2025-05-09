@@ -3,6 +3,7 @@ import { React, useEffect, useState } from 'react';
 import axios from 'axios'
 import 'react-toastify/dist/ReactToastify.css';
 import Button from 'react-bootstrap/Button';
+import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
 //toast.config;
 
@@ -17,7 +18,7 @@ const NewProduct = () => {
                 modal: '',
                 color: '',
                 category: '',
-                discount: 0
+                discount:0 
 
         };
 
@@ -25,7 +26,7 @@ const NewProduct = () => {
         const [selectedFile, setSelectedFile] = useState([]);
         const [show, setShow] = useState(false);
         const [formdata, setFormdata] = useState(initialState)
-
+        const [categoryData, setCategoryData] = useState([])        
 
         const handleImageChange = (e) => {
 
@@ -54,8 +55,8 @@ const NewProduct = () => {
         }
 
         useEffect(() => {
-                console.log(selectedFile)
-        }, [selectedFile])
+                getAllCategory();
+        }, [])
 
         const addProduct = async () => {
                 try {
@@ -70,8 +71,9 @@ const NewProduct = () => {
                                 allFormData.append(key, formdata[key])
                         }
                         allFormData.forEach((value, key) => {
-                                console.log(key, value);
+                                console.log("form data key and value " + key, value);
                         });
+
                         const tokenStr = localStorage.getItem('token');
                         const config = {
                                 headers: {
@@ -89,6 +91,19 @@ const NewProduct = () => {
                         console.log(error)
                 }
         }
+
+        const getAllCategory = async () => {
+
+                try {
+                        const res = await axios.post('http://localhost:2000/api/getAllCategory')
+                        console.log("get all category api response  " + JSON.stringify(res.data.data.data))
+                        setCategoryData(res.data.data.data);
+                }
+                catch (error) {
+                        console.log(error)
+                }
+        }        
+
         const handleChange = (e) => {
                 const { name, value } = e.target;
                 setFormdata({ ...formdata, [name]: value })
@@ -150,8 +165,12 @@ const NewProduct = () => {
                                                         <input type="address" className="form-control" name="color" placeholder="color" onChange={handleChange} required />
                                                 </div>
                                                 <div className="col-sm-12 form-group">
-                                                        <label >category</label>
-                                                        <input type="address" className="form-control" name="category" placeholder="category" onChange={handleChange} required />
+                                                        <label>Category</label>
+                                                        <select className="form-control" name="category" onChange={handleChange}>
+                                                                {categoryData.map(option => (
+                                                                        <option value={option.catName}>{option.catName}</option>
+                                                                ))}
+                                                        </select>
                                                 </div>
 
                                                 <div className="col-sm-12 form-group mb-0">

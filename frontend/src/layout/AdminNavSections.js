@@ -20,6 +20,11 @@ export const navSections = [
                 icon: "bi bi-person-add px-2"
         },
         {
+                linkTo: "/admin/newCategory",
+                secName:"Category",
+                icon: "bi bi-card-checklist px-2"
+        },
+        {
                 linkTo: "/admin/settings",
                 secName:"Settings",
                 icon: "bi bi-gear px-2"

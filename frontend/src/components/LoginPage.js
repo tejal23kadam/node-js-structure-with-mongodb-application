@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import { setIsAuth } from '../redux/slice/AuthSlice';
 import { useDispatch } from 'react-redux';
-import { setToast} from '../redux/slice/toastSlice';
+import { setToast } from '../redux/slice/toastSlice';
 
 
 function LoginPage() {
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");    
+    const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -23,15 +23,15 @@ function LoginPage() {
     const CheckStudent = async () => {
         try {
             const res = await axios.post('http://localhost:2000/api/validateUser', studentData)
-            console.log("res= ",res);
+            console.log("res= ", res);
             if (res.data.status) {
                 localStorage.setItem("token", res.data.data.token)
                 dispatch(setIsAuth(res.data.data.user));
-                dispatch(setToast({message:res.data.data.message,type:"success"}));
+                dispatch(setToast({ message: res.data.data.message, type: "success" }));
                 // dispatch(setToast({message:res.data,type:"success"}));
 
                 if (res.data.data.user.userType === 1) {
-                    navigate("/admin", { state: { name: res.data.data.user.name } });
+                    navigate("/admin", { state: { name: res.data.data.user.name, image: res.data.data.user.image[0].name } });
                 }
                 else {
                     navigate("/user", { state: { name: res.data.data.user.name } })
@@ -40,7 +40,7 @@ function LoginPage() {
 
         }
         catch (error) {
-            console.log("axios error "+error)
+            console.log("axios error " + error)
         }
     }
 
@@ -58,7 +58,7 @@ function LoginPage() {
                                     <p>Don't have an account ?</p>
                                 </div>
                                 <button type="button" className="form-control btn-outline text-white btn-animation" ><Link style={{ textDecoration: 'none' }} to="/signup">Sign Up</Link></button>
-                                
+
                             </div>
                         </div>
                         <div className='col-md-6 bg-white ml-3 mr-3 ml-md-0 mr-md-0 p-3 sign-up-right'>
@@ -70,19 +70,19 @@ function LoginPage() {
                                 <form>
                                     <div className="col-sm-none pl-0 pr-0 pl-md-4 pr-md-4">
                                         <label >Email Id</label>
-                                        <input type="email" class="form-control" onChange={e => setEmail(e.target.value)} value={email}/>
+                                        <input type="email" className="form-control" onChange={e => setEmail(e.target.value)} value={email} />
 
                                     </div>
 
 
                                     <div className="col-sm-none pl-0 pr-0 pl-md-4 pr-md-4">
                                         <label >Password</label>
-                                        <input type="password" class="form-control" onChange={e => setPassword(e.target.value)} value={password}/>
+                                        <input type="password" className="form-control" onChange={e => setPassword(e.target.value)} value={password} />
                                     </div>
 
 
                                     <div className="col-sm-none pl-0 pr-0 pl-md-4 pr-md-4">
-                                        <button type="button" className="form-control btn bg-color btn-outline text-white btn-animation" onClick={() => CheckStudent()}>Sign  in</button>
+                                        <button type="button" className="form-control btn bg-color btn-outline text-white btn-animation" onClick={() => CheckStudent()}>Sign  in1</button>
                                     </div>
 
                                     <div className='text-wrap p-1 text-center '>
@@ -90,7 +90,7 @@ function LoginPage() {
                                             <p>Don't have an account ?<Link to="/signup"> Sign Up</Link></p>
                                         </div>
                                     </div>
-                                   
+
                                 </form>
                             </div>
 
