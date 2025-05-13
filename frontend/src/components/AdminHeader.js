@@ -1,30 +1,25 @@
-import React, { useState } from 'react'
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { useState } from 'react'
+import { Link, Outlet } from 'react-router-dom';
+
 import { useSelector, useDispatch } from 'react-redux';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import CloseButton from 'react-bootstrap/esm/CloseButton';
-import { unSetIsAuth } from '../redux/slice/AuthSlice';
+import { setCanvasState } from '../redux/slice/RightSideOffCanvasSlice';
 import RightSideOffCanvas from './RightSideOffCanvas';
+import BottomNavbar from './BottomNavbar';
 
 function AdminHeader(props) {
 
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(!show);
-        const [visibleSearchBar, setVisibleSearchBar] = useState(false);
+    const [visibleSearchBar, setVisibleSearchBar] = useState(false);
     const [activeLink, setActiveLink] = useState("Dashboard");
-    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const user = useSelector((state) => state.auth.user);
 
-    console.log("user is" + JSON.stringify(user));
-
-
-    const logoutUser = () => {
-        localStorage.removeItem("token");
-        dispatch(unSetIsAuth());
-        navigate("/");
+    const handleRightShow = () => {
+        dispatch(setCanvasState())
     }
 
     return (
@@ -68,9 +63,9 @@ function AdminHeader(props) {
                                 </div>
                             </div>
 
-                            {/* right side off canvas start */}                        
-                                <RightSideOffCanvas/>                            
-                            
+                            {/* right side off canvas start */}
+                            <RightSideOffCanvas />
+
                             {/* right side off canvas end */}
                         </div>
                     </div>
@@ -82,7 +77,7 @@ function AdminHeader(props) {
                                 <input type="text" className="form-control" placeholder="Search" />
                             </div>
                             <CloseButton className="p-2" onClick={() => { setVisibleSearchBar(false); setActiveLink(activeLink); }} />
-                        </div>) : (<></>)} 
+                        </div>) : (<></>)}
 
 
 
@@ -198,49 +193,8 @@ function AdminHeader(props) {
             </div>
 
             {/* bottom position fixed navbar start */}
-            <nav className="navbar fixed-bottom d-lg-none bottom-navbar-bg-color px-3">
-                <div>
-                    <Link className={activeLink === ("Dashboard" ? "active text-white" : "") + "text-dark"}
-                        onClick={() => setActiveLink("Dashboard")}
-                        to="/admin" >
-                        <i className="bi bi-building-fill-dash px-2"></i>
-                    </Link>
-                </div>
-                <div>
-                    <Link className={activeLink === ("Order" ? "active text-white" : "") + "text-dark"}
-                        onClick={() => setActiveLink("Order")}
-                        to="/admin/order" >
-                        <i className="bi bi-box-seam px-2"></i>
-                    </Link>
-                </div>
-                <div>
-                    <Link className={activeLink === ("Products" ? "active text-white" : "") + "text-dark"}
-                        onClick={() => setActiveLink("Products")}
-                        to="/admin/NewProduct" >
-                        <i className="bi bi-card-list px-2"></i>
-                    </Link>
-                </div>
-                <div>
-                    <Link className={activeLink === ("Employee" ? "active text-white" : "") + "text-dark"}
-                        onClick={() => setActiveLink("Employee")}
-                        to="/admin/newEmployee" >
-                        <i className="bi bi-person-add px-2"></i>
-                    </Link>
-                </div>
-                <div>
-                    <Link className={activeLink === ("Settings" ? "active text-white" : "") + "text-dark"}
-                        onClick={() => setActiveLink("Settings")}
-                        to="/admin/settings" >
-                        <i className="bi bi-gear px-2"></i>
-                    </Link>
-                </div>
-                <div>
-                    <Link className={(visibleSearchBar === true ? "active text-white" : "") + "text-dark"}
-                        onClick={() => { setVisibleSearchBar(true) }}>
-                        <i className="bi bi-search px-2"></i>
-                    </Link>
-                </div>
-            </nav>
+            <BottomNavbar />
+
             {/* bottom position fixed navbar start */}
         </div >
     )
