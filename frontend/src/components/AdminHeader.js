@@ -192,10 +192,6 @@ function AdminHeader(props) {
                 </div>
             </div>
 
-            {/* bottom position fixed navbar start */}
-            <BottomNavbar />
-
-            {/* bottom position fixed navbar start */}
         </div >
     )
 }

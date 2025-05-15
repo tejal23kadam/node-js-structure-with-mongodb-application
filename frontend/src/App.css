@@ -303,6 +303,35 @@ border-bottom: 1px solid #e3e3e3;
   text-decoration: none;
   font-size: 17px;
 }
+.navbar1 {
+  overflow: hidden;
+  background-color: #333;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  width: 100%;
+}
+
+.navbar1 div {
+  float: left;
+  flex: 1;
+  flex-direction: row;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.navbar1 div:hover {
+  background: #f1f1f1;
+  color: black;
+}
+
+.navbar1 div.active {
+  background-color: #04AA6D;
+  color: white;
+}
 
 .main-section{
   margin-top: 70px !important;
@@ -1062,7 +1091,7 @@ h6 span {
 
 
 /* Navbar.css start */
-
+/* 
 
 .navbar {
   display: flex;
@@ -1072,7 +1101,7 @@ h6 span {
   position: sticky;
   top: 0;
   z-index: 20;
-}
+} */
 
 .nav-container {
   display: flex;
