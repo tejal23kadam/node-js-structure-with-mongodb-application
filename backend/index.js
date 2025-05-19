@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require("body-parser");
 const path = require('path')
 const conn = require('./utility/connectdb')
 
@@ -9,6 +10,8 @@ const productroute = require('./routes/product_route')
 const categoryroute = require('./routes/category_route')
 const app = express();
 const port = 2000;
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/images", express.static(path.join(__dirname, 'assets')))
 
 app.use(cors());

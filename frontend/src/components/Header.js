@@ -214,7 +214,7 @@ function Header(props) {
                 <div className='main-section d-flex'>
                     {/* <div className='section-color' style={(show) ? { marginLeft: "250px" } : { marginLeft: "0px" }}> */}
                     {/*left sidebar setion start */}
-                    <div className='section-color' >
+                    {/* <div className='section-color' >
                         {(!show) ? (
                             <div className='px-1 py-3 d-none d-lg-block verticleNavbar navbar-bg-color'>
                                 <nav id="navmenu" className="navmenu">
@@ -232,16 +232,14 @@ function Header(props) {
                                 </nav>
                             </div>
                         ) :
-                            (
-                                /* left side navbar with icons and title view */
-                                <div className=' d-none d-lg-block'>
+                            (*/}
+
+                                {/*  left side navbar with icons and title view */}
+                                {/* <div className=' d-none d-lg-block'>
                                     <div className='verticleNavbar navbar-bg-color'>
                                         <div className="mb-0">
                                             <div >
-                                                {/* <div className="profile-img">
-                                                    <img src="https://i.postimg.cc/BvNYhMHS/user-img.jpg" alt="" className="img-fluid rounded-circle" />
-                                                </div> */}
-                                                {/* <h1 className="py-4 sitename text-capitalize">{(user !== null) ? (user.name) : ("admin")}</h1> */}
+                                                <h1 className="py-4 sitename text-capitalize">{(user !== null) ? (user.name) : ("admin")}</h1> 
                                                 <nav id="navmenu" className="navmenu">
                                                     <ul className="navbar-nav me-auto mb-2 py-3 mb-lg-0" style={{ width: "250px" }}>
                                                         {props.navSections.map((section, i) => (
@@ -260,10 +258,9 @@ function Header(props) {
                                         </div>
                                     </div>
                                 </div>
-                            )}
+                            )} */}
 
-                    </div>
-
+                    {/* </div>  */}
                     {/* left side bar setion end */}
                     <Offcanvas show={show} onHide={handleClose} className="d-block d-lg-none navbar-bg-color" responsive="lg">
                         <Offcanvas.Header className=' px-4 text-white' closeButton>
@@ -297,11 +294,6 @@ function Header(props) {
                     {/* pages section start */}
 
                     {/* if screeen size is greater than lg */}
-                    <div className='container-fluid section-color h-100 d-none d-lg-block' style={(show) ? { marginLeft: "250px" } : { marginLeft: "100px" }}>
-                        <Outlet />
-                    </div>
-
-                    {/* if screeen size is greater than lg */}
                     <div className='container-fluid section-color h-100 d-lg-none d-block'>
                         <Outlet />
                     </div>
@@ -311,51 +303,7 @@ function Header(props) {
                 </div>
             </div>
 
-            {/* bottom position fixed navbar start */}
-            <nav className="navbar fixed-bottom d-lg-none bottom-navbar-bg-color px-3">
-                <div>
-                    <Link className={activeLink === ("Dashboard" ? "active text-white" : "") + "text-dark"}
-                        onClick={() => setActiveLink("Dashboard")}
-                        to="/admin" >
-                        <i className="bi bi-building-fill-dash px-2"></i>
-                    </Link>
-                </div>
-                <div>
-                    <Link className={activeLink === ("Order" ? "active text-white" : "") + "text-dark"}
-                        onClick={() => setActiveLink("Order")}
-                        to="/admin/order" >
-                        <i className="bi bi-box-seam px-2"></i>
-                    </Link>
-                </div>
-                <div>
-                    <Link className={activeLink === ("Products" ? "active text-white" : "") + "text-dark"}
-                        onClick={() => setActiveLink("Products")}
-                        to="/admin/NewProduct" >
-                        <i className="bi bi-card-list px-2"></i>
-                    </Link>
-                </div>
-                <div>
-                    <Link className={activeLink === ("Employee" ? "active text-white" : "") + "text-dark"}
-                        onClick={() => setActiveLink("Employee")}
-                        to="/admin/newEmployee" >
-                        <i className="bi bi-person-add px-2"></i>
-                    </Link>
-                </div>
-                <div>
-                    <Link className={activeLink === ("Settings" ? "active text-white" : "") + "text-dark"}
-                        onClick={() => setActiveLink("Settings")}
-                        to="/admin/settings" >
-                        <i className="bi bi-gear px-2"></i>
-                    </Link>
-                </div>
-                <div>
-                    <Link className={(visibleSearchBar === true ? "active text-white" : "") + "text-dark"}
-                        onClick={() => { setVisibleSearchBar(true) }}>
-                        <i className="bi bi-search px-2"></i>
-                    </Link>
-                </div>
-            </nav>
-            {/* bottom position fixed navbar start */}
+            
         </div >
     )
 }

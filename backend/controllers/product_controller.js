@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken')
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-
+const uploadToCloudinary = require('../utility/uploadCloudinary')
 const { JWT_SECRET } = require('../utility/config')
 
 
@@ -15,22 +15,31 @@ const checkConnProduct = (req, res) => {
 }
 
 const addProduct = async (req, res) => {
+    let imageUrlList = [];
     try {
+        for (let i = 0; i < req.files.length; i++) {
+            let locaFilePath = req.files[i].path;
+            let localFileName = req.files[i].filename;
+            // Upload the local image to Cloudinary
+            // and get image url as response
+
+            let result = await uploadToCloudinary(locaFilePath, localFileName);
+            imageUrlList.push(result);
+            console.log("image url list " + JSON.stringify(imageUrlList))
+        }
         const data = req.body;
-        const filename = req.files.map(file => {
+        const filename = imageUrlList.map(file => {
             const data = {}
             data['name'] = file.filename
-            data['path'] = file.path  
+            data['path'] = file.url
             return data
-        },{})
-        
-        console.log("file name array is "+ JSON.stringify(filename))
+        }, {})
 
         if (!data) {
             return res.status(404).json({ status: true, data: { message: " data can not be null or empty " } })
         }
         const newProduct = new productModel({
-            productId:data.productId,
+            productId: data.productId,
             title: data.title,
             price: data.price,
             image: filename,

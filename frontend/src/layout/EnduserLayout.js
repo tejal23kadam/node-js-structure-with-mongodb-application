@@ -6,6 +6,7 @@ import Slider from '../components/sections/Slider';
 import IndexPageAllCategory from '../components/sections/IndexPageAllCategory';
 import Footer from '../components/sections/Footer';
 import FetchAllCategoryData from '../components/sections/FetchAllCategoryData';
+import BottomNavbar from '../components/BottomNavbar';
 
 function EnduserLayout() {
     return (
@@ -17,6 +18,7 @@ function EnduserLayout() {
             <IndexPageAllCategory/>
             <Footer/>
             <FetchAllCategoryData/>
+            <BottomNavbar/>
         </>
     )
 }

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import CloseButton from 'react-bootstrap/esm/CloseButton';
 
-const BottomNavbar = (props) => {
+const BottomNavbar = () => {
     const [activeLink, setActiveLink] = useState("Dashboard");
     const [visibleSearchBar, setVisibleSearchBar] = useState(true);
 
@@ -28,15 +28,28 @@ const BottomNavbar = (props) => {
 
             <div class="navbar1 d-lg-none bg-color">
 
-                {props.navSections.map((section, i) => (
-                    <div key={i} className="nav-item">
-                        <Link className={activeLink === section.secName ? "active" : ""}
-                            onClick={() => setActiveLink(section.secName)}
-                            to={section.linkTo} >
-                            <i className={section.icon}></i>
-                        </Link>
-                    </div>
-                ))}
+                <div>
+                    <Link className={activeLink === "Dashboard" ? "active" : ""}
+                        onClick={() => setActiveLink("Dashboard")}
+                        to='/admin' >
+                        <i className="bi bi-building-fill-dash px-2"></i>
+                    </Link>
+                </div>
+                <div>
+                    <Link className={activeLink === "Order" ? "active" : ""}
+                        onClick={() => setActiveLink("Order")}
+                        to='/admin/order' >
+                        <i className="bi bi-box-seam px-2"></i>
+                    </Link>
+                </div>
+                <div>
+                    <Link className={activeLink === "Settings" ? "active" : ""}
+                        onClick={() => setActiveLink("Settings")}
+                        to='/admin/settings' >
+                        <i className="bi bi-gear px-2"></i>
+                    </Link>
+                </div>
+
             </div>
         </>
     )
