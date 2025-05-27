@@ -24,7 +24,7 @@ const AllDataSlice = createSlice({
            })
            .addCase(fetchDatasAsync.fulfilled, (state, action) => {           
              state.loading = false;
-             state.data = action.payload;
+             state.data = action.payload;        
            })
           .addCase(fetchDatasAsync.rejected, (state, action) => {
              state.loading = false;

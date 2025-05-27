@@ -4,11 +4,13 @@ import Pagination from '../paginationComponent/Pagination';
 import { Link } from 'react-router-dom';
 import { addToCart } from '../sliceComponent/CartSlice';
 import NavBar from './NavBar'
+import { fetchDatasAsync } from '../../redux/slice/AllDataSlice';
+
 import { addToProductIDFilter } from '../sliceComponent/ProductIdSlice';
 
 function IndividualCategoryDetailPageNew(props) {
     const cartData = useSelector((state) => state.cart);
-    const data = useSelector((state) => state.allData.data.products);
+    const data = useSelector((state) => state.allData.data);
     const loading = useSelector((state) => state.allData.loading);
     const error = useSelector((state) => state.allData.error);
 
@@ -30,8 +32,10 @@ function IndividualCategoryDetailPageNew(props) {
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
 
     //get brand for each category
-    let individualBrandData = data.filter(datas => datas.category.toLowerCase() === props.category.toLowerCase());
 
+    console.log("data is " + JSON.stringify(filteredData)) 
+    let individualBrandData = data.filter(datas => datas.category.toLowerCase() === props.category.toLowerCase());
+    console.log("individual data   "+ individualBrandData)
     const handlePagination = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
@@ -63,6 +67,7 @@ function IndividualCategoryDetailPageNew(props) {
     }
 
     useEffect(() => {
+        setFilteredData(data);
         let tempFilteredData = individualBrandData;
 
         // Brand Filter
@@ -78,10 +83,9 @@ function IndividualCategoryDetailPageNew(props) {
         //discount filter 
         if (filterDiscount > 0) {
             tempFilteredData = tempFilteredData.filter((data) => data.discount >= filterDiscount);
-        }
-
+        }        
         setFilteredData(tempFilteredData);
-    }, [brand, filterPrice, filterDiscount]);
+    }, [data,brand, filterPrice, filterDiscount]);
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
@@ -183,7 +187,7 @@ function IndividualCategoryDetailPageNew(props) {
                                         (filteredData.slice(indexOfFirstPost, indexOfLastPost).map((data) => (
                                             <div className="pro " key={data.id} >
                                                 <div className="des" >
-                                                    <Link to="/product-details"><img src={data.image} onClick={() => { dispatch(addToProductIDFilter(data.id)) }} alt="noImage" /></Link>
+                                                    <Link to="/product-details"><img src={data.image[0].path} onClick={() => { dispatch(addToProductIDFilter(data.id)) }} alt="noImage" /></Link>
                                                     <h5 className="overme">{data.title} </h5>
                                                     <div>
                                                         {
@@ -204,11 +208,11 @@ function IndividualCategoryDetailPageNew(props) {
                                                     </div>
                                                 </div>
                                                 <div className="cardbuttons">
-                                                    <button className="atc-btn"  onClick={() => { dispatch(addToCart(data)) }}>
-                                                       <i  className="fal bi bi-cart " ></i>
+                                                    <button className="atc-btn" onClick={() => { dispatch(addToCart(data)) }}>
+                                                        <i className="fal bi bi-cart " ></i>
                                                         Add to cart
                                                     </button>
-                                                </div>                                                
+                                                </div>
                                                 <span className='discountPercent'>{data.discount}%off</span>
                                             </div>
 

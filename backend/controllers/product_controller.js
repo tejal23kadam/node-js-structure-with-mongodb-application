@@ -19,7 +19,8 @@ const addProduct = async (req, res) => {
     try {
         for (let i = 0; i < req.files.length; i++) {
             let locaFilePath = req.files[i].path;
-            let localFileName = req.files[i].filename;
+            let localFileName = path.parse(req.files[i].filename).name;
+            console.log("local file name  "  +localFileName )
             // Upload the local image to Cloudinary
             // and get image url as response
 
@@ -48,7 +49,7 @@ const addProduct = async (req, res) => {
             modal: data.modal,
             color: data.color,
             category: data.category,
-            discount: 0
+            discount: data.discount
         });
 
         await newProduct.save();
@@ -60,10 +61,28 @@ const addProduct = async (req, res) => {
     }
 }
 
+const getAllProduct = async (req, res) => {
+    try {
+
+        const getProduct = await productModel.find();
+
+        if (!getProduct) {
+            return res.status(404).json({ staus: false, data: { message: "no product found" } })
+        }
+
+        return res.status(200).json({ staus: true, data: { message: "all product are fetched", data: getProduct } })
+    }
+    catch (error) {
+        console.error(error);
+        return res.staus(501).json({ staus: false, data: { message: "internal server error", data: error } })
+
+    }
+}
+
 
 
 const authVerify = async (req, res) => {
     return res.status(200).json({ status: true, data: { message: "user verified", data: req.user } });
 }
 
-module.exports = { checkConnProduct, addProduct, authVerify }
+module.exports = { checkConnProduct, addProduct,getAllProduct, authVerify }

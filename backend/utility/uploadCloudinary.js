@@ -11,7 +11,7 @@ async function uploadToCloudinary(locaFilePath, localFileName) {
         .upload(locaFilePath, { public_id: localFileName, folder: 'productImg', })
         .then((result) => {
             fs.unlinkSync(locaFilePath);
-            console.log("response successfull  ")
+            console.log("response successfull  " +JSON.stringify(result))
             return {
                 url: result.url,
                 filename :result.display_name

@@ -1,4 +1,5 @@
 import './App.css';
+import { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import RegistrationPage from './components/RegistrationPage';
 import LoginPage from './components/LoginPage';
@@ -10,7 +11,7 @@ import NewProduct from './components/NewProducts';
 import EnduserLayout from './layout/EnduserLayout';
 import NewEmployee from './components/NewEmployee';
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import IndexPage from './components/sections/IndexPage';
 import AboutUs from './components/sections/AboutUs';
 import AudioCategory from './components/sections/AudioCategory';
@@ -24,13 +25,21 @@ import SingleProductDetailPageNew from './components/singleProductDetailComponen
 import ContactUs from './components/sections/ContactUs';
 import EWest from './components/sections/EWest';
 import NewCategory from './components/NewCategory';
-
+import { fetchDatasAsync } from './redux/slice/AllDataSlice';
 
 function App() {
 
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
+  console.log("api called")
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Fetch data whenever the current page changes
+    dispatch(fetchDatasAsync());
+
+  }, []);
   return (
     <>
       <Routes>
