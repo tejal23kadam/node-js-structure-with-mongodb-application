@@ -136,7 +136,7 @@ const NewProduct = () => {
         }
         const showData = (e) => {
 
-                let productData = allAPIData.filter((data) => data.id === 30);
+                let productData = allAPIData.filter((data) => data.id === 149);
                 console.log("id = " + productData[0].id);
                 setTitle(productData[0].title);
                 setPrice(productData[0].price);
@@ -146,9 +146,6 @@ const NewProduct = () => {
                 setColor(productData[0].color);
                 setDiscount(productData[0].discount);
                 setCategory(productData[0].category);
-
-
-
         }
         return (
                 <div>
@@ -167,7 +164,7 @@ const NewProduct = () => {
                                                 Welcome To Registration
                                         </Modal.Title>
                                 </Modal.Header>
-                                {/* <Modal.Body>
+                                <Modal.Body>
                                         <div className="container mt-3 ">
 
                                                 
@@ -227,12 +224,12 @@ const NewProduct = () => {
                                                 
                                                 </div>
                                         
-                                </Modal.Body>  */}
+                                </Modal.Body> 
 
                                 {/* this codeis written for ht temporary purpose */}
 
 
-                                <Modal.Body>
+                                {/* <Modal.Body>
                                         <div className="container mt-3 ">
 
 
@@ -287,7 +284,7 @@ const NewProduct = () => {
                                         </div>
 
 
-                                </Modal.Body>
+                                </Modal.Body> */}
 
 
 

@@ -35,7 +35,7 @@ function ShoppingCartData() {
                                                 <div className="mt-2 store-item bottom-line pb-3" >
                                                     <div className="row">
                                                         <div className="col-lg-3">
-                                                            <img className="image-store" src={product.image} alt='no data' />
+                                                            <img className="image-store" src={product.image[0].path} alt='no data' />
                                                         </div>
                                                         <div className="col-lg-9">
                                                             <div className="mt-3 mt-lg-0 d-flex align-items-center justify-content-between">

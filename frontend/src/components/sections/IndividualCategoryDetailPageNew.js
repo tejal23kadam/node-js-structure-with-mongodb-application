@@ -4,8 +4,6 @@ import Pagination from '../paginationComponent/Pagination';
 import { Link } from 'react-router-dom';
 import { addToCart } from '../sliceComponent/CartSlice';
 import NavBar from './NavBar'
-import { fetchDatasAsync } from '../../redux/slice/AllDataSlice';
-
 import { addToProductIDFilter } from '../sliceComponent/ProductIdSlice';
 
 function IndividualCategoryDetailPageNew(props) {
@@ -33,12 +31,13 @@ function IndividualCategoryDetailPageNew(props) {
 
     //get brand for each category
 
-    console.log("data is " + JSON.stringify(filteredData)) 
+    //console.log("data is data " + JSON.stringify(data)) 
+    //props.category.toLowerCase()
     let individualBrandData = data.filter(datas => datas.category.toLowerCase() === props.category.toLowerCase());
     console.log("individual data   "+ individualBrandData)
     const handlePagination = (pageNumber) => {
         setCurrentPage(pageNumber);
-    };
+    }
     let handlebrandChange = (e) => {
         setbrand(e.target.value)
     }
