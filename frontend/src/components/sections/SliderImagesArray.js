@@ -60,13 +60,13 @@ export const imageUrl3 = [
         url:'https://res.cloudinary.com/dknm0xjjo/image/upload/v1748505597/productImg/1748505593223-657356417.jpg'
     },
     {
-        url:'https://res.cloudinary.com/dknm0xjjo/image/upload/v1748506664/productImg/1748506659560-11045645.jpg'
+        url:'https://res.cloudinary.com/dknm0xjjo/image/upload/v1748460004/productImg/1748460001902-163259159.jpg'
     },
     {
         url:'https://res.cloudinary.com/dknm0xjjo/image/upload/v1748506297/productImg/1748506293530-33915705.jpg'
     },
     {
-        url:'https://res.cloudinary.com/dknm0xjjo/image/upload/v1748503009/productImg/1748503004050-836963701.jpg'
+        url:'https://res.cloudinary.com/dknm0xjjo/image/upload/v1748503227/productImg/1748503225275-305712843.jpg'
     },
     {
         url:'https://res.cloudinary.com/dknm0xjjo/image/upload/v1748506730/productImg/1748506728744-108503435.jpg'
@@ -75,7 +75,7 @@ export const imageUrl3 = [
         url:'https://res.cloudinary.com/dknm0xjjo/image/upload/v1748506412/productImg/1748506409992-168905223.jpg'
     },
     {
-        url:'https://res.cloudinary.com/dknm0xjjo/image/upload/v1748502743/productImg/1748502741700-503536501.jpg'
+        url:'https://res.cloudinary.com/dknm0xjjo/image/upload/v1748460081/productImg/1748460080052-336936185.jpg'
     },  
 ]
 

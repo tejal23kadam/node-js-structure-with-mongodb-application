@@ -4,6 +4,7 @@ import Marquee from "react-fast-marquee";
 function Slider() {
     return (
         <section className='sliders-container'>
+            
             <Marquee pauseOnHover="true" gradient="true">
                 {imageUrl1.map((section, i) => (
                     <div class="image" style={{ "background-image": `url('${section.url}')` }}>

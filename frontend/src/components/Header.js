@@ -7,6 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import CloseButton from 'react-bootstrap/CloseButton';
 import axios from 'axios';
 import { unSetIsAuth, setIsAuth } from '../redux/slice/AuthSlice';
+import { addToCategoryFilter } from '../redux/slice/CategoryFilterSlice';
 import { setToast } from '../redux/slice/toastSlice';
 
 function Header(props) {
@@ -23,6 +24,7 @@ function Header(props) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state) => state.auth.user);
+    const cart = useSelector((state) => state.cart);
     
     const initialState = {
         email: '',
@@ -272,7 +274,7 @@ function Header(props) {
                                     <div className=' px-2' >
                                         <nav id="navmenu" className="navmenu">
                                             <ul className="navbar-nav me-auto mb-2 mb-lg-0 text-primary">
-                                                {props.navSections.map((section, i) => (
+                                                {/* {props.navSections.map((section, i) => (
                                                     <li key={i} className="nav-item ">
                                                         <Link className={activeLink === section.secName ? "active" : ""}
                                                             onClick={() => { setActiveLink(section.secName); handleClose(); }}
@@ -281,7 +283,24 @@ function Header(props) {
                                                             {section.secName}
                                                         </Link>
                                                     </li>
-                                                ))}
+                                                ))} */}
+                                               <li className="nav-item"><Link to="/">home</Link></li>
+                                                                               <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('audio')) }}><Link to="/audio">audio</Link></li>
+                                                                               <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('appliances')) }} ><Link to="/appliances">appliances</Link></li>
+                                                                               <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('gaming')) }}><Link to="/gaming">gaming</Link></li>
+                                                                               <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('laptop')) }}><Link to="/laptop">laptop</Link></li>
+                                                                               <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('mobile')) }}><Link to="/mobile">mobile</Link></li>
+                                                                               <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('tv')) }}><Link to="/tv">tv</Link></li>
+                                               
+                                                                               <li className="nav-item"><Link to="/contactUs">Contact Us</Link></li>
+                                                                               {/* <li className="nav-item"><Link to="/termsAndConditions">Terms & Conditions</Link></li> */}
+                                                                               <li className="nav-item">
+                                                                                   <div className='cartCount'>
+                                                                                       <Link to="/cartData"><i className="bi bi-cart"></i></Link>
+                                                                                       <span className="quantity">{cart.length}</span>
+                                                                                   </div>
+                                                                               </li>
+                                               
                                             </ul>
                                         </nav>
                                     </div>

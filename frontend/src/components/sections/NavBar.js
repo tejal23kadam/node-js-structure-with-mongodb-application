@@ -47,7 +47,7 @@ const NavBar = () => {
                                 <li className="nav-item">
                                     <div className='cartCount'>
                                         <Link to="/cartData"><i className="bi bi-cart"></i></Link>
-                                        <span className="quantity">{cart.length}</span>
+                                        {/* <span className="quantity">{cart.length}</span> */}
                                     </div>
                                 </li>
 

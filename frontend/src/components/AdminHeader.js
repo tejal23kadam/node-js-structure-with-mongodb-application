@@ -7,6 +7,8 @@ import CloseButton from 'react-bootstrap/esm/CloseButton';
 import { setCanvasState } from '../redux/slice/RightSideOffCanvasSlice';
 import RightSideOffCanvas from './RightSideOffCanvas';
 import BottomNavbar from './BottomNavbar';
+import { addToCategoryFilter } from '../redux/slice/CategoryFilterSlice';
+
 
 function AdminHeader(props) {
 
@@ -25,13 +27,51 @@ function AdminHeader(props) {
     return (
         <div>
             <div className="row ">
-                <div className='d-flex top-navbar ' >
+
+
+                <div className='top-navbar ' >
                     <div>
                         <div className="py-4 px-4 bd-highlight col-xl-2 d-none d-lg-block ">
                             <img src={require('../images/logo.png')} alt='no img' />
                         </div>
                     </div>
+                    
+                    <div className="d-none d-lg-block">
+                        <ul className="navbar-nav ms-auto main-nav ">
+                            {/* <li className="nav-item dropdown ">
+                                    <a className="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Category <span><i className="bi bi-chevron-compact-down"></i></span>
+                                    </a>
+                                    
+                                    <ul className="dropdown-menu">
+                                        <li className=" dropdown-item nav-item" onClick={() => { dispatch(addToCategoryFilter('audio')) }}><Link to="/audio">audio</Link></li>
+                                        <li className="dropdown-item nav-item" onClick={() => { dispatch(addToCategoryFilter('appliances')) }} ><Link to="/appliances">appliances</Link></li>
+                                        <li className="dropdown-item nav-item" onClick={() => { dispatch(addToCategoryFilter('gaming')) }}><Link to="/gaming">gaming</Link></li>
+                                        <li className="dropdown-item nav-item" onClick={() => { dispatch(addToCategoryFilter('laptop')) }}><Link to="/laptop">laptop</Link></li>
+                                        <li className="dropdown-item nav-item" onClick={() => { dispatch(addToCategoryFilter('mobile')) }}><Link to="/mobile">mobile</Link></li>
+                                        <li className="dropdown-item nav-item" onClick={() => { dispatch(addToCategoryFilter('tv')) }}><Link to="/tv">tv</Link></li>
+                                    </ul>
+                                </li> */}
+                            <li className="nav-item"><Link to="/">home</Link></li>
+                            <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('audio')) }}><Link to="/audio">audio</Link></li>
+                            <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('appliances')) }} ><Link to="/appliances">appliances</Link></li>
+                            <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('gaming')) }}><Link to="/gaming">gaming</Link></li>
+                            <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('laptop')) }}><Link to="/laptop">laptop</Link></li>
+                            <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('mobile')) }}><Link to="/mobile">mobile</Link></li>
+                            <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('tv')) }}><Link to="/tv">tv</Link></li>
 
+                            <li className="nav-item"><Link to="/contactUs">Contact Us</Link></li>
+                            {/* <li className="nav-item"><Link to="/termsAndConditions">Terms & Conditions</Link></li> */}
+                            <li className="nav-item">
+                                <div className='cartCount'>
+                                    <Link to="/cartData"><i className="bi bi-cart"></i></Link>
+                                    {/* <span className="quantity">{cart.length}</span> */}
+                                </div>
+                            </li>
+
+                        </ul>
+
+                    </div>
                     <div className=" py-4 px-2 ">
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" onClick={handleClose} className="bi bi-text-indent-right text-center" viewBox="0 0 16 16">
                             <path d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5m10.646 2.146a.5.5 0 0 1 .708.708L11.707 8l1.647 
@@ -89,6 +129,7 @@ function AdminHeader(props) {
 
 
                 <div className='main-section d-flex'>
+
                     {/* <div className='section-color' style={(show) ? { marginLeft: "250px" } : { marginLeft: "0px" }}> */}
                     {/*left sidebar setion start */}
                     <div className='section-color' >
@@ -144,7 +185,48 @@ function AdminHeader(props) {
                             )}
 
                     </div>
+                    <nav className="navbar d-flex navbar-expand-lg navbar-light navigation">
+                        {/* <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button> */}
+                        <div className="d-none d-lg-block">
+                            <ul className="navbar-nav ms-auto main-nav ">
+                                {/* <li className="nav-item dropdown ">
+                                    <a className="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Category <span><i className="bi bi-chevron-compact-down"></i></span>
+                                    </a>
+                                    
+                                    <ul className="dropdown-menu">
+                                        <li className=" dropdown-item nav-item" onClick={() => { dispatch(addToCategoryFilter('audio')) }}><Link to="/audio">audio</Link></li>
+                                        <li className="dropdown-item nav-item" onClick={() => { dispatch(addToCategoryFilter('appliances')) }} ><Link to="/appliances">appliances</Link></li>
+                                        <li className="dropdown-item nav-item" onClick={() => { dispatch(addToCategoryFilter('gaming')) }}><Link to="/gaming">gaming</Link></li>
+                                        <li className="dropdown-item nav-item" onClick={() => { dispatch(addToCategoryFilter('laptop')) }}><Link to="/laptop">laptop</Link></li>
+                                        <li className="dropdown-item nav-item" onClick={() => { dispatch(addToCategoryFilter('mobile')) }}><Link to="/mobile">mobile</Link></li>
+                                        <li className="dropdown-item nav-item" onClick={() => { dispatch(addToCategoryFilter('tv')) }}><Link to="/tv">tv</Link></li>
+                                    </ul>
+                                </li> */}
+                                <li className="nav-item"><Link to="/">home</Link></li>
+                                <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('audio')) }}><Link to="/audio">audio</Link></li>
+                                <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('appliances')) }} ><Link to="/appliances">appliances</Link></li>
+                                <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('gaming')) }}><Link to="/gaming">gaming</Link></li>
+                                <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('laptop')) }}><Link to="/laptop">laptop</Link></li>
+                                <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('mobile')) }}><Link to="/mobile">mobile</Link></li>
+                                <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('tv')) }}><Link to="/tv">tv</Link></li>
 
+                                <li className="nav-item"><Link to="/contactUs">Contact Us</Link></li>
+                                {/* <li className="nav-item"><Link to="/termsAndConditions">Terms & Conditions</Link></li> */}
+                                <li className="nav-item">
+                                    <div className='cartCount'>
+                                        <Link to="/cartData"><i className="bi bi-cart"></i></Link>
+                                        {/* <span className="quantity">{cart.length}</span> */}
+                                    </div>
+                                </li>
+
+                            </ul>
+
+                        </div>
+                    </nav>
                     {/* left side bar setion end */}
                     <Offcanvas show={show} onHide={handleClose} className="d-block d-lg-none navbar-bg-color" responsive="lg">
                         <Offcanvas.Header className=' px-4 text-white' closeButton>
