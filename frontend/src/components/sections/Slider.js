@@ -2,43 +2,73 @@ import { imageUrl1, imageUrl2, imageUrl3 } from './SliderImagesArray';
 
 import Marquee from "react-fast-marquee";
 function Slider() {
+    // const data = useSelector((state) => state.allData.data.products);
+    // const [searchVal, setSearchVal] = useState("");
+    // function handleSearchClick() {
+    //     if (searchVal === "") { setProducts(productList); return; }
+    //     const filterBySearch = data.filter((item) => {
+    //         if (item.toLowerCase()
+    //             .includes(searchVal.toLowerCase())) { return item; }
+    //     })
+    //     setProducts(filterBySearch);
+    // }
     return (
         <section className='sliders-container'>
-            
-            <Marquee pauseOnHover="true" gradient="true">
-                {imageUrl1.map((section, i) => (
-                    <div class="image" style={{ "background-image": `url('${section.url}')` }}>
-                        <div class="overlay">
+            <div>
+                <h1>fndfslf</h1>
+            </div>
+            <div>
+                <div class="container">
+                    <div class="row">
+                        <div>
+                            <div class="col-xl-6 col-md-8 advance-search ">
+                                <input class="form-control my-2 my-lg-0" id="inputtext4" placeholder="What are you looking for ?" type="text" />
+                            </div>
+
                         </div>
                     </div>
-
-                ))}
-
-            </Marquee>
-            <Marquee direction='right' pauseOnHover="true" gradient="true">
-                {
-                    imageUrl2.map((section, i) => (
+                </div>
+            </div>
+            <div>
+                <Marquee pauseOnHover="true" >
+                    {imageUrl1.map((section, i) => (
                         <div class="image" style={{ "background-image": `url('${section.url}')` }}>
                             <div class="overlay">
                             </div>
                         </div>
 
-                    ))
+                    ))}
 
-                }
-            </Marquee>
-            <Marquee pauseOnHover="true" gradient="true">
-                {
-                    imageUrl3.map((section, i) => (
-                        <div class="image" style={{ "background-image": `url('${section.url}')` }}>
-                            <div class="overlay">
+                </Marquee>
+            </div>
+            <div className='d-none d-lg-block'>
+                <Marquee direction='right' pauseOnHover="true" gradient="true" className=''>
+                    {
+                        imageUrl2.map((section, i) => (
+                            <div class="image" style={{ "background-image": `url('${section.url}')` }}>
+                                <div class="overlay">
+                                </div>
                             </div>
-                        </div>
 
-                    ))
+                        ))
 
-                }
-            </Marquee>
+                    }
+                </Marquee>
+            </div>
+            <div>
+                <Marquee pauseOnHover="true" >
+                    {
+                        imageUrl3.map((section, i) => (
+                            <div class="image" style={{ "background-image": `url('${section.url}')` }}>
+                                <div class="overlay">
+                                </div>
+                            </div>
+
+                        ))
+
+                    }
+                </Marquee>
+            </div>
             {/* <div class="row d-flex align-items-center justify-content-between">
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 d-none d-md-block">
                         <div class="hero__img" data-animation="bounceIn" data-delay=".4s" >

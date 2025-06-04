@@ -27,15 +27,13 @@ function AdminHeader(props) {
     return (
         <div>
             <div className="row ">
-
-
                 <div className='top-navbar ' >
                     <div>
                         <div className="py-4 px-4 bd-highlight col-xl-2 d-none d-lg-block ">
                             <img src={require('../images/logo.png')} alt='no img' />
                         </div>
                     </div>
-                    
+
                     <div className="d-none d-lg-block">
                         <ul className="navbar-nav ms-auto main-nav ">
                             {/* <li className="nav-item dropdown ">
@@ -84,15 +82,18 @@ function AdminHeader(props) {
                         <img src={require('../images/logo.png')} alt='no img' />
                     </div>
                     <div className='d-flex justify-content-end flex-lg-grow-1'>
+                        
                         <div className="p-2 d-none d-lg-block">
                             <div className="form-group has-search">
                                 <span className="bi bi-search form-control-feedback"></span>
                                 <input type="text" className="form-control" placeholder="Search" />
                             </div>
                         </div>
+                        
                         <div className=" py-4 px-2 d-none d-lg-block ">
                             <Link><i className="bi bi-bell-fill"></i></Link>
                         </div>
+                        
                         <div className="py-4 px-2 d-none d-lg-block">
                             <Link><i className='bi bi-gear'></i></Link>
                         </div>

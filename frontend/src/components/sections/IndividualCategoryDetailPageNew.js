@@ -4,20 +4,21 @@ import Pagination from '../paginationComponent/Pagination';
 import { Link } from 'react-router-dom';
 import { addToCart } from '../sliceComponent/CartSlice';
 import NavBar from './NavBar'
-import { addToProductIDFilter } from '../sliceComponent/ProductIdSlice';
+import SingleProductDetailPage from '../singleProductDetailComponent/SingleProductDetailPage';
+//import { addToProductIDFilter } from '../sliceComponent/ProductIdSlice';
 
 function IndividualCategoryDetailPageNew(props) {
     const cartData = useSelector((state) => state.cart);
     const data = useSelector((state) => state.allData.data);
     const loading = useSelector((state) => state.allData.loading);
     const error = useSelector((state) => state.allData.error);
-
+    const [currentProductId, setCurrentProductId] = useState(1);
     let [currentPage, setCurrentPage] = useState(1);
     let [brand, setbrand] = useState(null);
     let [filterDiscount, setFilterDiscount] = useState(null);
     let [filterPrice, setFilterPrice] = useState(null);
     let [filteredData, setFilteredData] = useState(data);
-
+    const [showModal, setShowModal] = useState(false);
     const dispatch = useDispatch();
     const [activePriceColor, setActivePriceColor] = useState(null);
     const [activeDiscountColor, setActiveDiscountColor] = useState(null);
@@ -34,7 +35,7 @@ function IndividualCategoryDetailPageNew(props) {
     //console.log("data is data " + JSON.stringify(data)) 
     //props.category.toLowerCase()
     let individualBrandData = data.filter(datas => datas.category.toLowerCase() === props.category.toLowerCase());
-    console.log("individual data   "+ individualBrandData)
+    console.log("individual data   " + individualBrandData)
     const handlePagination = (pageNumber) => {
         setCurrentPage(pageNumber);
     }
@@ -51,9 +52,14 @@ function IndividualCategoryDetailPageNew(props) {
         setFilteredData(individualBrandData);
         setActivePriceColor(null);
         setActiveDiscountColor(null);
-        // setbrand("hello");
-        // console.log("brand = " + brand);
     };
+   
+    const handleOpen = (id) => {
+        //  console.log("current id" + currentProductId)
+        setShowModal(true);
+        setCurrentProductId(id);
+    };
+
 
     const [searchVal, setSearchVal] = useState("");
     const handleSearchClick = () => {
@@ -82,9 +88,9 @@ function IndividualCategoryDetailPageNew(props) {
         //discount filter 
         if (filterDiscount > 0) {
             tempFilteredData = tempFilteredData.filter((data) => data.discount >= filterDiscount);
-        }        
+        }
         setFilteredData(tempFilteredData);
-    }, [data,brand, filterPrice, filterDiscount]);
+    }, [data, brand, filterPrice, filterDiscount]);
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
@@ -97,7 +103,7 @@ function IndividualCategoryDetailPageNew(props) {
     var newArray = propertyValues.map(function (x) { return x.toLowerCase() })
     const uniqueValuesSet = new Set(newArray);
     brandDistinctValues = Array.from(uniqueValuesSet);
-    console.log("brandDistinctValues = " + brandDistinctValues);
+
 
     return (
         <div>
@@ -186,7 +192,8 @@ function IndividualCategoryDetailPageNew(props) {
                                         (filteredData.slice(indexOfFirstPost, indexOfLastPost).map((data) => (
                                             <div className="pro " key={data.id} >
                                                 <div className="des" >
-                                                    <Link to="/product-details"><img src={data.image[0].path} onClick={() => { dispatch(addToProductIDFilter(data.id)) }} alt="noImage" /></Link>
+                                                    {/* <Link to="/product-details"><img src={data.image[0].path} onClick={() => { dispatch(addToProductIDFilter(data.id)) }} alt="noImage" /></Link> */}
+                                                    <img src={data.image[0].path} alt="noImage" onClick={() => handleOpen(data._id)} />
                                                     <h5 className="overme">{data.title} </h5>
                                                     <div>
                                                         {
@@ -221,6 +228,11 @@ function IndividualCategoryDetailPageNew(props) {
                                 }
                             </div>
 
+
+
+
+
+                            <SingleProductDetailPage isOpen={showModal} handleClose={() => setShowModal(false)} productId={currentProductId} ></SingleProductDetailPage>
                             <Pagination
                                 length={filteredData.length}
                                 postsPerPage={postsPerPage}

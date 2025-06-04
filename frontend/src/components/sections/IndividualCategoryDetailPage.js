@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Pagination from '../paginationComponent/Pagination';
-import SingleProductDetailPage from '../singleProductDetailComponent/SingleProductDetailPage';
+import SingleProductDetailPage from '../singleProductDetailComponent/SingleProductDetailPageNew';
 import { addToCart } from '../sliceComponent/CartSlice';
 
 function IndividualCategoryDetailPage(props) {
@@ -28,6 +28,7 @@ function IndividualCategoryDetailPage(props) {
   };
 
   const handleOpen = (id) => {
+    console.log("current id" + currentProductId)    
     setOpen(true);
     setCurrentProductId(id);
   };
@@ -78,7 +79,7 @@ function IndividualCategoryDetailPage(props) {
                             <h4>${Math.trunc(data.price - ((data.price * data.discount) / 100))}</h4>
                             <div style={{ display: "flex", paddingTop: "6px" }}>
                               <p className="discount">{data.discount}%</p>
-                              <p>off no</p>
+                              <p></p>
                             </div>
                           </div>
                         ) :
@@ -96,7 +97,7 @@ function IndividualCategoryDetailPage(props) {
           }
         </div>   
         
-             
+        
         <SingleProductDetailPage isOpen={open} onClose={handleClose} productId={currentProductId} ></SingleProductDetailPage>
         <Pagination
           length={filteredData.length}
