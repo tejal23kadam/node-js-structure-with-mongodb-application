@@ -9,12 +9,13 @@ const CartSlice = createSlice({
 
   reducers: {
     addToCart: (state, action) => {
-      console.log(action.payload)
-      let orderIndex = state.orders.findIndex((x) => x.id === action.payload.id);
+      
+      let orderIndex = state.orders.findIndex((x) => x._id === action.payload._id);
       if (orderIndex >=0 ) {
         state.orders[orderIndex].quantity = state.orders[orderIndex].quantity + 1;
       }
       else {
+        console.log( "new record addded and data is   " + action.payload)
         state.orders.push({
           ...action.payload,
           quantity: 1
@@ -27,7 +28,7 @@ const CartSlice = createSlice({
       state.totalPayableAmount = state.orders.reduce((quantity, item) => item.quantity * Math.trunc(item.price - ((item.price * item.discount) / 100)) + quantity, 0);
     },
     minusFromCart: (state, action) => {
-      let orderIndex = state.orders.findIndex((x) => x.id === action.payload.id);
+      let orderIndex = state.orders.findIndex((x) => x._id === action.payload._id);
       if (orderIndex >= 0) {
         if (state.orders[orderIndex].quantity > 0) {
           state.orders[orderIndex].quantity = state.orders[orderIndex].quantity - 1;
@@ -37,7 +38,7 @@ const CartSlice = createSlice({
 
     },
     updateToCart: (state, action) => {
-      const index = state.findIndex((cart) => cart.id === action.payload.id);
+      const index = state.findIndex((cart) => cart._id === action.payload._id);
       const updatedState = [...state];
       updatedState[index].text = action.payload.text;
     },

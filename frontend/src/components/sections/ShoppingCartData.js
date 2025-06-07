@@ -1,13 +1,22 @@
-import React from 'react'
+import {React,useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart, minusFromCart, deleteFromCart } from '../sliceComponent/CartSlice';
+import CheckOutModal from './CheckOutModal';
+
 
 function ShoppingCartData() {
     const cartOrdersData = useSelector((state) => state.cart.orders);
     const cartTotalPayableAmout = useSelector((state) => state.cart.totalPayableAmount);
+    const [showModal, setShowModal] = useState(false);
+    const data = useSelector((state) => state.allData.data);
     console.log("cart amount " + JSON.stringify(cartTotalPayableAmout));
-    console.log("cart orders " + JSON.stringify(cartOrdersData));    
+    console.log("cart orders " + JSON.stringify(cartOrdersData));
     const dispatch = useDispatch();
+
+     const handleOpen = (id) => {       
+        setShowModal(true);       
+    };
+
     return (
         <div>
             <section className="page-title">
@@ -26,7 +35,7 @@ function ShoppingCartData() {
                 (cartOrdersData.length > 0) ?
                     (<div className="pt-4 pb-4 container" >
                         <h1 className='text-center'>Cart Items</h1>
-                        <div className="mt-5 gap-3 gap-md-0 gap-lg-0 row">
+                        <div className="mt-5 gap-3 gap-lg-0 row">
                             <div className="col-lg-8 col-md-7" >
                                 <div className="card">
                                     {
@@ -34,19 +43,13 @@ function ShoppingCartData() {
                                             return (
                                                 <div className="mt-2 store-item bottom-line pb-3" >
                                                     <div className="row">
-                                                        <div className="col-lg-3">
+                                                        <div className="col-md-3">
                                                             <img className="image-store" src={product.image[0].path} alt='no data' />
                                                         </div>
-                                                        <div className="col-lg-9">
+                                                        <div className="col-md-6">
                                                             <div className="mt-3 mt-lg-0 d-flex align-items-center justify-content-between">
                                                                 <h5>{product.title}</h5>
-                                                                <div>
-                                                                    <div className="btn-quantity-container d-flex align-items-center justify-content-center" style={{ gap: ".5rem" }}>
-                                                                        <button className="btn-quantity btn btn-default" onClick={() => { dispatch(minusFromCart(product)) }}>−</button>
-                                                                        <span className="p-quantiry">{product.quantity}</span>
-                                                                        <button className="btn-quantity btn btn-default" onClick={() => { dispatch(addToCart(product)) }}>+</button>
-                                                                    </div>
-                                                                </div>
+
                                                             </div>
 
                                                             <div className="list-store d-flex align-items-center justify-content-between" >
@@ -76,15 +79,24 @@ function ShoppingCartData() {
                                                                         Remove Item
                                                                     </button>
                                                                 </div>
-                                                                <div className="d-flex">
+                                                                {/* <div className="d-flex">
                                                                     {(product.discount) ? (
                                                                         <h5>${Math.trunc(product.price - ((product.price * product.discount) / 100))}</h5>)
                                                                         : (
                                                                             < h5 >${product.price} </h5>
                                                                         )
                                                                     }
-                                                                </div>
+                                                                </div> */}
                                                             </div>
+                                                        </div>
+                                                        <div className="col-md-3 mt-2">
+
+                                                            <div className="btn-quantity-container d-flex align-items-center justify-content-center" style={{ gap: ".5rem" }}>
+                                                                <button className="btn-quantity btn btn-default" onClick={() => { dispatch(minusFromCart(product)) }}>−</button>
+                                                                <span className="p-quantiry">{product.quantity}</span>
+                                                                <button className="btn-quantity btn btn-default" onClick={() => { dispatch(addToCart(product)) }}>+</button>
+                                                            </div>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -131,8 +143,10 @@ function ShoppingCartData() {
                                                 </div>
                                                 <div className="mt-1 row">
                                                     <div>
-                                                        <button type="button" className="w-100 btn btn-md btn-primary btn-block">Go To Checkout</button></div>
+                                                        <button type="button" className="w-100 btn btn-md btn-primary btn-block" onClick={handleOpen}>Go To Checkout</button>
+                                                    </div>
                                                 </div>
+                                                <CheckOutModal isOpen={showModal} handleClose={() => setShowModal(false)} ></CheckOutModal>
                                             </div>
                                         </div>
                                     </div>

@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Pagination from '../paginationComponent/Pagination';
 import { Link } from 'react-router-dom';
-import { addToCart } from '../sliceComponent/CartSlice';
+import { addToCart, minusFromCart } from '../sliceComponent/CartSlice';
 import NavBar from './NavBar'
 import SingleProductDetailPage from '../singleProductDetailComponent/SingleProductDetailPage';
 //import { addToProductIDFilter } from '../sliceComponent/ProductIdSlice';
 
 function IndividualCategoryDetailPageNew(props) {
-    const cartData = useSelector((state) => state.cart);
+    const cartData = useSelector((state) => state.cart.orders);
     const data = useSelector((state) => state.allData.data);
     const loading = useSelector((state) => state.allData.loading);
     const error = useSelector((state) => state.allData.error);
@@ -22,7 +22,8 @@ function IndividualCategoryDetailPageNew(props) {
     const dispatch = useDispatch();
     const [activePriceColor, setActivePriceColor] = useState(null);
     const [activeDiscountColor, setActiveDiscountColor] = useState(null);
-
+    // const [quantity, setQuantity] = useState(0)
+    const [cart, setCart] = useState({});
     let brandDistinctValues;
 
     const postsPerPage = 6;
@@ -35,7 +36,7 @@ function IndividualCategoryDetailPageNew(props) {
     //console.log("data is data " + JSON.stringify(data)) 
     //props.category.toLowerCase()
     let individualBrandData = data.filter(datas => datas.category.toLowerCase() === props.category.toLowerCase());
-    console.log("individual data   " + individualBrandData)
+
     const handlePagination = (pageNumber) => {
         setCurrentPage(pageNumber);
     }
@@ -53,13 +54,37 @@ function IndividualCategoryDetailPageNew(props) {
         setActivePriceColor(null);
         setActiveDiscountColor(null);
     };
-   
+
     const handleOpen = (id) => {
         //  console.log("current id" + currentProductId)
         setShowModal(true);
         setCurrentProductId(id);
     };
 
+    const handleAddToCart = (productId) => {
+        setCart((prev) => ({
+            ...prev,
+            [productId]: 1,
+        }));
+    };
+
+    const handleIncrease = (productId) => {
+        setCart((prev) => ({
+            ...prev,
+            [productId]: prev[productId] + 1,
+        }));
+    };
+
+    const handleDecrease = (productId) => {
+        setCart((prev) => {
+            const newQty = prev[productId] - 1;
+            if (newQty <= 0) {
+                const { [productId]: _, ...rest } = prev; // remove the key
+                return rest;
+            }
+            return { ...prev, [productId]: newQty };
+        });
+    };
 
     const [searchVal, setSearchVal] = useState("");
     const handleSearchClick = () => {
@@ -190,6 +215,7 @@ function IndividualCategoryDetailPageNew(props) {
                                 {(filteredData != null) ?
                                     (
                                         (filteredData.slice(indexOfFirstPost, indexOfLastPost).map((data) => (
+
                                             <div className="pro " key={data.id} >
                                                 <div className="des" >
                                                     {/* <Link to="/product-details"><img src={data.image[0].path} onClick={() => { dispatch(addToProductIDFilter(data.id)) }} alt="noImage" /></Link> */}
@@ -213,11 +239,23 @@ function IndividualCategoryDetailPageNew(props) {
                                                         }
                                                     </div>
                                                 </div>
-                                                <div className="cardbuttons">
-                                                    <button className="atc-btn" onClick={() => { dispatch(addToCart(data)) }}>
-                                                        <i className="fal bi bi-cart " ></i>
-                                                        Add to cart
-                                                    </button>
+                                                <div >
+
+                                                    {
+
+                                                        ((cart[data._id] || 0) === 0) ? (
+                                                            <button className="atc-btn" onClick={() => { dispatch(addToCart(data)); handleAddToCart(data._id) }}>
+                                                                <i className="fal bi bi-cart " ></i>
+                                                                Add to cart
+                                                            </button>
+                                                        ) : (
+                                                            <div className="btn-quantity-container d-flex align-items-center justify-content-center" style={{ gap: ".5rem" }}>
+                                                                <button className="plus-minus-button btn-quantity btn-default" onClick={() => { dispatch(minusFromCart(data)); handleDecrease(data._id) }}>−</button>
+                                                                <span className='item-quantity'>{cart[data._id] || 0}</span>
+                                                                <button className="plus-minus-button btn-quantity btn-default" onClick={() => { dispatch(addToCart(data)); handleIncrease(data._id) }}>+</button>
+                                                            </div>
+                                                        )
+                                                    }
                                                 </div>
                                                 <span className='discountPercent'>{data.discount}%off</span>
                                             </div>

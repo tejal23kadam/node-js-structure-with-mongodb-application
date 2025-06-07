@@ -97,7 +97,7 @@ const deteleUser = async (req, res) => {
 const validateUser = async (req, res) => {
     try {
         const data = req.body;
-        console.log("data = ", data);
+      
         // console.log(data);
         const User = await userModel.findOne({ email: data.email });
         console.log("User", User);

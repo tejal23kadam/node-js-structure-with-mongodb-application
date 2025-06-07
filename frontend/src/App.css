@@ -807,6 +807,32 @@ ul {
   transition: ease-in-out 0.3s;
 }
 
+.plus-minus-button {
+  width: 18%;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #d3eac8;
+  border-radius: 8px;
+  font-weight: bold;
+  border: 1px solid #82bd69;
+  transition: ease-in-out 0.3s;
+}
+
+.item-quantity {
+  width: 15%;
+  height: 35px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  border-radius: 8px;
+  font-weight: bold;
+  border: 1px solid #82bd69;
+
+}
+
 .atc-btn>img {
   height: 20px;
 }
@@ -4280,7 +4306,6 @@ html,
 }
 
 .store-item .image-store {
-  width: 100%;
   height: 170px;
   object-fit: cover;
   border-radius: 8px;
@@ -4428,4 +4453,3 @@ html,
   background-size: cover;
   background-repeat: no-repeat;
 }
-
