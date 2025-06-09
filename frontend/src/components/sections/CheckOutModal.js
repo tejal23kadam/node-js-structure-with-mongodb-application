@@ -5,8 +5,8 @@ import Modal from 'react-bootstrap/Modal';
 import axios from 'axios'
 
 function CheckOutModal({ isOpen, handleClose }) {
-    const data = useSelector((state) => state.allData.data);
     const cartData = useSelector((state) => state.cart.orders);
+    const user = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
 
     const initialState = {
@@ -18,7 +18,7 @@ function CheckOutModal({ isOpen, handleClose }) {
         zip: ''
     };
     const [formdata, setFormdata] = useState(initialState)
-
+    console.log("form data at initial starte " + JSON.stringify(formdata))
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormdata({ ...formdata, [name]: value })
@@ -31,8 +31,17 @@ function CheckOutModal({ isOpen, handleClose }) {
                     "Authorization": `${tokenStr}`
                 }
             }
-            console.log("form data for checkout modal  " + JSON.stringify(formdata))
-            const res = await axios.post('http://localhost:2000/api/addOrder', formdata, config)
+            const payload = {
+                ...formdata,
+                userId: user._id,
+                products: cartData.map(item => ({
+                    product: item._id,     
+                    quantity: item.quantity
+                }))
+            };
+
+            console.log("form data for checkout modal  " + JSON.stringify(payload))
+            const res = await axios.post('http://localhost:2000/api/addOrder', payload, config)
             console.log("add new order api response  " + res)
             //    setShow(false);
 
@@ -78,11 +87,11 @@ function CheckOutModal({ isOpen, handleClose }) {
                         <label >City</label>
                         <input type="text" className="form-control" name="city" placeholder="city" onChange={handleChange} required />
                     </div>
-                     <div className="col-sm-12 form-group">
+                    <div className="col-sm-12 form-group">
                         <label >State</label>
                         <input type="text" className="form-control" name="state" placeholder="state" onChange={handleChange} required />
                     </div>
-                     <div className="col-sm-12 form-group">
+                    <div className="col-sm-12 form-group">
                         <label >Zip</label>
                         <input type="text" className="form-control" name="zip" placeholder="zip" onChange={handleChange} required />
                     </div>

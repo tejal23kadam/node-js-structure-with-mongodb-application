@@ -3,32 +3,32 @@ const mongoose = require('mongoose');
 const newEmployee = mongoose.Schema({
     firstName: {
         type: String,
-        require: true
+        required: true
     },
     lastName: {
         type: String,
-        require: true
+        required: true
     },
     mobile: {
         type: Number,
-        require: true
+        required: true
     },
     address: {
         type: String,
-        require: true
+        required: true
     },
     email: {
         type: String,
-        require: true
+        required: true
     },
     password: {
         type: String,
-        require: true
+        required: true
     },
     userType: {
         type: Number,
-        require: true
+        required: true
     }
 
-}, { timeStamps: true })
-mongoose.model('employee', newEmployee)
+}, { timestamps: true })
+module.exports = mongoose.model('employee', newEmployee)

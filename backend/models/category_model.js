@@ -3,13 +3,13 @@ const mongoose = require('mongoose');
 const newCategory = mongoose.Schema({
     catName: {
         type: String,
-        require: true
+        required: true
     },
     catRemark: {
         type: String,
-        require: true
+        required: true
     }
     
 
-}, { timeStamps: true })
-mongoose.model('category', newCategory)
+}, { timestamps: true })
+module.exports = mongoose.model('category', newCategory)

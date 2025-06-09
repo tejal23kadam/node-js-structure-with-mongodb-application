@@ -31,7 +31,7 @@ function App() {
 
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
-  console.log("api called")
+  console.log("api called" + JSON.stringify(user))
 
   const dispatch = useDispatch();
 
