@@ -1,21 +1,46 @@
-import {React,useState} from 'react'
+import { React, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart, minusFromCart, deleteFromCart } from '../sliceComponent/CartSlice';
 import CheckOutModal from './CheckOutModal';
-
+import axios from 'axios';
 
 function ShoppingCartData() {
     const cartOrdersData = useSelector((state) => state.cart.orders);
+   
     const cartTotalPayableAmout = useSelector((state) => state.cart.totalPayableAmount);
     const [showModal, setShowModal] = useState(false);
     const data = useSelector((state) => state.allData.data);
-    console.log("cart amount " + JSON.stringify(cartTotalPayableAmout));
-    console.log("cart orders " + JSON.stringify(cartOrdersData));
+    const user = useSelector((state) => state.auth.user);
+    const [data1, setData1] = useState([]);
+
     const dispatch = useDispatch();
 
-     const handleOpen = (id) => {       
-        setShowModal(true);       
+    const handleOpen = (id) => {
+        setShowModal(true);
     };
+
+    const CheckStudent = async () => {
+
+        try {
+            const res = await axios.get('http://localhost:2000/api/getUserOrderDetail', {
+                params: {
+                    userId: user._id
+                }
+            })
+            console.log("res get user order = " + JSON.stringify(res.data.data.data[0].products));
+            setData1(res.data.data.data[0].products);
+
+        }
+        catch (error) {
+            console.log("error = " + error)
+        }
+    }
+
+    useEffect(() => {
+        CheckStudent();
+    }, []);
+
+
 
     return (
         <div>
@@ -25,7 +50,7 @@ function ShoppingCartData() {
                     <div className="row">
                         <div className="col-md-8 offset-md-2 text-center">
                             {/* <!-- Title text --> */}
-                            <h3>Shopping Cart</h3>
+                            <h3>Shopping Cart</h3>                            
                         </div>
                     </div>
                 </div>

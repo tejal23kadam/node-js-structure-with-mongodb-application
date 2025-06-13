@@ -40,7 +40,7 @@ const getAllCategory = async (req, res) => {
     }
     catch (error) {
         console.error(error);
-        return res.staus(501).json({ staus: false, data: { message: "internal server error", data: error } })
+        return res.status(501).json({ staus: false, data: { message: "internal server error", data: error } })
 
     }
 }

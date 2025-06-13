@@ -26,12 +26,13 @@ import ContactUs from './components/sections/ContactUs';
 import EWest from './components/sections/EWest';
 import NewCategory from './components/NewCategory';
 import { fetchDatasAsync } from './redux/slice/AllDataSlice';
+import { ProductShippingDetails } from './components/ProductShippingDetail';
 
 function App() {
 
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
-  console.log("api called" + JSON.stringify(user))
+  
 
   const dispatch = useDispatch();
 
@@ -54,8 +55,9 @@ function App() {
         <Route path='/' element={<EnduserLayout />} />
 
 
-        <Route path='/signup' element={(!isAuth) && <RegistrationPage />} />
+        <Route path='/signup' element={<RegistrationPage />} />
         <Route path='/login' element={(!isAuth) && <LoginPage />} />
+        <Route path='/shippingDetail' element={(!isAuth) && <ProductShippingDetails />} />
 
         {isAuth && <Route path="/admin" element={(user.userType === 1) ? <AdminLayout /> : <Navigate to="/" />} >
           <Route index element={<Dashboard />} />

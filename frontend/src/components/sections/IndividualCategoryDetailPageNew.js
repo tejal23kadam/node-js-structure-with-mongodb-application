@@ -266,10 +266,6 @@ function IndividualCategoryDetailPageNew(props) {
                                 }
                             </div>
 
-
-
-
-
                             <SingleProductDetailPage isOpen={showModal} handleClose={() => setShowModal(false)} productId={currentProductId} ></SingleProductDetailPage>
                             <Pagination
                                 length={filteredData.length}

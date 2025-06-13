@@ -3,11 +3,16 @@ import { useSelector, useDispatch } from 'react-redux';
 //import { addToCart } from '../sliceComponent/CartSlice';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios'
+import { useNavigate } from "react-router-dom";
+import { setToast } from '../../redux/slice/toastSlice'
+
 
 function CheckOutModal({ isOpen, handleClose }) {
     const cartData = useSelector((state) => state.cart.orders);
     const user = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
 
     const initialState = {
         name: '',
@@ -18,7 +23,7 @@ function CheckOutModal({ isOpen, handleClose }) {
         zip: ''
     };
     const [formdata, setFormdata] = useState(initialState)
-    console.log("form data at initial starte " + JSON.stringify(formdata))
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormdata({ ...formdata, [name]: value })
@@ -35,16 +40,17 @@ function CheckOutModal({ isOpen, handleClose }) {
                 ...formdata,
                 userId: user._id,
                 products: cartData.map(item => ({
-                    product: item._id,     
+                    product: item._id,
                     quantity: item.quantity
                 }))
             };
 
-            console.log("form data for checkout modal  " + JSON.stringify(payload))
+            
             const res = await axios.post('http://localhost:2000/api/addOrder', payload, config)
             console.log("add new order api response  " + res)
-            //    setShow(false);
-
+            handleClose();
+            dispatch(setToast({ message:"Order is successfully Proceed", type: "success" }));
+           // navigate("/shippingDetail")
         }
         catch (error) {
             console.log(error)
@@ -70,10 +76,6 @@ function CheckOutModal({ isOpen, handleClose }) {
 
                     {/* <div className="row bg-light p-5 p-sm-none "> */}
 
-                    <div className="col-sm-12 form-group">
-                        <label>Full Name</label>
-                        <input type="text" className="form-control" name="name" placeholder="Full name" onChange={handleChange} required />
-                    </div>
                     <div className="col-sm-12 form-group">
                         <label >Phone No</label>
                         <input type="number" className="form-control" name="phoneNo" placeholder="phone no" onChange={handleChange} required />

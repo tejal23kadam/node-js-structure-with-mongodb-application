@@ -5,39 +5,33 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
 import { removeToast } from '../redux/slice/toastSlice';
 
-
 const ToastProvider = ({ children }) => {
         const dispatch = useDispatch();
-        const toastState = useSelector(state => state.toast)
+        const toastState = useSelector(state => state.toast);
+
         useEffect(() => {
                 if (toastState.message && toastState.type) {
                         toast[toastState.type](toastState.message, {
                                 position: "bottom-center",
                                 autoClose: 5000,
                                 hideProgressBar: false,
-                                closeOnClick:true,
-                                draggable:true,
-                                pauseOnHover:true,
+                                closeOnClick: true,
+                                draggable: true,
+                                pauseOnHover: true,
                                 theme: "dark",
-
-                                onclose: () => {
-                                    dispatch(removeToast());            
-                                }
-                        }, [toastState, dispatch])
-
-
-
+                                onClose: () => {
+                                        dispatch(removeToast());
+                                },
+                        });
                 }
-        }, [toastState, dispatch])
+        }, [toastState, dispatch]);
 
         return (
                 <>
                         {children}
                         <ToastContainer />
-
                 </>
-        )
-}
+        );
+};
 
 export default ToastProvider;
-

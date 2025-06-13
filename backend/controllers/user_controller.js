@@ -49,7 +49,7 @@ const updateUser = async (req, res) => {
         const updateUser = await userModel.findByIdAndUpdate(UserId, data, { new: true });
 
         if (!updateUser) {
-            return res.staus(404).json({ staus: true, data: { message: "User id is not found" } })
+            return res.status(404).json({ staus: true, data: { message: "User id is not found" } })
         }
         return res.status(200).json({ status: true, data: { message: 'User Updated successfully ', data: updateUser } })
     }
@@ -72,7 +72,7 @@ const getAllUser = async (req, res) => {
     }
     catch (error) {
         console.error(error);
-        return res.staus(501).json({ staus: false, data: { message: "internal server error", data: error } })
+        return res.status(501).json({ staus: false, data: { message: "internal server error", data: error } })
 
     }
 }

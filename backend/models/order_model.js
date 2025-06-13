@@ -5,10 +5,6 @@ const newOrder = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
-    name: {
-        type: String,
-        required: true
-    },
     phoneNo: {
         type: String,
         required: true
