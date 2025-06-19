@@ -12,10 +12,9 @@ function IndexPage() {
     return (
         <div>
             <Header/>
-            <UserHeader />
-            <NavBar />
             <Slider />
-            {/* <TrendingItems /> */}
+            
+            <TrendingItems />
             <IndexPageAllCategory />
             <Footer />
             <FetchAllCategoryData />

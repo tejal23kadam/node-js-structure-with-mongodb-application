@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Modal from 'react-bootstrap/Modal';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
@@ -6,16 +7,16 @@ import { setToast } from '../redux/slice/toastSlice';
 import Button from 'react-bootstrap/Button';
 
 
-function RegistrationPage() {
+function RegistrationPage({ isOpen, handleClose }) {
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [name, setName] = useState("");
-  const [mobileNo, setMobileNo] = useState("");
-  const [Standard, setStandard] = useState("");
-  const navigate = useNavigate();
-  const [userType, setUserType] = useState(0);
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [confirmPassword, setConfirmPassword] = useState("");
+  // // const [name, setName] = useState("");
+  // const [mobileNo, setMobileNo] = useState("");
+  // const [Standard, setStandard] = useState("");
+  //const navigate = useNavigate();
+  //const [userType, setUserType] = useState(0);
 
 
 
@@ -32,6 +33,7 @@ function RegistrationPage() {
   const [imgPrev, setImgPrev] = useState([]);
   const [selectedFile, setSelectedFile] = useState([]);
   const [formdata, setFormdata] = useState(initialState)
+  const [showmodal, setShowModal] = useState(false); //shows modal
 
 
 
@@ -81,7 +83,7 @@ function RegistrationPage() {
       allFormData.append(key, formdata[key])
     }
     allFormData.forEach((value, key) => {
-      console.log(key, value);
+      console.log("new user " + key, value);
     });
 
     const config = {
@@ -102,21 +104,94 @@ function RegistrationPage() {
     }
   }
 
-  const handleSubmit = () => {
-    if (password !== confirmPassword) {
-      console.log(password + " " + confirmPassword + "  Passwords Don't Match")
-    } else {
-      console.log("password match done")
-
-      //navigate("/");
-    }
-
-
-
-  }
   return (
+
     <div>
-      <div className="container mt-3 main-content ">
+
+      <Modal
+        show={isOpen}
+        onHide={handleClose}
+        //  dialogClassName="modal-90w"
+        aria-labelledby="example-custom-modal-styling-title"
+        centered
+      >
+        <Modal.Header className='bg-color text-white text-center' closeButton>
+          <Modal.Title id="example-custom-modal-styling-title">
+            Welcome to Helix Registration
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <form className="container">
+            <div>
+              <label>Name</label>
+              <input
+                type="text"
+                name="name"
+                className="form-control"
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              {imgPrev.map((image, index) => (
+                <div key={index}>
+                  <img src={image.src} alt={image.name} style={{ width: '150px', height: 'auto', borderRadius: '10px' }} />
+                </div>
+              ))}
+              <input type='file' name="image" accept='image/*' multiple onChange={handleImageChange} style={{ height: "200px", width: "200px" }}></input>
+              <Button type="button" > submit</Button>
+            </div>
+            <div>
+              <label>E-mail</label>
+              <input
+                type="text"
+                name="name"
+                className="form-control"
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label>Password</label>
+              <input
+                type="password"
+                name="password"
+                className="form-control"
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label>Password</label>
+              <input
+                type="password"
+                name="ConfirmPassword"
+                className="form-control"
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label >User Type</label>
+              <input type="number" className="form-control" placeholder="Enter your user type" name="userType" onChange={handleChange} required />
+             
+            </div>
+
+            <div className="mb-3">
+              <button
+                type="button"
+                className="form-control btn bg-color btn-outline text-white btn-animation"
+                onClick={addUser()}
+              >
+                Sign In
+              </button>
+            </div>
+          </form>
+        </Modal.Body>
+      </Modal>
+
+
+
+
+      {/* <div className="container mt-3 main-content ">
         <div className="row p-5 bg-color rounded-border text-white">
           <h2 className="text-center ">Welcome To Registration</h2>
         </div>
@@ -162,7 +237,7 @@ function RegistrationPage() {
           </div>
         </div>
 
-      </div>
+      </div> */}
     </div>
   )
 }

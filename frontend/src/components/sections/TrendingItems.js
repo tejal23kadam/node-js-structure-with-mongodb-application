@@ -1,53 +1,41 @@
-import React from 'react'
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToProductIDFilter } from '../../redux/slice/ProductIdSlice';
 import { addToCart } from '../../redux/slice/CartSlice';
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
 
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 function TrendingItems() {
-
-    const data = useSelector((state) => state.allData.data.products);
-
+    const dispatch = useDispatch();
+    const data = useSelector((state) => state.allData.data);
     const [randomItems, setRandomItems] = useState([]);
-    const responsive = {
-        desktop: {
-            breakpoint: { max: 3000, min: 1024 },
-            items: 4,
-            slidesToSlide: 4 // optional, default to 1.
-        },
-        tablet: {
-            breakpoint: { max: 1024, min: 768 },
-            items: 3,
-            slidesToSlide: 3 // optional, default to 1.
-        },
-        mobile: {
-            breakpoint: { max: 767, min: 464 },
-            items: 2,
-            slidesToSlide: 1 // optional, default to 1.
-        }
+
+    const breakpoints = {
+        0: { slidesPerView: 1},
+        376: { slidesPerView: 2 },
+        768: { slidesPerView: 2 },
+        1024: { slidesPerView: 3},
+        1200:{slidesPerView:4}
     };
 
     useEffect(() => {
-        if (data) {
-            // Generate 4 random items from the data
-            let selectedItems = [];
-            for (let i = 0; i < 4; i++) {
-                let randomIndex = Math.floor(Math.random() * data.length);
-                selectedItems.push(data[randomIndex]);
-
-            }
-            setRandomItems(selectedItems); // Update the state with random items
+        if (data.length) {
+            const shuffled = [...data].sort(() => 0.5 - Math.random());
+            setRandomItems(shuffled.slice(0, 7));
         }
-    }, [data]); // Trigger effect when data changes
-    console.log("random items ++ ", randomItems);
+    }, [data]);
+
+    if (!data || data.length === 0) {
+        return <p>Loading trending items...</p>;
+    }
 
     return (
         <section className="popular-deals section bg-gray">
-
-
             <div className="container">
                 <div className="row">
                     <div className="col-md-12">
@@ -56,90 +44,59 @@ function TrendingItems() {
                         </div>
                     </div>
                 </div>
-                <div className="row ">
-                    {/* <!-- offer 01 --> */}
-
-                     {/* <Carousel
-                        responsive={responsive}
-                        autoPlay={true}
-                        swipeable={true}
-                        draggable={true}
-                        showDots={true}
-                        infinite={true}
-                        partialVisible={false}
-                        dotListclassName="custom-dot-list-style"
-                    />  */}
-                        {randomItems.length > 0 ? (
-                            randomItems.map((item) => (
-                                <div className="card mb-3" >
-
-                                    <div className="col-md-6">
-                                        <div className="card-body">
-                                            <div >
-                                                <div className="des">
-                                                    <Link to="/product-details" onClick={() => addToProductIDFilter(item.id)}>
-                                                        <img className='card-img-top' src={item.image} alt="noImage" />
-                                                    </Link>
-                                                    <h5 className="overme">{item.title}</h5>
-                                                    <div>
-                                                        {item.discount ? (
-                                                            <div>
-                                                                <h5>
-                                                                    <s>{item.price}</s>{' '}
-                                                                </h5>
-                                                                <h4>
-                                                                    <span>&#8377;</span>
-                                                                    {Math.trunc(
-                                                                        item.price - (item.price * item.discount) / 100
-                                                                    )}
-                                                                </h4>
-                                                                <div style={{ display: 'flex' }}>
-                                                                    <p className="trending-discount">{item.discount}%</p>
-                                                                    <p>off</p>
-                                                                </div>
-                                                            </div>
-                                                        ) : (
-                                                            <h4>
-                                                                <span>&#8377;</span>
-                                                                {item.price}
-                                                            </h4>
-                                                        )}
-                                                    </div>
+                <div className="row">
+                    <div className="w-100">
+                        <Swiper
+                            spaceBetween={0}
+                            pagination={{ clickable: true }}
+                            modules={[Pagination]}
+                            
+                            className="mySwiper custom-swiper"
+                            breakpoints={breakpoints}
+                        >
+                            {randomItems.length > 0 ? (
+                                randomItems.map((item) => (
+                                    <SwiperSlide key={item.id}>
+                                        <div className="card position-relative mb-5">
+                                            <span className="brand-badge">{item.discount}% off</span>
+                                            <Link to="/product-details" onClick={() => dispatch(addToProductIDFilter(item.id))}>
+                                                <div className="trending-image-container">
+                                                    <img
+                                                        className="img-fluid card-img-top"
+                                                        src={item.image[0]?.path || "/fallback-image.jpg"}
+                                                        alt={item.title}
+                                                    />
                                                 </div>
-                                                <div className="cardbuttons">
-                                                    <button className="atc-btn" >
-                                                        <i onClick={() => addToCart(item)} className="fal bi bi-cart "></i>
-                                                        Add to cart
-                                                    </button>
+                                            </Link>
+                                            <div className="card-body">
+                                                <div className="d-flex justify-content-around slider-font-size">
+                                                    <span className="rating-badge">
+                                                        <s>&#8377;{item.price}</s>
+                                                    </span>
+                                                    <span className="text-decoration-none">
+                                                        &#8377;{Math.trunc(item.price - (item.price * item.discount) / 100)}
+                                                    </span>
                                                 </div>
+                                                <p className="mt-2 mb-3 overme">{item.title}</p>
+                                                <button
+                                                    className="btn btn-warning w-100"
+                                                    onClick={() => dispatch(addToCart(item))}
+                                                >
+                                                    ADD TO CART
+                                                </button>
                                             </div>
                                         </div>
-                                    </div>
-
-                                </div>
-
-                            ))
-                        ) : (
-                            <h3>No trending items available</h3>
-                        )}
-
-
-
-                        {/* </OwlCarousel>  */}
-
-
-
-
+                                    </SwiperSlide>
+                                ))
+                            ) : (
+                                <h3>No trending items available</h3>
+                            )}
+                        </Swiper>
+                    </div>
                 </div>
-
-
             </div>
-
-
-
-        </section >
-
-    )
+        </section>
+    );
 }
 
-export default TrendingItems
+export default TrendingItems;

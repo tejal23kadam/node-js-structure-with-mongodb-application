@@ -24,7 +24,7 @@ const addProduct = async (req, res) => {
             // Upload the local image to Cloudinary
             // and get image url as response
 
-            let result = await uploadToCloudinary(locaFilePath, localFileName);
+            let result = await uploadToCloudinary(locaFilePath, localFileName,'productImg');
             imageUrlList.push(result);
             console.log("image url list " + JSON.stringify(imageUrlList))
         }
@@ -46,7 +46,7 @@ const addProduct = async (req, res) => {
             image: filename,
             description: data.description,
             brand: data.brand,
-            modal: data.modal,
+            model: data.model,
             color: data.color,
             category: data.category,
             discount: data.discount
@@ -63,7 +63,6 @@ const addProduct = async (req, res) => {
 
 const getAllProduct = async (req, res) => {
     try {
-
         const getProduct = await productModel.find();
 
         if (!getProduct) {

@@ -3,30 +3,44 @@ const mongoose = require('mongoose');
 const userModel = mongoose.model('user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const path = require('path');
 const { JWT_SECRET } = require('../utility/config');
 const { sendmail } = require('../utility/nodemailer');
-
+const uploadToCloudinary = require('../utility/uploadCloudinary')
 const checkConn = (req, res) => {
     res.status(200).json({ message: 'connection done successfully' })
 }
 
 const addUser = async (req, res) => {
+
+    let imageUrlList = [];
     try {
+        for (let i = 0; i < req.files.length; i++) {
+            let locaFilePath = req.files[i].path;
+            let localFileName = path.parse(req.files[i].filename).name;
+            console.log("local file name  " + localFileName)
+            // Upload the local image to Cloudinary
+            // and get image url as response
+
+            let result = await uploadToCloudinary(locaFilePath, localFileName, 'userImg');
+            imageUrlList.push(result);
+            console.log("image url list " + JSON.stringify(imageUrlList))
+        }
         const data = req.body;
-        const filename = req.files.map(file => {
+        const filename = imageUrlList.map(file => {
             const data = {}
             data['name'] = file.filename
-            data['path'] = file.path  
+            data['path'] = file.url
             return data
-        },{})
-          if (!data) {
+        }, {})
+
+        if (!data) {
             return res.status(404).json({ status: true, data: { message: " data can not be null or empty " } })
         }
-        console.log(data.password)
         const hashPassword = await bcrypt.hash(data.password, 10);
         const newUser = new userModel({
             name: data.name,
-            image:filename,
+            image: filename,
             email: data.email,
             password: hashPassword,
             userType: data.userType
@@ -36,6 +50,9 @@ const addUser = async (req, res) => {
         await sendmail(data.email, "welcome to gmail", "hello sir", '<a href="www.google.com">google.com</a>')
         return res.status(200).json({ status: true, data: { message: "data added successfully" } })
     }
+
+
+
     catch (error) {
         console.error(error);
         return res.status(501).json({ staus: false, data: { message: 'Internal server error', data: error } })
@@ -97,21 +114,21 @@ const deteleUser = async (req, res) => {
 const validateUser = async (req, res) => {
     try {
         const data = req.body;
-      
-        // console.log(data);
+
+        console.log("data for the user : " + JSON.stringify(data));
         const User = await userModel.findOne({ email: data.email });
         console.log("User", User);
         if (!User.email) {
+
             return res.status(200).json({ staus: false, data: { message: "your id is not registered" } })
         }
         if (!data.password) {
             return res.status(200).json({ staus: false, data: { message: "please enter password" } })
         }
         const passwordMatch = await bcrypt.compare(data.password, User.password)
-
+        
         const token = jwt.sign({ user_id: User.id }, JWT_SECRET)
         if (passwordMatch) {
-
             return res.status(200).json({ status: true, data: { message: 'Login User successfully', token: token, user: User } })
         }
         else {

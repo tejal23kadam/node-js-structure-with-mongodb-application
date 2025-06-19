@@ -15,7 +15,7 @@ const NewProduct = () => {
                 price: '',
                 description: '',
                 brand: '',
-                modal: '',
+                model: '',
                 color: '',
                 category: '',
                 discount: 0
@@ -167,10 +167,7 @@ const NewProduct = () => {
                                 <Modal.Body>
                                         <div className="container mt-3 ">
 
-                                                
-                                                <div className="col-sm-12 form-group mb-0">
-                                                        <button type="button" className="form-control btn bg-color btn-outline text-white" onClick={(e) => { showData(); }} >show data</button>
-                                                </div>
+
                                                 <div className="col-sm-12 form-group">
                                                         <label>Title</label>
                                                         <input type="text" className="form-control" name="title" placeholder="Title" onChange={handleChange} required />
@@ -190,15 +187,15 @@ const NewProduct = () => {
                                                 </div>
                                                 <div className="col-sm-12 form-group">
                                                         <label >Description</label>
-                                                        <input type="text" className="form-control" name="Description" placeholder="Description" onChange={handleChange} required />
+                                                        <input type="text" className="form-control" name="description" placeholder="description" onChange={handleChange} required />
                                                 </div>
                                                 <div className="col-sm-12 form-group">
                                                         <label >brand</label>
                                                         <input type="text" className="form-control" name="brand" placeholder="brand" onChange={handleChange} required />
                                                 </div>
                                                 <div className="col-sm-12 form-group">
-                                                        <label >modal</label>
-                                                        <input type="text" className="form-control" name="modal" placeholder="modal" onChange={handleChange} required />
+                                                        <label >model</label>
+                                                        <input type="text" className="form-control" name="model" placeholder="model" onChange={handleChange} required />
                                                 </div>
 
                                                 <div className="col-sm-12 form-group">
@@ -220,11 +217,11 @@ const NewProduct = () => {
 
                                                 <div className="col-sm-12 form-group mb-0">
                                                         <button type="button" className="form-control btn bg-color btn-outline text-white" onClick={() => { addProduct(); }} >Submit</button>
-                                                </div> 
-                                                
                                                 </div>
-                                        
-                                </Modal.Body> 
+
+                                        </div>
+
+                                </Modal.Body>
 
                                 {/* this codeis written for ht temporary purpose */}
 
@@ -285,12 +282,6 @@ const NewProduct = () => {
 
 
                                 </Modal.Body> */}
-
-
-
-
-
-
                                 {/* this code ends ovr here */}
                         </Modal>
                 </div >

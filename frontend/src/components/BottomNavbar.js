@@ -26,7 +26,7 @@ const BottomNavbar = () => {
 
 
 
-            <div class="navbar1 d-lg-none bg-color">
+            <div class="navbar1 d-lg-none bg-color ">
 
                 <div>
                     <Link className={activeLink === "Dashboard" ? "active" : ""}

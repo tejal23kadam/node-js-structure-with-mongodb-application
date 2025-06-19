@@ -5,10 +5,10 @@ cloudinary.config({
     api_key: "167298175311659",
     api_secret: "_rWsdy6zTr86hBGhg-AyHhsJ5eQ",
 });
-async function uploadToCloudinary(locaFilePath, localFileName) {
+async function uploadToCloudinary(locaFilePath, localFileName,folderName) {
 
     return cloudinary.uploader
-        .upload(locaFilePath, { public_id: localFileName, folder: 'productImg', })
+        .upload(locaFilePath, { public_id: localFileName, folder: folderName})
         .then((result) => {
             fs.unlinkSync(locaFilePath);
             console.log("response successfull  " +JSON.stringify(result))
