@@ -1,34 +1,38 @@
 import { React, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import { addToCart, minusFromCart, deleteFromCart } from '../sliceComponent/CartSlice';
 import CheckOutModal from './CheckOutModal';
 import axios from 'axios';
 
 function ShoppingCartData() {
-    const cartOrdersData = useSelector((state) => state.cart.orders);
-   
-    const cartTotalPayableAmout = useSelector((state) => state.cart.totalPayableAmount);
     const [showModal, setShowModal] = useState(false);
-    const data = useSelector((state) => state.allData.data);
+    const data = useSelector((state) => state.cart.orders);
     const user = useSelector((state) => state.auth.user);
-    const [data1, setData1] = useState([]);
+    const [cartOrdersData, setCartOrdersData] = useState([]);
 
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
     const handleOpen = (id) => {
         setShowModal(true);
     };
 
-    const CheckStudent = async () => {
+    const navigateToConfirmOrderPage = () => {
+        navigate("/checkoutOrders", { state: { orderData: cartOrdersData } });
+    }
 
+    console.log("carts data here " + JSON.stringify(data))
+    const getUserOrderDetail = async () => {
+        console.log("thi is called")
         try {
-            const res = await axios.get('http://localhost:2000/api/getUserOrderDetail', {
+
+            const res = await axios.get('http://localhost:2000/api/getUserCartDetail', {
                 params: {
                     userId: user._id
                 }
             })
-            console.log("res get user order = " + JSON.stringify(res.data.data.data[0].products));
-            setData1(res.data.data.data[0].products);
+            console.log("res get user order detail= " + JSON.stringify(res.data.data.data.products));
+            setCartOrdersData(res.data.data.data.products);
 
         }
         catch (error) {
@@ -37,10 +41,43 @@ function ShoppingCartData() {
     }
 
     useEffect(() => {
-        CheckStudent();
-    }, []);
+        console.log("user id in get user oreder detail " + user._id)
+        if (user && user._id) {
+            getUserOrderDetail();
+        }
+    }, [user]);
 
+    const removeProductFromCart = async (id) => {
+        console.log("this is id " + id);
+        try {
+            const payload = {
+                userId: user._id,
+                productId: id
+            };
+            const res = await axios.post('http://localhost:2000/api/removeProductFromCart', payload)
+            console.log("remove product from cart" + JSON.stringify(res));
+            getUserOrderDetail();
+        }
+        catch (error) {
+            console.log("error = " + error)
+        }
+    }
 
+    const updateQuantity = async (productId, change) => {
+        try {
+            console.log("Sending quantity change:", change);
+            const res = await axios.put(`http://localhost:2000/api/updateProductQuantity`, {
+                userId: user._id,
+                productId: productId,
+                change: change,
+            });
+
+            console.log("Response from backend:", res.data);
+            getUserOrderDetail(); // re-fetch updated cart
+        } catch (error) {
+            console.error("Failed to update quantity", error);
+        }
+    };
 
     return (
         <div>
@@ -50,7 +87,8 @@ function ShoppingCartData() {
                     <div className="row">
                         <div className="col-md-8 offset-md-2 text-center">
                             {/* <!-- Title text --> */}
-                            <h3>Shopping Cart</h3>                            
+                            <h3>Shopping Cart</h3>
+                            
                         </div>
                     </div>
                 </div>
@@ -64,64 +102,56 @@ function ShoppingCartData() {
                             <div className="col-lg-8 col-md-7" >
                                 <div className="card">
                                     {
-                                        cartOrdersData.map((product) => {
+                                        cartOrdersData.map((item) => {
                                             return (
-                                                <div className="mt-2 store-item bottom-line pb-3" >
+                                                <div key={item._id} className="mt-2 store-item bottom-line pb-3" >
                                                     <div className="row">
                                                         <div className="col-md-3">
-                                                            <img className="image-store" src={product.image[0].path} alt='no data' />
+                                                            <img className="image-store" src={item.product.image[0].path} alt='no data' />
                                                         </div>
                                                         <div className="col-md-6">
                                                             <div className="mt-3 mt-lg-0 d-flex align-items-center justify-content-between">
-                                                                <h5>{product.title}</h5>
+                                                                <h5>{item.product.title}</h5>
 
                                                             </div>
 
                                                             <div className="list-store d-flex align-items-center justify-content-between" >
-                                                                <h6> Original Price : ${product.price} </h6>
+                                                                <h6> Original Price : ${item.product.price} </h6>
                                                             </div>
                                                             <div className="list-store d-flex align-items-center justify-content-between" >
                                                                 {
-                                                                    (product.discount) ? (
-                                                                        <h6> Discount : {product.discount}% </h6>)
+                                                                    (item.product.discount) ? (
+                                                                        <h6> Discount : {item.product.discount}% </h6>)
                                                                         : (
                                                                             <h6> Discount : NIL </h6>
                                                                         )
                                                                 }
                                                             </div>
                                                             <div className="list-store d-flex align-items-center justify-content-between mb-3" >
-                                                                {(product.discount) ? (
-                                                                    < h6 > Total Price : ${Math.trunc(product.price - ((product.price * product.discount) / 100))}</h6>)
+                                                                {(item.product.discount) ? (
+                                                                    < h6 > Total Price : ${Math.trunc(item.product.price - ((item.product.price * item.product.discount) / 100))}</h6>)
                                                                     : (
-                                                                        < h6 > Total Price : ${product.price} </h6>
+                                                                        < h6 > Total Price : ${item.product.price} </h6>
                                                                     )
                                                                 }
                                                             </div>
                                                             <div className="list-store d-flex align-items-center justify-content-between">
                                                                 <div className="d-flex gap-2">
-                                                                    <button className="btn-list btn btn-xs btn-default" onClick={() => { dispatch(deleteFromCart(product.id)) }} >
+                                                                    {/* <button className="btn-list btn btn-xs btn-default" onClick={() => { dispatch(deleteFromCart(item.product.id)) }} > */}
+                                                                    <button className="btn-list btn btn-xs btn-default" onClick={() => removeProductFromCart(item.product._id)} >
                                                                         <i className="bi bi-trash" ></i>
                                                                         Remove Item
                                                                     </button>
                                                                 </div>
-                                                                {/* <div className="d-flex">
-                                                                    {(product.discount) ? (
-                                                                        <h5>${Math.trunc(product.price - ((product.price * product.discount) / 100))}</h5>)
-                                                                        : (
-                                                                            < h5 >${product.price} </h5>
-                                                                        )
-                                                                    }
-                                                                </div> */}
                                                             </div>
                                                         </div>
                                                         <div className="col-md-3 mt-2">
 
                                                             <div className="btn-quantity-container d-flex align-items-center justify-content-center" style={{ gap: ".5rem" }}>
-                                                                <button className="btn-quantity btn btn-default" onClick={() => { dispatch(minusFromCart(product)) }}>−</button>
-                                                                <span className="p-quantiry">{product.quantity}</span>
-                                                                <button className="btn-quantity btn btn-default" onClick={() => { dispatch(addToCart(product)) }}>+</button>
+                                                                <button className="btn-quantity btn btn-default" onClick={() => updateQuantity(item.product._id, -1)} disabled={item.quantity <= 1}>−</button>
+                                                                <span className="p-quantiry">{item.quantity}</span>
+                                                                <button className="btn-quantity btn btn-default" onClick={() => updateQuantity(item.product._id, 1)}>+</button>
                                                             </div>
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -152,7 +182,13 @@ function ShoppingCartData() {
                                                     <div>
                                                         <div className="list-store d-flex align-items-center justify-content-between">
                                                             <p>Sub Total</p>
-                                                            <p>${cartTotalPayableAmout}</p>
+                                                            <p>
+                                                                ${
+                                                                    cartOrdersData.reduce((totalPrice, item) => {
+                                                                        return totalPrice += item.product.price;
+                                                                    }, 0)
+
+                                                                }</p>
                                                         </div>
                                                         <div className="bottom-line" ></div>
                                                     </div>
@@ -163,12 +199,25 @@ function ShoppingCartData() {
                                                         <p className="p-total-label" >total amount</p>
                                                     </div>
                                                     <div className="col-6" data-reactid=".0.1.1.0.0.0.1.1.1">
-                                                        <p className="p-total"> <p>${cartTotalPayableAmout}</p></p>
+                                                        <p className="p-total">
+
+                                                            ${
+                                                                cartOrdersData.reduce((totalPrice, item) => {
+                                                                    return totalPrice += item.product.price;
+                                                                }, 0)
+
+                                                            }
+                                                        </p>
                                                     </div>
                                                 </div>
                                                 <div className="mt-1 row">
                                                     <div>
                                                         <button type="button" className="w-100 btn btn-md btn-primary btn-block" onClick={handleOpen}>Go To Checkout</button>
+                                                    </div>
+                                                </div>
+                                                <div className="mt-1 row">
+                                                    <div>
+                                                        <button type="button" className="w-100 btn btn-md btn-primary btn-block" onClick={navigateToConfirmOrderPage}>Check Confirm Orders</button>
                                                     </div>
                                                 </div>
                                                 <CheckOutModal isOpen={showModal} handleClose={() => setShowModal(false)} ></CheckOutModal>
@@ -179,8 +228,10 @@ function ShoppingCartData() {
                             </div>
                         </div>
                     </div >
-                    ) : (
+                    ) : (<div className='text-center'>
                         <h1 className="text-center mt-5" >oops!!   Your Cart is Empty</h1>
+                        <button type="button" className="text-center btn btn-md btn-primary btn-block" onClick={navigateToConfirmOrderPage}>Check Confirm Orders</button>
+                    </div>
                     )
             }
         </div >

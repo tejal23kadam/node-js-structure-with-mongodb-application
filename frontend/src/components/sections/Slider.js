@@ -2,29 +2,18 @@ import { imageUrl1, imageUrl2, imageUrl3 } from './SliderImagesArray';
 
 import Marquee from "react-fast-marquee";
 function Slider() {
-    // const data = useSelector((state) => state.allData.data.products);
-    // const [searchVal, setSearchVal] = useState("");
-    // function handleSearchClick() {
-    //     if (searchVal === "") { setProducts(productList); return; }
-    //     const filterBySearch = data.filter((item) => {
-    //         if (item.toLowerCase()
-    //             .includes(searchVal.toLowerCase())) { return item; }
-    //     })
-    //     setProducts(filterBySearch);
-    // }
     return (
         <section className='sliders-container'>
-            <div>
-                <h1>fndfslf</h1>
+            <div className='col-xl-12 text-center pt-5 pb-4'>
+                <h1>What are you looking for?</h1>
             </div>
             <div>
                 <div class="container">
                     <div class="row">
                         <div>
-                            <div class="col-xl-6 col-md-8 advance-search ">
-                                <input class="form-control my-2 my-lg-0" id="inputtext4" placeholder="What are you looking for ?" type="text" />
+                            <div class="col-xl-12 col-md-8 advance-search pb-5 ">
+                                <input class="form-control my-2 my-lg-0" id="inputtext4" placeholder="Find your perfect product...." type="text" />
                             </div>
-
                         </div>
                     </div>
                 </div>

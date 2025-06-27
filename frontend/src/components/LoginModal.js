@@ -27,7 +27,7 @@ const LoginModal = ({ isOpen, handleClose }) => {
         setFormdata({ ...formdata, [name]: value })
     }
 
-    const CheckStudent = async () => {
+    const checkUser = async () => {
         try {
             const res = await axios.post('http://localhost:2000/api/validateUser', formdata)
             console.log("res = " + res.data.status);
@@ -92,7 +92,7 @@ const LoginModal = ({ isOpen, handleClose }) => {
                             <button
                                 type="button"
                                 className="form-control btn bg-color btn-outline text-white btn-animation"
-                                onClick={CheckStudent}
+                                onClick={checkUser}
                             >
                                 Sign In
                             </button>

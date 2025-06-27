@@ -27,12 +27,13 @@ import EWest from './components/sections/EWest';
 import NewCategory from './components/NewCategory';
 import { fetchDatasAsync } from './redux/slice/AllDataSlice';
 import { ProductShippingDetails } from './components/ProductShippingDetail';
+import CheckoutOrders from './components/CheckoutOrders';
 
 function App() {
 
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
-  
+
 
   const dispatch = useDispatch();
 
@@ -84,6 +85,7 @@ function App() {
         <Route path="product-details" element={<SingleProductDetailPageNew />} />
         <Route path="cartData" element={<ShoppingCartData />} />
         <Route path="eWest" element={<EWest />} />
+        <Route path="checkoutOrders" element={<CheckoutOrders/>} />
       </Routes>
     </>
   );

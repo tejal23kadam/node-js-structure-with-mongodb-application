@@ -9,13 +9,13 @@ const CartSlice = createSlice({
 
   reducers: {
     addToCart: (state, action) => {
-      
+
       let orderIndex = state.orders.findIndex((x) => x._id === action.payload._id);
-      if (orderIndex >=0 ) {
+      if (orderIndex >= 0) {
         state.orders[orderIndex].quantity = state.orders[orderIndex].quantity + 1;
       }
       else {
-        console.log( "new record addded and data is   " + action.payload)
+        console.log("new record addded and data is   " + action.payload)
         state.orders.push({
           ...action.payload,
           quantity: 1
@@ -23,7 +23,7 @@ const CartSlice = createSlice({
         // The quantity is the single value that will be returned by the reduce() method. It will contain the value returned by the callback function in each iteration.
         //The item parameter is simply the item from the array, which will change in each iteration just like in the forEach() method.
 
-        
+
       }
       state.totalPayableAmount = state.orders.reduce((quantity, item) => item.quantity * Math.trunc(item.price - ((item.price * item.discount) / 100)) + quantity, 0);
     },
@@ -34,7 +34,7 @@ const CartSlice = createSlice({
           state.orders[orderIndex].quantity = state.orders[orderIndex].quantity - 1;
           state.totalPayableAmount = state.orders.reduce((quantity, item) => item.quantity * Math.trunc(item.price - ((item.price * item.discount) / 100)) + quantity, 0);
         }
-      }   
+      }
 
     },
     updateToCart: (state, action) => {
@@ -46,13 +46,14 @@ const CartSlice = createSlice({
     deleteFromCart: (state, action) => {
       const index = state.orders.findIndex((cart) => cart.id === action.payload);
       if (index !== -1) {
-        
-        state.orders.splice(index, 1);       
+
+        state.orders.splice(index, 1);
         state.totalPayableAmount = state.orders.reduce((quantity, item) => item.quantity * Math.trunc(item.price - ((item.price * item.discount) / 100)) + quantity, 0, 0)
       }
     },
-    deleteAllCart: (state, action) => {
-      state.splice(0); //if you don't specify the end point of an array it will delete all the array starting from the given position.
+    deleteAllCart: (state) => {
+      state.orders = [];
+      state.totalPayableAmount = 0;
     },
   },
 });

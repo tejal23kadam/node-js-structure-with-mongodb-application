@@ -5,6 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import { setToast } from '../../redux/slice/toastSlice'
+import { deleteAllCart } from '../sliceComponent/CartSlice';
 
 
 function CheckOutModal({ isOpen, handleClose }) {
@@ -23,10 +24,21 @@ function CheckOutModal({ isOpen, handleClose }) {
         zip: ''
     };
     const [formdata, setFormdata] = useState(initialState)
-    
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormdata({ ...formdata, [name]: value })
+    }
+
+    const deleteAllProductFromCart = async () => {
+        try {
+            const res = await axios.delete(`http://localhost:2000/api/deleteAllProductFromCart/${user._id}`);           
+    
+            console.log("res from delete all product from cart " + JSON.stringify(res));
+        }
+        catch (error) {
+            console.log(error)
+        }
     }
     const addOrder = async () => {
         try {
@@ -41,16 +53,21 @@ function CheckOutModal({ isOpen, handleClose }) {
                 userId: user._id,
                 products: cartData.map(item => ({
                     product: item._id,
-                    quantity: item.quantity
+                    quantity: item.quantity,
+                    isOrdered: true
                 }))
             };
 
-            
+
             const res = await axios.post('http://localhost:2000/api/addOrder', payload, config)
-            console.log("add new order api response  " + res)
+            //  const res = await axios.post('http://localhost:2000/api/updateOrder', payload, config)
+            console.log("add update api response  " + res)
             handleClose();
-            dispatch(setToast({ message:"Order is successfully Proceed", type: "success" }));
-           // navigate("/shippingDetail")
+            dispatch(setToast({ message: "Order is successfully Proceed", type: "success" }));
+            deleteAllProductFromCart();
+            console.log("Dispatched deleteAllCart");
+
+            // navigate("/shippingDetail")
         }
         catch (error) {
             console.log(error)

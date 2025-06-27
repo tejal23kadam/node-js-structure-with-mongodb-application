@@ -5,10 +5,11 @@ import { Link } from 'react-router-dom';
 import { addToCart, minusFromCart } from '../sliceComponent/CartSlice';
 import NavBar from './NavBar'
 import SingleProductDetailPage from '../singleProductDetailComponent/SingleProductDetailPage';
+import axios from 'axios';
 //import { addToProductIDFilter } from '../sliceComponent/ProductIdSlice';
 
 function IndividualCategoryDetailPageNew(props) {
-    const cartData = useSelector((state) => state.cart.orders);
+    //const cartData = useSelector((state) => state.cart.orders);
     const data = useSelector((state) => state.allData.data);
     const loading = useSelector((state) => state.allData.loading);
     const error = useSelector((state) => state.allData.error);
@@ -22,8 +23,10 @@ function IndividualCategoryDetailPageNew(props) {
     const dispatch = useDispatch();
     const [activePriceColor, setActivePriceColor] = useState(null);
     const [activeDiscountColor, setActiveDiscountColor] = useState(null);
+
     // const [quantity, setQuantity] = useState(0)
-    const [cart, setCart] = useState({});
+
+    const [cart, setCart] = useState([]);
     let brandDistinctValues;
 
     const postsPerPage = 6;
@@ -35,6 +38,7 @@ function IndividualCategoryDetailPageNew(props) {
 
     //console.log("data is data " + JSON.stringify(data)) 
     //props.category.toLowerCase()
+    const user = useSelector((state) => state.auth.user);
     let individualBrandData = data.filter(datas => datas.category.toLowerCase() === props.category.toLowerCase());
 
     const handlePagination = (pageNumber) => {
@@ -61,11 +65,43 @@ function IndividualCategoryDetailPageNew(props) {
         setCurrentProductId(id);
     };
 
-    const handleAddToCart = (productId) => {
-        setCart((prev) => ({
-            ...prev,
-            [productId]: 1,
-        }));
+    const handleAddToCart = async (productId) => {
+
+        try {
+            console.log("this is the product id " + productId)
+            setCart((prev) => ({
+                ...prev,
+                [productId]: 1,
+            }));
+
+            const tokenStr = localStorage.getItem('token');
+            const config = {
+                headers: {
+                    "Authorization": `${tokenStr}`
+                }
+            }
+            const payload = {
+                userId: user._id,
+                products: [{
+                    product: productId,
+                    quantity: 1,
+                }]
+            };
+
+
+            const res = await axios.post('http://localhost:2000/api/addCart', payload, config)
+            //  const res = await axios.post('http://localhost:2000/api/updateOrder', payload, config)
+            console.log("response for add cart api  " + JSON.stringify(res))
+
+
+
+            // navigate("/shippingDetail")
+        }
+        catch (error) {
+            console.log(error)
+        }
+
+
     };
 
     const handleIncrease = (productId) => {
@@ -129,7 +165,21 @@ function IndividualCategoryDetailPageNew(props) {
     const uniqueValuesSet = new Set(newArray);
     brandDistinctValues = Array.from(uniqueValuesSet);
 
+    const updateQuantity = async (productId, change) => {
+        try {
+            console.log("Sending quantity change:", change);
+            const res = await axios.put(`http://localhost:2000/api/updateProductQuantity`, {
+                userId: user._id,
+                productId: productId,
+                change: change,
+            });
 
+            console.log("Response from backend:", res.data);
+            
+        } catch (error) {
+            console.error("Failed to update quantity", error);
+        }
+    };
     return (
         <div>
             <NavBar />
@@ -250,9 +300,9 @@ function IndividualCategoryDetailPageNew(props) {
                                                             </button>
                                                         ) : (
                                                             <div className="btn-quantity-container d-flex align-items-center justify-content-center" style={{ gap: ".5rem" }}>
-                                                                <button className="plus-minus-button btn-quantity btn-default" onClick={() => { dispatch(minusFromCart(data)); handleDecrease(data._id) }}>−</button>
+                                                                <button className="plus-minus-button btn-quantity btn-default" onClick={() => { updateQuantity(data._id, -1); handleDecrease(data._id) }}>−</button>
                                                                 <span className='item-quantity'>{cart[data._id] || 0}</span>
-                                                                <button className="plus-minus-button btn-quantity btn-default" onClick={() => { dispatch(addToCart(data)); handleIncrease(data._id) }}>+</button>
+                                                                <button className="plus-minus-button btn-quantity btn-default" onClick={() => { updateQuantity(data._id, 1); handleIncrease(data._id) }}>+</button>
                                                             </div>
                                                         )
                                                     }

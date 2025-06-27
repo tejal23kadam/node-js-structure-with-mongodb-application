@@ -10,33 +10,37 @@ const checkConnOrder = (req, res) => {
     res.status(200).json({ message: 'orders connection done successfully' });
 };
 
+
 const addOrder = async (req, res) => {
     try {
         const data = req.body;
-        const updateUser = await OrderModel.find({ "userId": data.userId })
-        console.log("update user " + updateUser);
-
-        if (!data) {
-            return res.status(400).json({ status: false, data: { message: "Order data cannot be null or empty" } });
+        const updateUser = await OrderModel.findOne({ "userId": data.userId })
+       
+        if (updateUser) {
+            updateOrder(req, res);
         }
+        else {
+            if (!data) {
+                return res.status(400).json({ status: false, data: { message: "Order data cannot be null or empty" } });
+            }
 
-        const newOrder = new OrderModel({
-            userId: data.userId,
-            name: data.name,
-            phoneNo: data.phoneNo,
-            address: data.address,
-            city: data.city,
-            state: data.state,
-            zip: data.zip,
-            products: data.products
-        });
+            const newOrder = new OrderModel({
+                userId: data.userId,
+                name: data.name,
+                phoneNo: data.phoneNo,
+                address: data.address,
+                city: data.city,
+                state: data.state,
+                zip: data.zip,
+                products: data.products
+            });
 
-        await newOrder.save();
-        return res.status(200).json({
-            status: true,
-            data: { message: "Order data added successfully", data: newOrder }
-        });
-
+            await newOrder.save();
+            return res.status(200).json({
+                status: true,
+                data: { message: "Order data added successfully", data: newOrder }
+            });
+        }
     } catch (error) {
         console.error(error);
         return res.status(500).json({
@@ -48,14 +52,19 @@ const addOrder = async (req, res) => {
 
 const updateOrder = async (req, res) => {
     try {
-        const UserId = req.params.id;
-        const data = req.body;
-        const updateUser = await OrderModel.findByIdAndUpdate(UserId, data, { new: true });
-
+        const UserId = req.body.userId;
+        
+        const data1 = req.body;
+        const data = {
+            $addToSet : { products: { $each: req.body.products } }
+        };
+     
+        const updateUser = await OrderModel.findOneAndUpdate({ userId: UserId }, data, { new: true });
+       
         if (!updateUser) {
-            return res.status(404).json({ staus: true, data: { message: "User id is not found" } })
+            return res.status(404).json({ staus: true, data: { message: "order id is not found" } })
         }
-        return res.status(200).json({ status: true, data: { message: 'User Updated successfully ', data: updateUser } })
+        return res.status(200).json({ status: true, data: { message: 'order Updated successfully ', data: updateUser } })
     }
     catch (error) {
         console.error(error);

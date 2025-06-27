@@ -16,11 +16,11 @@ function TrendingItems() {
     const [randomItems, setRandomItems] = useState([]);
 
     const breakpoints = {
-        0: { slidesPerView: 1},
+        0: { slidesPerView: 1 },
         376: { slidesPerView: 2 },
         768: { slidesPerView: 2 },
-        1024: { slidesPerView: 3},
-        1200:{slidesPerView:4}
+        1024: { slidesPerView: 3 },
+        1200: { slidesPerView: 4 }
     };
 
     useEffect(() => {
@@ -30,6 +30,37 @@ function TrendingItems() {
         }
     }, [data]);
 
+    const handleAddToCart = async (productId) => {
+
+        try {
+            console.log("this is the product id " + productId)
+            setCart((prev) => ({
+                ...prev,
+                [productId]: 1,
+            }));
+
+            const tokenStr = localStorage.getItem('token');
+            const config = {
+                headers: {
+                    "Authorization": `${tokenStr}`
+                }
+            }
+            const payload = {
+                userId: user._id,
+                products: [{
+                    product: productId,
+                    quantity: 1,
+                }]
+            };
+            const res = await axios.post('http://localhost:2000/api/addCart', payload, config)
+            console.log("response for add cart api  " + JSON.stringify(res))
+        }
+        catch (error) {
+            console.log(error)
+        }
+
+
+    };
     if (!data || data.length === 0) {
         return <p>Loading trending items...</p>;
     }
@@ -50,7 +81,7 @@ function TrendingItems() {
                             spaceBetween={0}
                             pagination={{ clickable: true }}
                             modules={[Pagination]}
-                            
+
                             className="mySwiper custom-swiper"
                             breakpoints={breakpoints}
                         >
@@ -80,7 +111,7 @@ function TrendingItems() {
                                                 <p className="mt-2 mb-3 overme">{item.title}</p>
                                                 <button
                                                     className="btn btn-warning w-100"
-                                                    onClick={() => dispatch(addToCart(item))}
+                                                    onClick={() => handleAddToCart()}
                                                 >
                                                     ADD TO CART
                                                 </button>

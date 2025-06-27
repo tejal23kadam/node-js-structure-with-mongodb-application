@@ -31,7 +31,8 @@ const newOrder = mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'product'
             },
-            quantity: Number
+            quantity: Number,
+            isOrdered: Boolean,
         }
     ],
 }, { timestamps: true });

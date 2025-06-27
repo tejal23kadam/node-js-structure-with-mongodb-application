@@ -48,7 +48,10 @@ const CartSlice = createSlice({
       }
     },
     deleteAllCart: (state, action) => {
-      state.splice(0); //if you don't specify the end point of an array it will delete all the array starting from the given position.
+      console.log("delete slice is called")
+     // state.splice(0); //if you don't specify the end point of an array it will delete all the array starting from the given position.
+      state.orders = [];
+      state.totalPayableAmount = 0;         
     },
   },
 });

@@ -29,11 +29,11 @@ const preloadedState = loadCartFromStorage();
 
 const store = configureStore({
     reducer: rootReducer,
-    preloadedState
+    //preloadedState
 });
 
-store.subscribe(() => {
-    saveCartToStorage(store.getState());
-});
+// store.subscribe(() => {
+//     saveCartToStorage(store.getState());
+// });
 
 export default store;
