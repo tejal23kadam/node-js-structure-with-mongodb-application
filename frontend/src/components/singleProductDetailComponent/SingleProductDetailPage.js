@@ -1,14 +1,37 @@
 
-import { useSelector, useDispatch } from 'react-redux';
-//import { addToCart } from '../sliceComponent/CartSlice';
+import { useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
-import { addToCart } from '../../components/sliceComponent/CartSlice';
+import axios from 'axios';
 
 function SingleProductDetailPage({ isOpen, handleClose, productId }) {
     const data = useSelector((state) => state.allData.data);
-    const cartData = useSelector((state) => state.cart.orders);
-  
-    const dispatch = useDispatch();
+    const user = useSelector((state) => state.auth.user);
+
+    const handleAddToCart = async (productId) => {
+        console.log("this is the product id " + productId)
+        try {
+            const tokenStr = localStorage.getItem('token');
+            const config = {
+                headers: {
+                    "Authorization": `${tokenStr}`
+                }
+            }
+            const payload = {
+                userId: user._id,
+                products: [{
+                    product: productId,
+                    quantity: 1,
+                }]
+            };
+            console.log("res from single product detail page  = " + JSON.stringify(payload))
+            const res = await axios.post('http://localhost:2000/api/addCart', payload, config)
+            //console.log("res from single product detail page  = " + JSON.stringify(res))
+        }
+        catch (error) {
+            console.log(error)
+        }
+    };
+
     return (
         <Modal
             show={isOpen}
@@ -56,7 +79,7 @@ function SingleProductDetailPage({ isOpen, handleClose, productId }) {
                                                         <p>{product.description}</p>
                                                     </div>
                                                     <div>
-                                                        <button className="addToCartBtn" type="button" onClick={() => { dispatch(addToCart(product)) }} >Add to Cart</button>
+                                                        <button className="btn btn-warning w-100" type="button" onClick={() => { handleAddToCart(product._id) }} >ADD TO CART</button>
                                                     </div>
                                                 </div>
                                             </section>

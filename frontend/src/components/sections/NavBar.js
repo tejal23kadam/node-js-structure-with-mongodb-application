@@ -42,7 +42,7 @@ const NavBar = () => {
                                 <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('mobile')) }}><Link to="/mobile">mobile</Link></li>
                                 <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('tv')) }}><Link to="/tv">tv</Link></li>
 
-                                <li className="nav-item"><Link to="/contactUs">Contact Us</Link></li>
+                                {/* <li className="nav-item"><Link to="/contactUs">Contact Us</Link></li> */}
                                 {/* <li className="nav-item"><Link to="/termsAndConditions">Terms & Conditions</Link></li> */}
                                 <li className="nav-item">
                                     <div className='cartCount'>

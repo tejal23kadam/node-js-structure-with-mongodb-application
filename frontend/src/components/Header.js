@@ -4,11 +4,11 @@ import { Link, Outlet } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import axios from 'axios'
 
-import CloseButton from 'react-bootstrap/CloseButton';
 
 import LoginModal from './LoginModal';
-import { unSetIsAuth} from '../redux/slice/AuthSlice';
+import { unSetIsAuth } from '../redux/slice/AuthSlice';
 import { addToCategoryFilter } from '../redux/slice/CategoryFilterSlice';
 
 
@@ -17,13 +17,13 @@ function Header(props) {
 
     const [show, setShow] = useState(false);
     const [isDropDownOpen, setDropDownOpen] = useState(false);
-
+    const [cartCount, setCartCount] = useState(0)
 
     const [showmodal, setShowModal] = useState(false); //shows modal
     const handleClose = () => setShow(!show);
     const [rightshow, setRightShow] = useState(false);
     const handleRightClose = () => setRightShow(false);
-    
+
     const [visibleSearchBar, setVisibleSearchBar] = useState(false);
     const [activeLink, setActiveLink] = useState("Dashboard");
 
@@ -49,27 +49,45 @@ function Header(props) {
     };
 
     useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        getUserOrderDetail();
+        /*this is the logic for the auto close of the dropdown box on the outside click on the page  */
+        function handleClickOutside(event) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setDropDownOpen(false);
             }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
         };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
+
     }, []);
 
-    
+    const getUserOrderDetail = async () => {
+        console.log("thi is called")
+        try {
+
+            const res = await axios.get('http://localhost:2000/api/getUserCartDetail', {
+                params: {
+                    userId: user._id
+                }
+            })
+            console.log("res get user order detail= " + JSON.stringify(res.data.data.data.products));
+            setCartCount(res.data.data.data.products.length);
+
+        }
+        catch (error) {
+            console.log("error = " + error)
+        }
+    }
+
 
 
     return (
         <div>
             <div className="row ">
                 <div className='d-flex top-navbar ' >
-                    <div>
-                        <div className="py-4 px-4 bd-highlight col-xl-2 d-none d-lg-block ">
-                            <img src={require('../images/logo.png')} alt='no img' />
-                        </div>
-                    </div>
                     <div className=" py-4 px-2 d-lg-none">
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" onClick={handleClose} className="bi bi-text-indent-right text-center" viewBox="0 0 16 16">
                             <path d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5m10.646 2.146a.5.5 0 0 1 .708.708L11.707 8l1.647 
@@ -81,55 +99,60 @@ function Header(props) {
                     <div className=" py-4 px-2 d-block flex-grow-1 d-lg-none text-center ">
                         <img src={require('../images/logo.png')} alt='no img' />
                     </div>
-                    <div className='d-flex justify-content-end flex-lg-grow-1'>
-                        <div className="d-flex px-2 py-4 d-none d-lg-block">
-                            <ul >
-                                {/* <li className="nav-item dropdown ">
-                                    <a className="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Category <span><i className="bi bi-chevron-compact-down"></i></span>
-                                    </a>
-                                    
-                                    <ul className="dropdown-menu">
-                                        <li className=" dropdown-item nav-item" onClick={() => { dispatch(addToCategoryFilter('audio')) }}><Link to="/audio">audio</Link></li>
-                                        <li className="dropdown-item nav-item" onClick={() => { dispatch(addToCategoryFilter('appliances')) }} ><Link to="/appliances">appliances</Link></li>
-                                        <li className="dropdown-item nav-item" onClick={() => { dispatch(addToCategoryFilter('gaming')) }}><Link to="/gaming">gaming</Link></li>
-                                        <li className="dropdown-item nav-item" onClick={() => { dispatch(addToCategoryFilter('laptop')) }}><Link to="/laptop">laptop</Link></li>
-                                        <li className="dropdown-item nav-item" onClick={() => { dispatch(addToCategoryFilter('mobile')) }}><Link to="/mobile">mobile</Link></li>
-                                        <li className="dropdown-item nav-item" onClick={() => { dispatch(addToCategoryFilter('tv')) }}><Link to="/tv">tv</Link></li>
-                                    </ul>
-                                </li> */}
-                                <li className="nav-item"><Link to="/">home</Link></li>
-                                <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('audio')) }}><Link to="/audio">audio</Link></li>
-                                <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('appliances')) }} ><Link to="/appliances">appliances</Link></li>
-                                <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('gaming')) }}><Link to="/gaming">gaming</Link></li>
-                                <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('laptop')) }}><Link to="/laptop">laptop</Link></li>
-                                <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('mobile')) }}><Link to="/mobile">mobile</Link></li>
-                                <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('tv')) }}><Link to="/tv">tv</Link></li>
 
-                                <li className="nav-item"><Link to="/contactUs">Contact Us</Link></li>
-                                {/* <li className="nav-item"><Link to="/termsAndConditions">Terms & Conditions</Link></li> */}
-                                <li className="nav-item">
-                                    <div className='cartCount'>
-                                        <Link to="/cartData"><i className="bi bi-cart"></i></Link>
-                                        {/* <span className="quantity">{cart.length}</span> */}
-                                    </div>
-                                </li>
 
-                            </ul>
-                        </div>
-                        <div className="p-2 d-none d-lg-block">
-                            <div className="form-group has-search">
-                                <span className="bi bi-search form-control-feedback"></span>
-                                <input type="text" className="form-control" placeholder="Search" />
-                            </div>
-                        </div>
+                    {/* <div className="flex-grow-1 d-none d-lg-block ">
+                        <img className='py-4 px-5 ' src={require('../images/logo.png')} alt='no img' />
+                    </div> */}
 
-                        {/* <div className=" py-4 px-2 d-none d-lg-block ">
-                            <Link><i className="bi bi-bell-fill"></i></Link>
+                    <div className=' px-5 py-3 d-flex justify-content-center d-none d-lg-block flex-lg-grow-1'>
+                        <div>
+                            <img src={require('../images/logo.png')} alt="User" />
                         </div>
-                        <div className="py-4 px-2 d-none d-lg-block">
-                            <Link><i className='bi bi-gear'></i></Link>
-                        </div> */}
+                    </div>
+
+                    <div className="d-none d-lg-block d-flex flex-wrap  flex-lg-grow-1 justify-content-center align-items-center py-2">
+                        <ul className="nav ">
+                            <li className="nav-item">
+                                <Link to="/" className="nav-link">Home</Link>
+                            </li>
+                            <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('audio')); setShow(false); }}>
+                                <Link to="/audio" className="nav-link">Audio</Link>
+                            </li>
+                            <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('appliances')); setShow(false); }}>
+                                <Link to="/appliances" className="nav-link">Appliances</Link>
+                            </li>
+                            <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('gaming')); setShow(false); }}>
+                                <Link to="/gaming" className="nav-link">Gaming</Link>
+                            </li>
+                            <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('laptop')); setShow(false); }}>
+                                <Link to="/laptop" className="nav-link">Laptop</Link>
+                            </li>
+                            <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('mobile')); setShow(false); }}>
+                                <Link to="/mobile" className="nav-link">Mobile</Link>
+                            </li>
+                            <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('tv')); setShow(false); }}>
+                                <Link to="/tv" className="nav-link">TV</Link>
+                            </li>
+                            <li className="nav-item">
+                                <div className="position-relative">
+                                    <Link to="/cartData" className="nav-link text-decoration-none position-relative">
+                                        <i className="bi bi-cart3 fs-4"></i>
+                                        {(
+                                            <span
+                                                className="badge bg-danger rounded-pill text-white position-absolute start-50"
+                                                style={{ fontSize: '0.75rem' }}
+                                            >
+                                                {cartCount}
+                                            </span>
+                                        )}
+                                    </Link>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div className=' px-lg-5 d-flex justify-content-center flex-lg-grow-1'>
                         <div className="dropdown-wrapper">
                             <div className="avatar-container" onClick={toggleDropdown}>
                                 <img
@@ -138,10 +161,7 @@ function Header(props) {
                                             ? (user.image[0].path)
                                             : (profileImage)
                                     }
-
-                                    alt="User"
-                                    className="avatar"
-                                />
+                                    alt="User" className="avatar" />
                             </div>
 
                             {isDropDownOpen && (
@@ -151,8 +171,11 @@ function Header(props) {
                                         <p>{user.name}</p>
                                     </div>
                                     <ul className="menu-list">
-                                        <li onClick={()=>openLoginModal()}><i className="fas fa-question-circle"></i> Login</li>
-                                        <li onClick={()=>logoutUser()}><i className="fas fa-sign-out-alt"></i> Logout</li>
+                                        {(user._id) ? (
+                                            <li onClick={logoutUser}><i className="fa fa-sign-out-alt"></i> Logout</li>
+                                        ) : (
+                                            <li onClick={openLoginModal}><i className="fa fa-sign-in-alt"></i> Login</li>
+                                        )}
                                     </ul>
                                 </div>
                             )}
@@ -173,38 +196,29 @@ function Header(props) {
                                     />
                                 </div> */}
                             </div>
-                            </div>
-                            {/* right side off canvas start */}
-                            <div >
-                                <Offcanvas show={rightshow} onHide={handleRightClose} placement='end' className='navbar-bg-color'>
-                                    <Offcanvas.Header closeButton>
-                                        <Offcanvas.Title className="sitename text-capitalize text-center text-white">{(user !== null) ? (user.name) : ("User")}</Offcanvas.Title>
-                                    </Offcanvas.Header>
-                                    <Offcanvas.Body>
-                                        <ul className="navmenu navbar-nav me-auto mb-2 mb-lg-0">
-                                            <li key={0} className="nav-item mx-3" >
-                                                <Link onClick={openLoginModal} ><i className="bi bi-gear px-2"></i>Sign In</Link>
+                        </div>
+                        {/* right side off canvas start */}
+                        <div >
+                            <Offcanvas show={rightshow} onHide={handleRightClose} placement='end' className='navbar-bg-color'>
+                                <Offcanvas.Header closeButton>
+                                    <Offcanvas.Title className="sitename text-capitalize text-center text-white">{(user !== null) ? (user.name) : ("User")}</Offcanvas.Title>
+                                </Offcanvas.Header>
+                                <Offcanvas.Body>
+                                    <ul className="navmenu navbar-nav me-auto mb-2 mb-lg-0">
+                                        <li key={0} className="nav-item mx-3" >
+                                            <Link onClick={openLoginModal} ><i className="bi bi-gear px-2"></i>Sign In</Link>
 
-                                            </li>
-                                            <li key={1} className="nav-item mx-3">
-                                                <Link to="/" onClick={() => logoutUser()} ><i className="bi bi-gear px-2"></i>Sign Out</Link>
-                                            </li>
-                                        </ul>
-                                    </Offcanvas.Body>
-                                </Offcanvas>
-                            </div>
-                            {/* right side off canvas end */}
-                        
+                                        </li>
+                                        <li key={1} className="nav-item mx-3">
+                                            <Link to="/" onClick={() => logoutUser()} ><i className="bi bi-gear px-2"></i>Sign Out</Link>
+                                        </li>
+                                    </ul>
+                                </Offcanvas.Body>
+                            </Offcanvas>
+                        </div>
+                        {/* right side off canvas end */}
+
                     </div>
-                    {/* searchbar section start  */}
-                    {(visibleSearchBar) ? (
-                        <div className='search-section d-lg-none d-flex w-100 p-4'>
-                            <div className="has-search flex-grow-1 ">
-                                <span className="bi bi-search form-control-feedback p-2"></span>
-                                <input type="text" className="form-control" placeholder="Search" />
-                            </div>
-                            <CloseButton className="p-2" onClick={() => { setVisibleSearchBar(false); setActiveLink(activeLink); }} />
-                        </div>) : (<></>)}
 
                     {/*login modal start */}
 
@@ -216,7 +230,7 @@ function Header(props) {
 
                 </div>
                 {/* top navbar section end */}
-               <div className='main-section d-flex'>
+                <div className='main-section d-flex'>
 
                     <Offcanvas show={show} onHide={handleClose} className="d-block d-lg-none navbar-bg-color" responsive="lg">
                         <Offcanvas.Header className=' px-4 text-white' closeButton>
@@ -228,16 +242,6 @@ function Header(props) {
                                     <div className=' px-2' >
                                         <nav id="navmenu" className="navmenu">
                                             <ul className="navbar-nav me-auto mb-2 mb-lg-0 text-primary">
-                                                {/* {props.navSections.map((section, i) => (
-                                                    <li key={i} className="nav-item ">
-                                                        <Link className={activeLink === section.secName ? "active" : ""}
-                                                            onClick={() => { setActiveLink(section.secName); handleClose(); }}
-                                                            to={section.linkTo} >
-                                                            <i className={section.icon}></i>
-                                                            {section.secName}
-                                                        </Link>
-                                                    </li>
-                                                ))} */}
                                                 <li className="nav-item"><Link to="/">home</Link></li>
                                                 <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('audio')) }}><Link to="/audio">audio</Link></li>
                                                 <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('appliances')) }} ><Link to="/appliances">appliances</Link></li>
@@ -246,12 +250,12 @@ function Header(props) {
                                                 <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('mobile')) }}><Link to="/mobile">mobile</Link></li>
                                                 <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('tv')) }}><Link to="/tv">tv</Link></li>
 
-                                                <li className="nav-item"><Link to="/contactUs">Contact Us</Link></li>
+                                                {/* <li className="nav-item"><Link to="/contactUs">Contact Us</Link></li> */}
                                                 {/* <li className="nav-item"><Link to="/termsAndConditions">Terms & Conditions</Link></li> */}
                                                 <li className="nav-item">
                                                     <div className='cartCount'>
                                                         <Link to="/cartData"><i className="bi bi-cart"></i></Link>
-                                                        <span className="quantity">{cart.length}</span>
+                                                        <span className="quantity">{cartCount}</span>
                                                     </div>
                                                 </li>
 

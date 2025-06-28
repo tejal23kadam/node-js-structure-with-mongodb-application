@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 
 import axios from 'axios';
+import Header from './Header';
 
 
 const CheckoutOrders = () => {
@@ -38,6 +39,7 @@ const CheckoutOrders = () => {
 
     return (
         <div>
+            <Header/>
             <section className="page-title">
                 {/* <!-- Container Start --> */}
                 <div className="container">

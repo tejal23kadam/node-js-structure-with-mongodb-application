@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToProductIDFilter } from '../../redux/slice/ProductIdSlice';
-import { addToCart } from '../../redux/slice/CartSlice';
+import axios from 'axios';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
@@ -14,6 +14,8 @@ function TrendingItems() {
     const dispatch = useDispatch();
     const data = useSelector((state) => state.allData.data);
     const [randomItems, setRandomItems] = useState([]);
+    const user = useSelector((state) => state.auth.user);
+    const [buttonText, setButtonText] = useState({});
 
     const breakpoints = {
         0: { slidesPerView: 1 },
@@ -31,13 +33,12 @@ function TrendingItems() {
     }, [data]);
 
     const handleAddToCart = async (productId) => {
-
         try {
             console.log("this is the product id " + productId)
-            setCart((prev) => ({
-                ...prev,
-                [productId]: 1,
-            }));
+            // setCart((prev) => ({
+            //     ...prev,
+            //     [productId]: 1,
+            // }));
 
             const tokenStr = localStorage.getItem('token');
             const config = {
@@ -54,12 +55,11 @@ function TrendingItems() {
             };
             const res = await axios.post('http://localhost:2000/api/addCart', payload, config)
             console.log("response for add cart api  " + JSON.stringify(res))
+            setButtonText(prev => ({ ...prev, [productId]: { disabled: true, text: 'PRODUCT ADDED!!' } }));
         }
         catch (error) {
             console.log(error)
         }
-
-
     };
     if (!data || data.length === 0) {
         return <p>Loading trending items...</p>;
@@ -81,7 +81,6 @@ function TrendingItems() {
                             spaceBetween={0}
                             pagination={{ clickable: true }}
                             modules={[Pagination]}
-
                             className="mySwiper custom-swiper"
                             breakpoints={breakpoints}
                         >
@@ -111,9 +110,9 @@ function TrendingItems() {
                                                 <p className="mt-2 mb-3 overme">{item.title}</p>
                                                 <button
                                                     className="btn btn-warning w-100"
-                                                    onClick={() => handleAddToCart()}
-                                                >
-                                                    ADD TO CART
+                                                    onClick={() => handleAddToCart(item._id)}
+                                                    disabled={buttonText[item._id]?.disabled}                                                >
+                                                    {buttonText[item._id]?.text || 'ADD TO CART'}
                                                 </button>
                                             </div>
                                         </div>

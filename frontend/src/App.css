@@ -814,11 +814,9 @@ ul {
   height: 35px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  background-color: #d3eac8;
+  align-items: center;  
   border-radius: 8px;
-  font-weight: bold;
-  border: 1px solid #82bd69;
+  font-weight: bold;  
   transition: ease-in-out 0.3s;
 }
 
@@ -831,7 +829,7 @@ ul {
   align-items: center;
   border-radius: 8px;
   font-weight: bold;
-  border: 1px solid #82bd69;
+  border: 1px solid black;
 
 }
 
@@ -1213,12 +1211,14 @@ h6 span {
 
 .nav-item {
   line-height: 40px;
-  margin-right: 3rem;
+ 
 }
 
 .nav-item a {
   text-decoration: none;
   text-transform: capitalize;
+  font-size: 1.4vw;
+  font-weight: bold;
 }
 
 .nav-item:after {
@@ -4629,3 +4629,7 @@ html,
   background-color:#232425;
   color: white;
 }
+
+
+
+

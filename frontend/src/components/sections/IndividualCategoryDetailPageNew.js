@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Pagination from '../paginationComponent/Pagination';
-import { Link } from 'react-router-dom';
-import { addToCart, minusFromCart } from '../sliceComponent/CartSlice';
+
+import { addToCart} from '../sliceComponent/CartSlice';
 import NavBar from './NavBar'
 import SingleProductDetailPage from '../singleProductDetailComponent/SingleProductDetailPage';
 import axios from 'axios';
-//import { addToProductIDFilter } from '../sliceComponent/ProductIdSlice';
+import Header from '../Header';
 
 function IndividualCategoryDetailPageNew(props) {
     //const cartData = useSelector((state) => state.cart.orders);
@@ -92,16 +92,10 @@ function IndividualCategoryDetailPageNew(props) {
             const res = await axios.post('http://localhost:2000/api/addCart', payload, config)
             //  const res = await axios.post('http://localhost:2000/api/updateOrder', payload, config)
             console.log("response for add cart api  " + JSON.stringify(res))
-
-
-
-            // navigate("/shippingDetail")
         }
         catch (error) {
             console.log(error)
         }
-
-
     };
 
     const handleIncrease = (productId) => {
@@ -182,7 +176,7 @@ function IndividualCategoryDetailPageNew(props) {
     };
     return (
         <div>
-            <NavBar />
+            <Header/>
             <section className="page-search">
                 <div className="container">
                     <div className="row">
@@ -290,24 +284,23 @@ function IndividualCategoryDetailPageNew(props) {
                                                     </div>
                                                 </div>
                                                 <div >
-
                                                     {
 
                                                         ((cart[data._id] || 0) === 0) ? (
-                                                            <button className="atc-btn" onClick={() => { dispatch(addToCart(data)); handleAddToCart(data._id) }}>
-                                                                <i className="fal bi bi-cart " ></i>
-                                                                Add to cart
+                                                            <button className="btn btn-warning w-100" onClick={() => { handleAddToCart(data._id) }}>
+                                                                
+                                                                ADD TO CART 
                                                             </button>
                                                         ) : (
                                                             <div className="btn-quantity-container d-flex align-items-center justify-content-center" style={{ gap: ".5rem" }}>
-                                                                <button className="plus-minus-button btn-quantity btn-default" onClick={() => { updateQuantity(data._id, -1); handleDecrease(data._id) }}>−</button>
+                                                                <button className="plus-minus-button btn-warning " onClick={() => { updateQuantity(data._id, -1); handleDecrease(data._id) }}>−</button>
                                                                 <span className='item-quantity'>{cart[data._id] || 0}</span>
-                                                                <button className="plus-minus-button btn-quantity btn-default" onClick={() => { updateQuantity(data._id, 1); handleIncrease(data._id) }}>+</button>
+                                                                <button className="plus-minus-button btn-warning" onClick={() => { updateQuantity(data._id, 1); handleIncrease(data._id) }}>+</button>
                                                             </div>
                                                         )
                                                     }
                                                 </div>
-                                                <span className='discountPercent'>{data.discount}%off</span>
+                                                <span className='brand-badge'>{data.discount}%off</span>
                                             </div>
 
                                         )))

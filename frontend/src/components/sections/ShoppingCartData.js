@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { addToCart, minusFromCart, deleteFromCart } from '../sliceComponent/CartSlice';
 import CheckOutModal from './CheckOutModal';
 import axios from 'axios';
+import Header from '../Header';
 
 function ShoppingCartData() {
     const [showModal, setShowModal] = useState(false);
@@ -11,7 +12,7 @@ function ShoppingCartData() {
     const user = useSelector((state) => state.auth.user);
     const [cartOrdersData, setCartOrdersData] = useState([]);
 
-    const dispatch = useDispatch();
+    
     const navigate = useNavigate();
     const handleOpen = (id) => {
         setShowModal(true);
@@ -81,6 +82,7 @@ function ShoppingCartData() {
 
     return (
         <div>
+            <Header/>
             <section className="page-title">
                 {/* <!-- Container Start --> */}
                 <div className="container">
@@ -137,7 +139,7 @@ function ShoppingCartData() {
                                                             </div>
                                                             <div className="list-store d-flex align-items-center justify-content-between">
                                                                 <div className="d-flex gap-2">
-                                                                    {/* <button className="btn-list btn btn-xs btn-default" onClick={() => { dispatch(deleteFromCart(item.product.id)) }} > */}
+                                                                 
                                                                     <button className="btn-list btn btn-xs btn-default" onClick={() => removeProductFromCart(item.product._id)} >
                                                                         <i className="bi bi-trash" ></i>
                                                                         Remove Item
