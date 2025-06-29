@@ -12,7 +12,7 @@ function ShoppingCartData() {
     const user = useSelector((state) => state.auth.user);
     const [cartOrdersData, setCartOrdersData] = useState([]);
 
-    
+
     const navigate = useNavigate();
     const handleOpen = (id) => {
         setShowModal(true);
@@ -66,6 +66,11 @@ function ShoppingCartData() {
 
     const updateQuantity = async (productId, change) => {
         try {
+            cartOrdersData.reduce((totalPrice, item) => {
+                return totalPrice += item.product.price;
+            }, 0)
+
+
             console.log("Sending quantity change:", change);
             const res = await axios.put(`http://localhost:2000/api/updateProductQuantity`, {
                 userId: user._id,
@@ -82,7 +87,7 @@ function ShoppingCartData() {
 
     return (
         <div>
-            <Header/>
+            <Header />
             <section className="page-title">
                 {/* <!-- Container Start --> */}
                 <div className="container">
@@ -90,7 +95,7 @@ function ShoppingCartData() {
                         <div className="col-md-8 offset-md-2 text-center">
                             {/* <!-- Title text --> */}
                             <h3>Shopping Cart</h3>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -139,7 +144,7 @@ function ShoppingCartData() {
                                                             </div>
                                                             <div className="list-store d-flex align-items-center justify-content-between">
                                                                 <div className="d-flex gap-2">
-                                                                 
+
                                                                     <button className="btn-list btn btn-xs btn-default" onClick={() => removeProductFromCart(item.product._id)} >
                                                                         <i className="bi bi-trash" ></i>
                                                                         Remove Item
@@ -187,9 +192,11 @@ function ShoppingCartData() {
                                                             <p>
                                                                 ${
                                                                     cartOrdersData.reduce((totalPrice, item) => {
-                                                                        return totalPrice += item.product.price;
-                                                                    }, 0)
-
+                                                                        const price = item.product.price;
+                                                                        const discount = item.product.discount || 0;
+                                                                        const discountedPrice = price - (price * discount / 100);
+                                                                        return totalPrice + (discountedPrice * item.quantity);
+                                                                    }, 0).toFixed(2)
                                                                 }</p>
                                                         </div>
                                                         <div className="bottom-line" ></div>
@@ -203,11 +210,12 @@ function ShoppingCartData() {
                                                     <div className="col-6" data-reactid=".0.1.1.0.0.0.1.1.1">
                                                         <p className="p-total">
 
-                                                            ${
-                                                                cartOrdersData.reduce((totalPrice, item) => {
-                                                                    return totalPrice += item.product.price;
-                                                                }, 0)
-
+                                                            ${cartOrdersData.reduce((totalPrice, item) => {
+                                                                const price = item.product.price;
+                                                                const discount = item.product.discount || 0;
+                                                                const discountedPrice = price - (price * discount / 100);
+                                                                return totalPrice + (discountedPrice * item.quantity);
+                                                            }, 0).toFixed(2)
                                                             }
                                                         </p>
                                                     </div>
