@@ -35,7 +35,7 @@ const addUser = async (req, res) => {
         }, {})
 
         if (!data) {
-            return res.status(404).json({ status: true, data: { message: " data can not be null or empty " } })
+            return res.status(404).json({ status: true, data: { message: " user can not be null or empty " } })
         }
         const hashPassword = await bcrypt.hash(data.password, 10);
         const newUser = new userModel({
@@ -48,7 +48,7 @@ const addUser = async (req, res) => {
 
         await newUser.save();
         await sendmail(data.email, "welcome to gmail", "hello sir", '<a href="www.google.com">google.com</a>')
-        return res.status(200).json({ status: true, data: { message: "data added successfully" } })
+        return res.status(200).json({ status: true, data: { message: "user added successfully" } })
     }
 
 

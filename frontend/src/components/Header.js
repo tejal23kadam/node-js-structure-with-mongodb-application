@@ -35,7 +35,6 @@ function Header(props) {
     const cart = useSelector((state) => state.cart);
 
     const openLoginModal = () => {
-
         setShowModal(true);
     }
     const logoutUser = () => {
@@ -197,27 +196,7 @@ function Header(props) {
                                 </div> */}
                             </div>
                         </div>
-                        {/* right side off canvas start */}
-                        <div >
-                            <Offcanvas show={rightshow} onHide={handleRightClose} placement='end' className='navbar-bg-color'>
-                                <Offcanvas.Header closeButton>
-                                    <Offcanvas.Title className="sitename text-capitalize text-center text-white">{(user !== null) ? (user.name) : ("User")}</Offcanvas.Title>
-                                </Offcanvas.Header>
-                                <Offcanvas.Body>
-                                    <ul className="navmenu navbar-nav me-auto mb-2 mb-lg-0">
-                                        <li key={0} className="nav-item mx-3" >
-                                            <Link onClick={openLoginModal} ><i className="bi bi-gear px-2"></i>Sign In</Link>
-
-                                        </li>
-                                        <li key={1} className="nav-item mx-3">
-                                            <Link to="/" onClick={() => logoutUser()} ><i className="bi bi-gear px-2"></i>Sign Out</Link>
-                                        </li>
-                                    </ul>
-                                </Offcanvas.Body>
-                            </Offcanvas>
-                        </div>
-                        {/* right side off canvas end */}
-
+                    
                     </div>
 
                     {/*login modal start */}

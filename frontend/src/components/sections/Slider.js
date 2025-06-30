@@ -1,8 +1,37 @@
 import { imageUrl1, imageUrl2, imageUrl3 } from './SliderImagesArray';
 import Marquee from "react-fast-marquee";
+import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
 //import './Slider.css'; // optional for custom styles
 
 function Slider() {
+    const [searchText, setSearchText] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    //const [allProducts, setAllProducts] = useState([]);
+    const navigate = useNavigate();
+    const allProducts = useSelector((state) => state.allData.data);
+
+    console.log("this is slider page and data over hre is " + JSON.stringify(allProducts))
+    const handleChange = (e) => {
+        const value = e.target.value;
+        setSearchText(value);
+
+        if (value.trim() === '') {
+            setSuggestions([]);
+            return;
+        }
+
+        const matches = allProducts.filter(product =>
+            product.title.toLowerCase().includes(value.toLowerCase())
+        );
+        console.log("matches " + matches)
+
+        setSuggestions(matches.slice(0, 8)); // limit to 5 suggestions
+        setShowSuggestions(true);
+    };
+
     return (
         <section className='sliders-container mt-4'>
             {/* Header */}
@@ -16,12 +45,42 @@ function Slider() {
             <div className="container mt-3">
                 <div className="row justify-content-center">
                     <div className="col-12 col-sm-10 col-md-6 text-center">
-                        <input
-                            className="form-control my-2"
-                            id="inputtext4"
-                            placeholder="Find your perfect product...."
-                            type="text"
-                        />
+                        <form className="position-relative w-100" onSubmit={(e) => {
+                            e.preventDefault();
+                            if (searchText.trim()) {
+                                navigate("/searchProduct", { state: { title: searchText } })
+                                setShowSuggestions(false);
+                            }
+                        }}>
+                            <input
+                                className="form-control"
+                                type="text"
+                                placeholder="Search products..."
+                                value={searchText}
+                                onChange={handleChange}
+                                onFocus={() => searchText && setShowSuggestions(true)}
+                                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                            />
+
+                            {showSuggestions && suggestions.length > 0 && (
+                                <ul className="list-group position-absolute w-100 z-3">
+                                    {suggestions.map(item => (
+                                        <li
+                                            key={item._id}
+                                            className="list-group-item list-group-item-action"
+                                            onClick={() => {
+                                                navigate("/searchProduct", { state: { title: item } })
+                                                setShowSuggestions(false);
+                                                setSearchText('');
+                                            }}
+                                        >
+                                            {item.title}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </form>
+
                     </div>
                 </div>
             </div>

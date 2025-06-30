@@ -28,6 +28,7 @@ import NewCategory from './components/NewCategory';
 import { fetchDatasAsync } from './redux/slice/AllDataSlice';
 import { ProductShippingDetails } from './components/ProductShippingDetail';
 import CheckoutOrders from './components/CheckoutOrders';
+import SearchingResultProducts from './components/sections/SearchingResultProducts';
 
 function App() {
 
@@ -57,7 +58,7 @@ function App() {
 
 
         <Route path='/signup' element={<RegistrationPage />} />
-        <Route path='/login' element={(!isAuth) && <LoginPage />} />
+        {/* <Route path='/login' element={(!isAuth) && <LoginPage />} /> */}
         <Route path='/shippingDetail' element={(!isAuth) && <ProductShippingDetails />} />
 
         {isAuth && <Route path="/admin" element={(user.userType === 1) ? <AdminLayout /> : <Navigate to="/" />} >
@@ -85,7 +86,8 @@ function App() {
         <Route path="product-details" element={<SingleProductDetailPage />} />
         <Route path="cartData" element={<ShoppingCartData />} />
         <Route path="eWest" element={<EWest />} />
-        <Route path="checkoutOrders" element={<CheckoutOrders/>} />
+        <Route path="checkoutOrders" element={<CheckoutOrders />} />
+        <Route path="searchProduct" element={<SearchingResultProducts />} />
       </Routes>
     </>
   );

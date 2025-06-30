@@ -19,7 +19,7 @@ const LoginModal = ({ isOpen, handleClose }) => {
     };
 
     const [formdata, setFormdata] = useState(initialState)
-    const [showmodal, setShowModal] = useState(false); //shows modal
+    const [showmodal, setShowModal] = useState(true); //shows modal
     const [signIn, setSignIn] = useState(false)
 
     const handleChange = (e) => {
@@ -52,67 +52,74 @@ const LoginModal = ({ isOpen, handleClose }) => {
 
 
     return (
-        (!signIn) ? (
-            <Modal
-                show={isOpen}
-                onHide={handleClose}
-                //  dialogClassName="modal-90w"
-                aria-labelledby="example-custom-modal-styling-title"
-                centered
-            >
-                <Modal.Header className='bg-color text-white text-center' closeButton>
-                    <Modal.Title id="example-custom-modal-styling-title">
-                        Welcome to Helix
-                    </Modal.Title>
-                </Modal.Header>
+        <Modal
+            show={isOpen}
+            onHide={handleClose}
+            //  dialogClassName="modal-90w"
+            aria-labelledby="example-custom-modal-styling-title"
+            centered
+        >
+            <Modal.Header className='bg-color text-white text-center' closeButton>
+                <Modal.Title id="example-custom-modal-styling-title">
+                    Welcome to Helix
+                </Modal.Title>
+            </Modal.Header>
 
-                <Modal.Body>
-                    <form className="container">
-                        <div>
-                            <label>Email Id</label>
-                            <input
-                                type="email"
-                                name="email"
-                                className="form-control"
-                                onChange={handleChange}
-                            />
-                        </div>
+            <Modal.Body>
+                <form className="container">
+                    {!signIn ? (
+                        <>
+                            <div className="mb-3">
+                                <label htmlFor="email" className="form-label">Email Id</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    className="form-control"
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
 
-                        <div className="mb-3">
-                            <label>Password</label>
-                            <input
-                                type="password"
-                                name="password"
-                                className="form-control"
-                                onChange={handleChange}
-                            />
-                        </div>
+                            <div className="mb-3">
+                                <label htmlFor="password" className="form-label">Password</label>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    className="form-control"
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
 
-                        <div >
-                            <button
-                                type="button"
-                                className="form-control btn bg-color btn-outline text-white btn-animation"
-                                onClick={checkUser}
-                            >
-                                Sign In
-                            </button>
-                        </div>
-                        <div >
-                            <button
-                                type="button"
-                                className="form-control btn bg-color btn-outline text-white btn-animation"
-                                onClick={() => setSignIn(true)}
-                            >
-                                Sign Up
-                            </button>
-                        </div>
-                    </form>
-                </Modal.Body>
-            </Modal>) : (
+                            <div className="mb-3">
+                                <button
+                                    type="button"
+                                    className="form-control btn bg-color btn-outline text-white btn-animation"
+                                    onClick={checkUser}
+                                >
+                                    Sign In
+                                </button>
+                            </div>
 
-                
-            <RegistrationPage isOpen={showmodal} handleClose={() => setShowModal(false)} ></RegistrationPage>
-        )
+                            <div className="mb-3">
+                                <button
+                                    type="button"
+                                    className="form-control btn bg-color btn-outline text-white btn-animation"
+                                    onClick={() => setSignIn(true)}
+                                >
+                                    Sign Up
+                                </button>
+                            </div>
+                        </>
+                    ) : (
+                         <RegistrationPage setSignIn={setSignIn} handleClose={handleClose}/>
+                    )}
+                </form>
+            </Modal.Body>
+        </Modal>
+
 
 
     )
