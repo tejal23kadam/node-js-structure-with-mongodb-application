@@ -1,5 +1,5 @@
 import React from 'react';
-import IndividualCategoryDetailPageNew from './IndividualCategoryDetailPageNew';
+import IndividualCategoryDetailPageNew from './IndividualCategoryDetailPage';
 
 function LaptopCategory() { 
   return (

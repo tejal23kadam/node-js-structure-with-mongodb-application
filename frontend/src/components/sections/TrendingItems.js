@@ -101,10 +101,10 @@ function TrendingItems() {
                                             <div className="card-body">
                                                 <div className="d-flex justify-content-around slider-font-size">
                                                     <span className="rating-badge">
-                                                        <s>&#8377;{item.price}</s>
+                                                        <s>${item.price}</s>
                                                     </span>
                                                     <span className="text-decoration-none">
-                                                        &#8377;{Math.trunc(item.price - (item.price * item.discount) / 100)}
+                                                        ${Math.trunc(item.price - (item.price * item.discount) / 100)}
                                                     </span>
                                                 </div>
                                                 <p className="mt-2 mb-3 overme">{item.title}</p>

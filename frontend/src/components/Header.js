@@ -152,7 +152,7 @@ function Header(props) {
                         </ul>
                     </div>
 
-                    <div className=' px-lg-5 d-flex justify-content-center flex-lg-grow-1'>
+                    <div className='px-0 px-md-3 d-flex justify-content-center flex-lg-grow-1'>
                         <div className="dropdown-wrapper">
                             <div className="avatar-container" onClick={toggleDropdown}>
                                 <img

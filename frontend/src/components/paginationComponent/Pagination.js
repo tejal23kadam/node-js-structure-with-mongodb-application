@@ -14,8 +14,8 @@ const Pagination = ({ length, postsPerPage, currentPage, handlePagination }) => 
     const renderPageNumbers = paginationNumber.map((pageNumber) => {
         if (pageNumber < maxPageNumberLimit + 1 && pageNumber > minPageNumberLimit) {
             return (
-                <button key={pageNumber}
-                    className={currentPage === pageNumber ? 'active-page' : ''}
+                <button  key={pageNumber}
+                    className={currentPage === pageNumber ? 'active-page btn-warning' : ''}
                     onClick={() => handlePagination(pageNumber)}>
                     {pageNumber}
                 </button>);

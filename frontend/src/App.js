@@ -21,7 +21,7 @@ import LaptopCategory from './components/sections/LaptopCategory';
 import MobileCategory from './components/sections/MobileCategory';
 import TvCategory from './components/sections/TvCategory';
 import ShoppingCartData from './components/sections/ShoppingCartData';
-import SingleProductDetailPageNew from './components/singleProductDetailComponent/SingleProductDetailPageNew';
+import SingleProductDetailPage from './components/sections/SingleProductDetailPage';
 import ContactUs from './components/sections/ContactUs';
 import EWest from './components/sections/EWest';
 import NewCategory from './components/NewCategory';
@@ -82,7 +82,7 @@ function App() {
         <Route path="laptop" element={<LaptopCategory />} />
         <Route path="mobile" element={<MobileCategory />} />
         <Route path="tv" element={<TvCategory />} />
-        <Route path="product-details" element={<SingleProductDetailPageNew />} />
+        <Route path="product-details" element={<SingleProductDetailPage />} />
         <Route path="cartData" element={<ShoppingCartData />} />
         <Route path="eWest" element={<EWest />} />
         <Route path="checkoutOrders" element={<CheckoutOrders/>} />
