@@ -5,19 +5,19 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import axios from 'axios'
-
-
-import LoginModal from './LoginModal';
+import { setCartCount } from '../redux/slice/CartSlice';
 import { unSetIsAuth } from '../redux/slice/AuthSlice';
+import LoginModal from './LoginModal';
+
 import { addToCategoryFilter } from '../redux/slice/CategoryFilterSlice';
 
 
 
-function Header(props) {
+function Header() {
 
     const [show, setShow] = useState(false);
     const [isDropDownOpen, setDropDownOpen] = useState(false);
-    const [cartCount, setCartCount] = useState(0)
+    const [cartCount1, setcartCount1] = useState(0)
 
     const [showmodal, setShowModal] = useState(false); //shows modal
     const handleClose = () => setShow(!show);
@@ -73,7 +73,8 @@ function Header(props) {
                 }
             })
             console.log("res get user order detail= " + JSON.stringify(res.data.data.data.products));
-            setCartCount(res.data.data.data.products.length);
+            setcartCount1(res.data.data.data.products.length);
+            dispatch(setCartCount(res.data.data.data.products.length));
 
         }
         catch (error) {
@@ -142,7 +143,7 @@ function Header(props) {
                                                 className="badge bg-danger rounded-pill text-white position-absolute start-50"
                                                 style={{ fontSize: '0.75rem' }}
                                             >
-                                                {cartCount}
+                                                {cartCount1}
                                             </span>
                                         )}
                                     </Link>
@@ -196,7 +197,7 @@ function Header(props) {
                                 </div> */}
                             </div>
                         </div>
-                    
+
                     </div>
 
                     {/*login modal start */}
@@ -232,9 +233,9 @@ function Header(props) {
                                                 {/* <li className="nav-item"><Link to="/contactUs">Contact Us</Link></li> */}
                                                 {/* <li className="nav-item"><Link to="/termsAndConditions">Terms & Conditions</Link></li> */}
                                                 <li className="nav-item">
-                                                    <div className='cartCount'>
+                                                    <div className='cartCount1'>
                                                         <Link to="/cartData"><i className="bi bi-cart"></i></Link>
-                                                        <span className="quantity">{cartCount}</span>
+                                                        <span className="quantity">{cartCount1}</span>
                                                     </div>
                                                 </li>
 

@@ -1,7 +1,7 @@
-import { React, useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import { addToCart, minusFromCart, deleteFromCart } from '../sliceComponent/CartSlice';
+
 import CheckOutModal from './CheckOutModal';
 import axios from 'axios';
 import Header from '../Header';

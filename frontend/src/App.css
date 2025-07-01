@@ -1217,8 +1217,12 @@ h6 span {
 .nav-item a {
   text-decoration: none;
   text-transform: capitalize;
-  font-size: 1.4vw;
+  font-size: 17px;
   font-weight: bold;
+}
+
+h1 {
+  font-size: 4.5em;
 }
 
 .nav-item:after {

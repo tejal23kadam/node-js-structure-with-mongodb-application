@@ -4,10 +4,16 @@ const CartSlice = createSlice({
   name: "cart",
   initialState: {
     totalPayableAmount: 0,
+    cartCount: 0,
     orders: []
   },
 
   reducers: {
+    setCartCount: (state, action) => {
+      state.cartCount = action.payload;
+      console.log("cart count in slice " + state.cartCount)
+    },
+
     addToCart: (state, action) => {
 
       let orderIndex = state.orders.findIndex((x) => x._id === action.payload._id);
@@ -57,5 +63,5 @@ const CartSlice = createSlice({
     },
   },
 });
-export const { addToCart, minusFromCart, updateToCart, deleteFromCart, deleteAllCart } = CartSlice.actions;
+export const { addToCart, minusFromCart, updateToCart, deleteFromCart, deleteAllCart, setCartCount } = CartSlice.actions;
 export default CartSlice.reducer;
