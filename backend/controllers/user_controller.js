@@ -46,8 +46,19 @@ const addUser = async (req, res) => {
             userType: data.userType
         });
 
-        await newUser.save();
-        await sendmail(data.email, "welcome to gmail", "hello sir", '<a href="www.google.com">google.com</a>')
+        const savedUser = await newUser.save();
+        const token = jwt.sign({ userId: savedUser._id }, JWT_SECRET, { expiresIn: '1d' });
+        const verifyLink = `http://localhost:3000/verify-email/${token}`;
+
+        console.log("data.email " + data.email)
+        await sendmail(
+            data.email,
+            'Verify Your Email',
+            'Verification Required',
+            `<p>Click the link to verify your email: <a href="${verifyLink}">${verifyLink}</a></p>`
+        );
+        console.log('✅ Email sent successfully');
+
         return res.status(200).json({ status: true, data: { message: "user added successfully" } })
     }
 
@@ -126,7 +137,7 @@ const validateUser = async (req, res) => {
             return res.status(200).json({ staus: false, data: { message: "please enter password" } })
         }
         const passwordMatch = await bcrypt.compare(data.password, User.password)
-        
+
         const token = jwt.sign({ user_id: User.id }, JWT_SECRET)
         if (passwordMatch) {
             return res.status(200).json({ status: true, data: { message: 'Login User successfully', token: token, user: User } })
@@ -141,5 +152,24 @@ const validateUser = async (req, res) => {
     }
 }
 
-module.exports = { checkConn, addUser, updateUser, getAllUser, deteleUser, validateUser }
+const emailVerify = async (req, res) => {
+    try {
+        const { token } = req.params;
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        const updatedUser = await User.findByIdAndUpdate(decoded.userId, { isVerified: true },
+            { new: true } // returns updated document
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found or already verified' });
+        }
+
+        return res.status(200).json({ message: 'Email verified successfully!' });
+    } catch (err) {
+        return res.status(400).json({ message: 'Invalid or expired token' });
+    }
+}
+
+module.exports = { checkConn, addUser, updateUser, getAllUser, deteleUser, validateUser, emailVerify }
 

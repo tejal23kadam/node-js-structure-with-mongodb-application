@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-
 import CheckOutModal from './CheckOutModal';
 import axios from 'axios';
 import Header from '../Header';

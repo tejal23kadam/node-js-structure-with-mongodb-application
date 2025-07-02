@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Pagination from '../paginationComponent/Pagination';
-
-import { addToCart} from '../sliceComponent/CartSlice';
-import NavBar from './NavBar'
 import SingleProductDetailPage from './SingleProductDetailPage';
 import axios from 'axios';
 import Header from '../Header';
+import { useNavigate } from "react-router-dom";
 
 function IndividualCategoryDetailPageNew(props) {
     //const cartData = useSelector((state) => state.cart.orders);
+    const [searchText, setSearchText] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
     const data = useSelector((state) => state.allData.data);
     const loading = useSelector((state) => state.allData.loading);
     const error = useSelector((state) => state.allData.error);
@@ -23,7 +24,8 @@ function IndividualCategoryDetailPageNew(props) {
     const dispatch = useDispatch();
     const [activePriceColor, setActivePriceColor] = useState(null);
     const [activeDiscountColor, setActiveDiscountColor] = useState(null);
-
+    const user = useSelector((state) => state.auth.user);
+    const navigate = useNavigate();
     // const [quantity, setQuantity] = useState(0)
 
     const [cart, setCart] = useState([]);
@@ -33,12 +35,27 @@ function IndividualCategoryDetailPageNew(props) {
 
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const allProducts = useSelector((state) => state.allData.data);
 
-    //get brand for each category
 
-    //console.log("data is data " + JSON.stringify(data)) 
-    //props.category.toLowerCase()
-    const user = useSelector((state) => state.auth.user);
+    const handleChange = (e) => {
+        const value = e.target.value;
+        setSearchText(value);
+
+        if (value.trim() === '') {
+            setSuggestions([]);
+            return;
+        }
+
+        const matches = allProducts.filter(product =>
+            product.title.toLowerCase().includes(value.toLowerCase())
+        );
+        console.log("matches " + matches)
+
+        setSuggestions(matches.slice(0, 8)); // limit to 5 suggestions
+        setShowSuggestions(true);
+    };
+
     let individualBrandData = data.filter(datas => datas.category.toLowerCase() === props.category.toLowerCase());
 
     const handlePagination = (pageNumber) => {
@@ -169,23 +186,58 @@ function IndividualCategoryDetailPageNew(props) {
             });
 
             console.log("Response from backend:", res.data);
-            
+
         } catch (error) {
             console.error("Failed to update quantity", error);
         }
     };
     return (
         <div>
-            <Header/>
+            <Header />
             <section className="page-search">
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-10 col-xl-10 col-md-8 advance-search ">
+                        {/* <div className="col-lg-10 col-xl-10 col-md-8 advance-search ">
                             <input type="text" onChange={e => setSearchVal(e.target.value)} className="form-control my-2 my-lg-0" id="inputtext4" placeholder="What are you looking for ?" />
                         </div>
                         <div className='col-lg-2 col-xl-2 col-md-4 advance-search align-self-center'>
                             <button type="submit" className="btn btn-primary active w-100" onClick={() => handleSearchClick()}>Search Now</button>
-                        </div>
+                        </div> */}
+                        <form className="position-relative w-100" onSubmit={(e) => {
+                            e.preventDefault();
+                            if (searchText.trim()) {
+                                navigate("/searchProduct", { state: { title: searchText } })
+                                setShowSuggestions(false);
+                            }
+                        }}>
+                            <input
+                                className="form-control"
+                                type="text"
+                                placeholder="Search products..."
+                                value={searchText}
+                                onChange={handleChange}
+                                onFocus={() => searchText && setShowSuggestions(true)}
+                                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                            />
+
+                            {showSuggestions && suggestions.length > 0 && (
+                                <ul className="list-group position-absolute w-100 z-3">
+                                    {suggestions.map(item => (
+                                        <li
+                                            key={item._id}
+                                            className="list-group-item list-group-item-action"
+                                            onClick={() => {
+                                                navigate("/searchProduct", { state: { title: item } })
+                                                setShowSuggestions(false);
+                                                setSearchText('');
+                                            }}
+                                        >
+                                            {item.title}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </form>
                     </div>
                 </div>
             </section>
@@ -288,8 +340,8 @@ function IndividualCategoryDetailPageNew(props) {
 
                                                         ((cart[data._id] || 0) === 0) ? (
                                                             <button className="btn btn-warning w-100" onClick={() => { handleAddToCart(data._id) }}>
-                                                                
-                                                                ADD TO CART 
+
+                                                                ADD TO CART
                                                             </button>
                                                         ) : (
                                                             <div className="btn-quantity-container d-flex align-items-center justify-content-center" style={{ gap: ".5rem" }}>

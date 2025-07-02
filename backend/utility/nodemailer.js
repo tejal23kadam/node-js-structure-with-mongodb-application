@@ -8,6 +8,8 @@ const transporter = nodemail.createTransport({
         auth: {
                 user: EMAIL,
                 pass: PASSWORD
+        }, tls: {
+                rejectUnauthorized: false, // <-- Allow self-signed certs
         }
 })
 

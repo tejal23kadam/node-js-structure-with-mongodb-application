@@ -15,7 +15,7 @@ const addOrder = async (req, res) => {
     try {
         const data = req.body;
         const updateUser = await OrderModel.findOne({ "userId": data.userId })
-       
+
         if (updateUser) {
             updateOrder(req, res);
         }
@@ -53,14 +53,14 @@ const addOrder = async (req, res) => {
 const updateOrder = async (req, res) => {
     try {
         const UserId = req.body.userId;
-        
+
         const data1 = req.body;
         const data = {
-            $addToSet : { products: { $each: req.body.products } }
+            $addToSet: { products: { $each: req.body.products } }
         };
-     
+
         const updateUser = await OrderModel.findOneAndUpdate({ userId: UserId }, data, { new: true });
-       
+
         if (!updateUser) {
             return res.status(404).json({ staus: true, data: { message: "order id is not found" } })
         }
@@ -156,5 +156,29 @@ const getUserOrderDetail = async (req, res) => {
         console.log(error)
         return res.status(500).json({ status: false, data: { message: "Internal server error", error: error } })
     }
-};
-module.exports = { checkConnOrder, addOrder, updateOrder, getUserOrderDetail };
+}
+
+const getUserLastOrder = async (req, res) => {
+    try {
+        const userId = req.query.userId;
+
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).json({ message: 'Invalid userId' });
+        }
+
+        const lastOrder = await OrderModel.findOne({ userId: userId })
+            .sort({ createdAt: -1 }) // most recent
+            .limit(1);
+
+        if (!lastOrder) {
+            return res.status(404).json({ message: 'No orders found for this user.' });
+        }
+
+        res.status(200).json({ success: true, data: lastOrder });
+    } catch (error) {
+        console.error("Error fetching last order:", error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+}
+
+module.exports = { checkConnOrder, addOrder, updateOrder, getUserOrderDetail, getUserLastOrder };

@@ -29,6 +29,7 @@ import { fetchDatasAsync } from './redux/slice/AllDataSlice';
 import { ProductShippingDetails } from './components/ProductShippingDetail';
 import CheckoutOrders from './components/CheckoutOrders';
 import SearchingResultProducts from './components/sections/SearchingResultProducts';
+import VerifyEmail from './components/VerifyEmail';
 
 function App() {
 
@@ -88,6 +89,7 @@ function App() {
         <Route path="eWest" element={<EWest />} />
         <Route path="checkoutOrders" element={<CheckoutOrders />} />
         <Route path="searchProduct" element={<SearchingResultProducts />} />
+        <Route path="/verify-email/:token" element={<VerifyEmail/>} />
       </Routes>
     </>
   );

@@ -32,7 +32,7 @@ function TrendingItems() {
             setRandomItems(shuffled.slice(0, 7));
         }
     }, [data]);
-console.log("data in trendinfg items are " + data)
+
     const handleAddToCart = async (productId) => {
         try {
             console.log("this is the product id " + productId)

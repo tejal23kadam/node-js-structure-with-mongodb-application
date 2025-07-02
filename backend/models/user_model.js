@@ -21,7 +21,12 @@ const userSchema = mongoose.Schema({
     userType: {
         type: Number,
         required: true
-    }
+    },
+    isVerified:
+    {
+        type: Boolean,
+        default: false
+    },
 }, { timestamps: true })
 
 module.exports = mongoose.model('user', userSchema)

@@ -13,7 +13,7 @@ function Slider() {
     const navigate = useNavigate();
     const allProducts = useSelector((state) => state.allData.data);
 
-    console.log("this is slider page and data over hre is " + JSON.stringify(allProducts))
+    
     const handleChange = (e) => {
         const value = e.target.value;
         setSearchText(value);

@@ -18,20 +18,13 @@ function Header() {
     const [show, setShow] = useState(false);
     const [isDropDownOpen, setDropDownOpen] = useState(false);
     const [cartCount1, setcartCount1] = useState(0)
-
     const [showmodal, setShowModal] = useState(false); //shows modal
     const handleClose = () => setShow(!show);
-    const [rightshow, setRightShow] = useState(false);
-    const handleRightClose = () => setRightShow(false);
-
-    const [visibleSearchBar, setVisibleSearchBar] = useState(false);
-    const [activeLink, setActiveLink] = useState("Dashboard");
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const dropdownRef = useRef();
     const user = useSelector((state) => state.auth.user);
-    console.log("user in indx page " + JSON.stringify(user))
+    console.log("user " + JSON.stringify(user))
     const cart = useSelector((state) => state.cart);
 
     const openLoginModal = () => {
@@ -48,23 +41,22 @@ function Header() {
     };
 
     useEffect(() => {
-        getUserOrderDetail();
+        if (user && user._id) {
+            getUserOrderDetail();
+        }
         /*this is the logic for the auto close of the dropdown box on the outside click on the page  */
         function handleClickOutside(event) {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setDropDownOpen(false);
             }
         }
-
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-
-    }, []);
+    }, [user]);
 
     const getUserOrderDetail = async () => {
-        console.log("thi is called")
         try {
 
             const res = await axios.get('http://localhost:2000/api/getUserCartDetail', {
@@ -72,7 +64,8 @@ function Header() {
                     userId: user._id
                 }
             })
-            console.log("res get user order detail= " + JSON.stringify(res.data.data.data.products));
+            console.log("user id " + user._id)
+            console.log("res get user cart detail= " + JSON.stringify(res.data));
             setcartCount1(res.data.data.data.products.length);
             dispatch(setCartCount(res.data.data.data.products.length));
 
