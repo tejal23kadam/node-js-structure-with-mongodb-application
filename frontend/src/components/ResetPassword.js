@@ -8,7 +8,7 @@ function ResetPassword() {
     const [msg, setMsg] = useState('');
 
     const handleReset = async () => {
-        const res = await axios.post(`/api/reset-password/${token}`, { password });
+        const res = await axios.post(`http://localhost:2000/api/reset-password/${token}`, { password });
         setMsg(res.data.message);
     };
 

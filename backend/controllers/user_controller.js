@@ -188,7 +188,7 @@ const forgetPassword = async (req, res) => {
     const resetLink = `http://localhost:3000/reset-password/${token}`;
 
     await sendmail(
-        data.email,
+        email,
         "Password Reset",
         `<p>Click <a href="${resetLink}">here</a> to reset your password</p>`
     );
@@ -201,15 +201,15 @@ const resetPassword = async (req, res) => {
     const { password } = req.body;
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decoded.id);
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const user = await userModel.findById(decoded.id);
 
         user.password = await bcrypt.hash(password, 10);
         await user.save();
 
         res.json({ message: 'Password reset successful' });
     } catch (err) {
-        res.status(400).json({ message: 'Invalid or expired token' });
+        res.status(404).json({ message: 'Invalid or expired token' });
     }
 }
 module.exports = { checkConn, addUser, updateUser, getAllUser, deteleUser, validateUser, emailVerify,forgetPassword,resetPassword }

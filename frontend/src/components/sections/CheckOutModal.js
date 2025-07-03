@@ -61,7 +61,7 @@ function CheckOutModal({ isOpen, handleClose }) {
 
             const res = await axios.post('http://localhost:2000/api/addOrder', payload, config)
             //  const res = await axios.post('http://localhost:2000/api/updateOrder', payload, config)
-            console.log("add update api response  " + res)
+            console.log("add order api response  " + JSON.stringify(res))
             handleClose();
             dispatch(setToast({ message: "Order is successfully Proceed", type: "success" }));
             deleteAllProductFromCart();
