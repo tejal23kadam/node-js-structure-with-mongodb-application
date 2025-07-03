@@ -32,7 +32,7 @@ function NewEmployee() {
             const tokenStr = localStorage.getItem('token');
             const config = {
                 headers: {
-                    "Authorization": `${tokenStr}`
+                    "Authorization": `Bearer ${tokenStr}`
                 }
             }
             const res = await axios.post('http://localhost:2000/api/addnewEmployee', employee, config)

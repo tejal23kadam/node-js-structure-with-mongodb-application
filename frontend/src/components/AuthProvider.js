@@ -9,10 +9,10 @@ const AuthProvider = ({ children }) => {
         const verify = async () => {
                 try {
 
-                        const tokenStr = localStorage.getItem("token");
+                        const token = localStorage.getItem("token");
                         const config = {
                                 headers: {
-                                        "Authorization": `${tokenStr}`
+                                      Authorization: `Bearer ${token}`
                                 }
                         }
                         const res = await axios.post('http://localhost:2000/api/authVerify', {}, config)

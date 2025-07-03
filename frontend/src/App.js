@@ -30,6 +30,8 @@ import { ProductShippingDetails } from './components/ProductShippingDetail';
 import CheckoutOrders from './components/CheckoutOrders';
 import SearchingResultProducts from './components/sections/SearchingResultProducts';
 import VerifyEmail from './components/VerifyEmail';
+import ForgotPassword from './components/ForgetPassword';
+import ResetPassword from './components/ResetPassword'
 
 function App() {
 
@@ -89,7 +91,9 @@ function App() {
         <Route path="eWest" element={<EWest />} />
         <Route path="checkoutOrders" element={<CheckoutOrders />} />
         <Route path="searchProduct" element={<SearchingResultProducts />} />
-        <Route path="/verify-email/:token" element={<VerifyEmail/>} />
+        <Route path="/verify-email/:token" element={<VerifyEmail />} />
+        <Route path="/forget-password" element={<ForgotPassword/>} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
       </Routes>
     </>
   );

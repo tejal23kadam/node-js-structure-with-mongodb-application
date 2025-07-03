@@ -34,17 +34,12 @@ function TrendingItems() {
     }, [data]);
 
     const handleAddToCart = async (productId) => {
+        if(user && user._id){
         try {
-            console.log("this is the product id " + productId)
-            // setCart((prev) => ({
-            //     ...prev,
-            //     [productId]: 1,
-            // }));
-
             const tokenStr = localStorage.getItem('token');
             const config = {
                 headers: {
-                    "Authorization": `${tokenStr}`
+                    "Authorization": `Bearer ${tokenStr}`
                 }
             }
             const payload = {
@@ -61,6 +56,10 @@ function TrendingItems() {
         catch (error) {
             console.log(error)
         }
+    }
+    else{
+        alert("Login required to continue. Please sign in.")
+    }
     };
     if (!data || data.length === 0) {
         return <p>Loading trending items...</p>;

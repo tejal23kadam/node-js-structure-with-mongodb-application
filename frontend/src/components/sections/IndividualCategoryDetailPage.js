@@ -83,7 +83,8 @@ function IndividualCategoryDetailPageNew(props) {
     };
 
     const handleAddToCart = async (productId) => {
-
+        console.log("add cart")
+        if (user && user._id){ 
         try {
             console.log("this is the product id " + productId)
             setCart((prev) => ({
@@ -94,7 +95,7 @@ function IndividualCategoryDetailPageNew(props) {
             const tokenStr = localStorage.getItem('token');
             const config = {
                 headers: {
-                    "Authorization": `${tokenStr}`
+                    "Authorization": `Bearer ${tokenStr}`
                 }
             }
             const payload = {
@@ -112,6 +113,9 @@ function IndividualCategoryDetailPageNew(props) {
         }
         catch (error) {
             console.log(error)
+        }}
+        else{
+            alert("Login required to continue. Please sign in.")
         }
     };
 

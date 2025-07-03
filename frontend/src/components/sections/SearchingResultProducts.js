@@ -1,5 +1,5 @@
-import  { useState, useEffect } from 'react';
-import { useSelector} from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import Pagination from '../paginationComponent/Pagination';
 import { useLocation } from 'react-router-dom';
 
@@ -20,19 +20,19 @@ function SearchingResultProducts() {
     const loading = useSelector((state) => state.allData.loading);
     const error = useSelector((state) => state.allData.error);
     const [currentProductId, setCurrentProductId] = useState(1);
-    let [currentPage, setCurrentPage] = useState(1);    
+    let [currentPage, setCurrentPage] = useState(1);
     let [filterDiscount, setFilterDiscount] = useState(null);
     let [filterPrice, setFilterPrice] = useState(null);
     let [filteredData, setFilteredData] = useState([]);
     const [showModal, setShowModal] = useState(false);
-   
+
     const [activePriceColor, setActivePriceColor] = useState(null);
     const [activeDiscountColor, setActiveDiscountColor] = useState(null);
 
     // const [quantity, setQuantity] = useState(0)
 
     const [cart, setCart] = useState([]);
-   
+
 
     const postsPerPage = 6;
 
@@ -62,36 +62,39 @@ function SearchingResultProducts() {
     };
 
     const handleAddToCart = async (productId) => {
+        if (user && user._id){
+            try {
+                console.log("this is the product id " + productId)
+                setCart((prev) => ({
+                    ...prev,
+                    [productId]: 1,
+                }));
 
-        try {
-            console.log("this is the product id " + productId)
-            setCart((prev) => ({
-                ...prev,
-                [productId]: 1,
-            }));
-
-            const tokenStr = localStorage.getItem('token');
-            const config = {
-                headers: {
-                    "Authorization": `${tokenStr}`
+                const tokenStr = localStorage.getItem('token');
+                const config = {
+                    headers: {
+                        "Authorization": `Bearer ${tokenStr}`
+                    }
                 }
+                const payload = {
+                    userId: user._id,
+                    products: [{
+                        product: productId,
+                        quantity: 1,
+                    }]
+                };
+
+
+                const res = await axios.post('http://localhost:2000/api/addCart', payload, config)
+                //  const res = await axios.post('http://localhost:2000/api/updateOrder', payload, config)
+                console.log("response for add cart api  " + JSON.stringify(res))
             }
-            const payload = {
-                userId: user._id,
-                products: [{
-                    product: productId,
-                    quantity: 1,
-                }]
-            };
-
-
-            const res = await axios.post('http://localhost:2000/api/addCart', payload, config)
-            //  const res = await axios.post('http://localhost:2000/api/updateOrder', payload, config)
-            console.log("response for add cart api  " + JSON.stringify(res))
-        }
-        catch (error) {
-            console.log(error)
-        }
+            catch (error) {
+                console.log(error)
+            }}
+            else{
+                 alert("Login required to continue. Please sign in.")
+            }
     };
 
     const handleIncrease = (productId) => {

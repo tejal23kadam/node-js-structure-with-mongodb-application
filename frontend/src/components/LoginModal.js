@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { setToast } from '../redux/slice/toastSlice'
 import { setIsAuth } from '../redux/slice/AuthSlice';
 import RegistrationPage from './RegistrationPage';
+import { Link } from 'react-router-dom';
 
 
 const LoginModal = ({ isOpen, handleClose }) => {
@@ -67,55 +68,64 @@ const LoginModal = ({ isOpen, handleClose }) => {
 
             <Modal.Body>
                 <form className="container">
-                    {!signIn ? (
-                        <>
-                            <div className="mb-3">
-                                <label htmlFor="email" className="form-label">Email Id</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    id="email"
-                                    className="form-control"
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
+                    <div className='row' >
+                        {!signIn ? (
+                            <>
+                                <div className="mb-3">
+                                    <label htmlFor="email" className="form-label">Email Id</label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        id="email"
+                                        className="form-control"
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
 
-                            <div className="mb-3">
-                                <label htmlFor="password" className="form-label">Password</label>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    id="password"
-                                    className="form-control"
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
+                                <div className="mb-3">
+                                    <label htmlFor="password" className="form-label">Password</label>
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        id="password"
+                                        className="form-control"
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="mb-3 text-center">
+                                    <Link to="/forget-password">
+                                        Forgot password?
+                                    </Link>
 
-                            <div className="mb-3">
-                                <button
-                                    type="button"
-                                    className="form-control btn bg-color btn-outline text-white btn-animation"
-                                    onClick={checkUser}
-                                >
-                                    Sign In
-                                </button>
-                            </div>
+                                </div>
 
-                            <div className="mb-3">
-                                <button
-                                    type="button"
-                                    className="form-control btn bg-color btn-outline text-white btn-animation"
-                                    onClick={() => setSignIn(true)}
-                                >
-                                    Sign Up
-                                </button>
-                            </div>
-                        </>
-                    ) : (
-                         <RegistrationPage setSignIn={setSignIn} handleClose={handleClose}/>
-                    )}
+                                
+                                    <div className='col-md-6'>
+                                    <button
+                                        type="button"
+                                        className="form-control btn bg-color btn-outline text-white btn-animation"
+                                        onClick={checkUser}
+                                    >
+                                        Sign In
+                                    </button>
+                                    </div>
+                                    <div className='col-md-6'>
+                                        <button
+                                            type="button"
+                                            className="form-control btn bg-color btn-outline text-white btn-animation"
+                                            onClick={() => setSignIn(true)}
+                                        >
+                                            Sign Up
+                                        </button>
+                                    
+                                </div>
+                            </>
+                        ) : (
+                            <RegistrationPage setSignIn={setSignIn} handleClose={handleClose} />
+                        )}
+                    </div>
                 </form>
             </Modal.Body>
         </Modal>

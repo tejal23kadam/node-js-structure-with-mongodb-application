@@ -88,7 +88,7 @@ const NewProduct = () => {
                         const config = {
                                 headers: {
                                         'Content-Type': 'multipart/form-data',
-                                        "Authorization": `${tokenStr}`
+                                        "Authorization": `Bearer ${tokenStr}`
                                 }
                         }
                         const res = await axios.post('http://localhost:2000/api/addnewProduct', allFormData, config)

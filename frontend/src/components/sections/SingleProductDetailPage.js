@@ -8,27 +8,31 @@ function SingleProductDetailPage({ isOpen, handleClose, productId }) {
     const user = useSelector((state) => state.auth.user);
 
     const handleAddToCart = async (productId) => {
-        console.log("this is the product id " + productId)
-        try {
-            const tokenStr = localStorage.getItem('token');
-            const config = {
-                headers: {
-                    "Authorization": `${tokenStr}`
+        if (user && user._id) {
+            try {
+                const tokenStr = localStorage.getItem('token');
+                const config = {
+                    headers: {
+                        "Authorization": `Bearer ${tokenStr}`
+                    }
                 }
+                const payload = {
+                    userId: user._id,
+                    products: [{
+                        product: productId,
+                        quantity: 1,
+                    }]
+                };
+                console.log("res from single product detail page  = " + JSON.stringify(payload))
+                const res = await axios.post('http://localhost:2000/api/addCart', payload, config)
+                //console.log("res from single product detail page  = " + JSON.stringify(res))
             }
-            const payload = {
-                userId: user._id,
-                products: [{
-                    product: productId,
-                    quantity: 1,
-                }]
-            };
-            console.log("res from single product detail page  = " + JSON.stringify(payload))
-            const res = await axios.post('http://localhost:2000/api/addCart', payload, config)
-            //console.log("res from single product detail page  = " + JSON.stringify(res))
+            catch (error) {
+                console.log(error)
+            }
         }
-        catch (error) {
-            console.log(error)
+        else {
+             alert("Login required to continue. Please sign in.")
         }
     };
 

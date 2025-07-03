@@ -50,7 +50,6 @@ const addUser = async (req, res) => {
         const token = jwt.sign({ userId: savedUser._id }, JWT_SECRET, { expiresIn: '1d' });
         const verifyLink = `http://localhost:3000/verify-email/${token}`;
 
-        console.log("data.email " + data.email)
         await sendmail(
             data.email,
             'Verify Your Email',
@@ -153,23 +152,65 @@ const validateUser = async (req, res) => {
 }
 
 const emailVerify = async (req, res) => {
+    const { token } = req.params;
+
+    if (!token) {
+        return res.status(400).json({ message: "Token missing from URL." });
+    }
+
     try {
-        const { token } = req.params;
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const userId = decoded.userId;
+        console.log("user id = ", userId)
+        const user = await userModel.findByIdAndUpdate(userId, { isVerified: true }, { new: true });
 
-        const updatedUser = await User.findByIdAndUpdate(decoded.userId, { isVerified: true },
-            { new: true } // returns updated document
-        );
-
-        if (!updatedUser) {
-            return res.status(404).json({ message: 'User not found or already verified' });
+        if (!user) {
+            return res.status(404).json({ message: "User not found." });
         }
 
-        return res.status(200).json({ message: 'Email verified successfully!' });
-    } catch (err) {
-        return res.status(400).json({ message: 'Invalid or expired token' });
+        res.status(200).json({ message: "Email verified successfully." });
+    } catch (error) {
+        res.status(400).json({ message: "Invalid or expired token." });
     }
+
+
 }
 
-module.exports = { checkConn, addUser, updateUser, getAllUser, deteleUser, validateUser, emailVerify }
+
+const forgetPassword = async (req, res) => {
+    const { email } = req.body;
+    const user = await userModel.findOne({ email });
+
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '15m' });
+
+    const resetLink = `http://localhost:3000/reset-password/${token}`;
+
+    await sendmail(
+        data.email,
+        "Password Reset",
+        `<p>Click <a href="${resetLink}">here</a> to reset your password</p>`
+    );
+
+    res.json({ message: 'Reset link sent to email' });
+};
+
+const resetPassword = async (req, res) => {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user = await User.findById(decoded.id);
+
+        user.password = await bcrypt.hash(password, 10);
+        await user.save();
+
+        res.json({ message: 'Password reset successful' });
+    } catch (err) {
+        res.status(400).json({ message: 'Invalid or expired token' });
+    }
+}
+module.exports = { checkConn, addUser, updateUser, getAllUser, deteleUser, validateUser, emailVerify,forgetPassword,resetPassword }
 

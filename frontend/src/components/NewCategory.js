@@ -16,14 +16,15 @@ const NewCategory = () => {
 
         const [selectedFile, setSelectedFile] = useState([]);
         const [show, setShow] = useState(false);
-        const [formdata, setFormdata] = useState(initialState)    
-      
+        const [formdata, setFormdata] = useState(initialState)
+
         const addCategory = async () => {
                 try {
                         const tokenStr = localStorage.getItem('token');
                         const config = {
-                                headers: {                                      
-                                        "Authorization": `${tokenStr}`
+                                headers: {
+                                        Authorization: `Bearer ${tokenStr}`
+
                                 }
                         }
                         const res = await axios.post('http://localhost:2000/api/addnewCategory', formdata, config)

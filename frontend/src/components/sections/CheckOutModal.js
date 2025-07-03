@@ -45,7 +45,7 @@ function CheckOutModal({ isOpen, handleClose }) {
             const tokenStr = localStorage.getItem('token');
             const config = {
                 headers: {
-                    "Authorization": `${tokenStr}`
+                    "Authorization": `Bearer ${tokenStr}`
                 }
             }
             const payload = {
