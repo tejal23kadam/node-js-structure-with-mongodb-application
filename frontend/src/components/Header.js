@@ -24,7 +24,7 @@ function Header() {
     const navigate = useNavigate();
     const dropdownRef = useRef();
     const user = useSelector((state) => state.auth.user);
-    console.log("user " + JSON.stringify(user))
+
     const cart = useSelector((state) => state.cart);
 
     const openLoginModal = () => {
@@ -42,7 +42,7 @@ function Header() {
 
     useEffect(() => {
         if (user && user._id) {
-            getUserOrderDetail();
+            getUserCartDetail();
         }
         /*this is the logic for the auto close of the dropdown box on the outside click on the page  */
         function handleClickOutside(event) {
@@ -56,7 +56,7 @@ function Header() {
         };
     }, [user]);
 
-    const getUserOrderDetail = async () => {
+    const getUserCartDetail = async () => {
         try {
 
             const res = await axios.get('http://localhost:2000/api/getUserCartDetail', {
@@ -64,8 +64,6 @@ function Header() {
                     userId: user._id
                 }
             })
-            console.log("user id " + user._id)
-            console.log("res get user cart detail= " + JSON.stringify(res.data));
             setcartCount1(res.data.data.data.products.length);
             dispatch(setCartCount(res.data.data.data.products.length));
 
@@ -132,16 +130,19 @@ function Header() {
                                     <Link to="/cartData" className="nav-link text-decoration-none position-relative">
                                         <i className="bi bi-cart3 fs-4"></i>
                                         {(
-                                            <span
-                                                className="badge bg-danger rounded-pill text-white position-absolute start-50"
-                                                style={{ fontSize: '0.75rem' }}
-                                            >
-                                                {cartCount1}
-                                            </span>
+                                            (cartCount1 > 0) ? (
+                                                <span
+                                                    className="badge bg-danger rounded-pill text-white position-absolute start-50"
+                                                    style={{ fontSize: '0.75rem' }}
+                                                >
+                                                    {cartCount1}
+                                                </span>) : (<></>)
                                         )}
                                     </Link>
                                 </div>
                             </li>
+
+
                         </ul>
                     </div>
 
@@ -222,16 +223,35 @@ function Header() {
                                                 <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('laptop')) }}><Link to="/laptop">laptop</Link></li>
                                                 <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('mobile')) }}><Link to="/mobile">mobile</Link></li>
                                                 <li className="nav-item" onClick={() => { dispatch(addToCategoryFilter('tv')) }}><Link to="/tv">tv</Link></li>
+                                                <li className="nav-item" >
+                                                    <div className="position-relative">
+                                                        <Link to="/cartData" className="nav-link text-decoration-none position-relative">
+                                                            <i className="bi bi-cart3 fs-4"></i>
+                                                            {(
+                                                                (cartCount1 > 0) ? (
+                                                                    <span
+                                                                        className="badge bg-danger"
+                                                                        style={{
+                                                                            width: "40px",
+                                                                            height: "40px",
+                                                                            padding: "15.2px 7..8px",
+                                                                            fontSize: "22px",
+                                                                            borderRadius: "26px",
+                                                                            transform: "perspective(0px) translate(-12px) rotate(0deg) scale(0.50)",
+                                                                            transformOrigin: "top",
+                                                                        }}
+                                                                    >
+                                                                        {cartCount1}
+                                                                    </span>) : (<></>)
+                                                            )}
+                                                        </Link>
+                                                    </div>
 
+                                                    
+                                                </li>
                                                 {/* <li className="nav-item"><Link to="/contactUs">Contact Us</Link></li> */}
                                                 {/* <li className="nav-item"><Link to="/termsAndConditions">Terms & Conditions</Link></li> */}
-                                                <li className="nav-item">
-                                                    <div className='cartCount1'>
-                                                        <Link to="/cartData"><i className="bi bi-cart"></i></Link>
-                                                        <span className="quantity">{cartCount1}</span>
-                                                    </div>
-                                                </li>
-
+                                               
                                             </ul>
                                         </nav>
                                     </div>

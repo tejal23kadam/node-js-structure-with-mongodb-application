@@ -14,10 +14,19 @@ function ForgotPassword() {
     };
 
     return (
-        <div>
-            <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" />
-            <button onClick={handleSubmit}>Send Reset Link</button>
-            <p>{msg}</p>
+        <div className='container'>
+            <div className='row col-6 text-center justify-content-center'>
+                <div>
+                    <h3>Forget Password</h3>
+                </div>
+                <div className='col-12'>
+                    <input value={email} className="form-control my-2 my-lg-0" onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" />
+                </div>
+                <div className="col-12">
+                    <button type="submit" className="btn btn-primary active w-100" onClick={handleSubmit}>Send Reset Link</button>
+                </div>
+                <p>{msg}</p>
+            </div>
         </div>
     );
 }

@@ -7,23 +7,21 @@ import axios from 'axios';
 import Header from './Header';
 
 
-const CheckoutOrders = () => {
-    const cartTotalPayableAmout = useSelector((state) => state.cart.totalPayableAmount);
-
+const CheckoutOrders = ({orderData}) => {
 
     const user = useSelector((state) => state.auth.user);
     const [cartOrdersData, setCartOrdersData] = useState([]);
-
+    console.log("orderdata " + orderData)
     const getUserOrderDetail = async () => {
-
+        console.log("rhis is called")
         try {
             const res = await axios.get('http://localhost:2000/api/getUserOrderDetail', {
                 params: {
                     userId: user._id
                 }
             })
-            console.log("res get user order = " + JSON.stringify(res));
-            setCartOrdersData(res.data.data.data[0].products);
+            console.log("res get user order = " + JSON.stringify(res.data.data.data[0]));
+            setCartOrdersData(res.data.data.data[0]);
 
         }
         catch (error) {
@@ -32,14 +30,17 @@ const CheckoutOrders = () => {
     }
 
     useEffect(() => {
-        getUserOrderDetail();
-    }, []);
+
+        if (user && user._id)
+            getUserOrderDetail();
+    }, [user]);
+    if (!cartOrdersData) return <div>Loading...</div>;
 
 
 
     return (
         <div>
-            <Header/>
+            <Header />
             <section className="page-title">
                 {/* <!-- Container Start --> */}
                 <div className="container">
@@ -60,7 +61,7 @@ const CheckoutOrders = () => {
                             <div className="col-12" >
                                 <div className="card">
                                     {
-                                        cartOrdersData.map((product) => {
+                                        cartOrdersData.products.map((product) => {
                                             return (
                                                 <div className="mt-2 store-item bottom-line pb-3" >
                                                     <div className="row">
@@ -93,10 +94,10 @@ const CheckoutOrders = () => {
                                                                     )
                                                                 }
                                                             </div>
-                                                             <div className="list-store d-flex align-items-center justify-content-between" >
+                                                            <div className="list-store d-flex align-items-center justify-content-between" >
                                                                 <h6> Total Quantity : {product.quantity} </h6>
                                                             </div>
-                                                           
+
 
                                                         </div>
 

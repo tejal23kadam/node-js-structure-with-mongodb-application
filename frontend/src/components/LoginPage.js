@@ -26,7 +26,7 @@ function LoginPage() {
             console.log("res= ", res);
             if (res.data.status) {
                 localStorage.setItem("token", res.data.data.token)
-                  console.log("user in redux is " + JSON.stringify(res.data.data.user))
+                  
                 dispatch(setIsAuth(res.data.data.user));
               
                 dispatch(setToast({ message: res.data.data.message, type: "success" }));

@@ -85,7 +85,7 @@ const getUserCartDetail = async (req, res) => {
 
 const removeProductFromCart = async (req, res) => {
     const { userId, productId } = req.body;
-    console.log("body given " + req.body)
+    console.log("body given " + JSON.stringify(req.body))
 
     try {
         const result = await cartModel.findOneAndUpdate(
@@ -122,7 +122,7 @@ const deleteAllProductFromCart = async (req, res) => {
 
 const updateProductQuantity = async (req, res) => {
     const { userId, productId, change } = req.body;
-    console.log("req.bopdy " + req.body)
+   
  if (!userId || !productId || !change) {
         return res.status(400).json({ message: "Missing parameters" });
     }   ``

@@ -127,7 +127,7 @@ const validateUser = async (req, res) => {
 
         console.log("data for the user : " + JSON.stringify(data));
         const User = await userModel.findOne({ email: data.email });
-        console.log("User", User);
+        
         if (!User.email) {
 
             return res.status(200).json({ staus: false, data: { message: "your id is not registered" } })
@@ -161,7 +161,7 @@ const emailVerify = async (req, res) => {
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
         const userId = decoded.userId;
-        console.log("user id = ", userId)
+        
         const user = await userModel.findByIdAndUpdate(userId, { isVerified: true }, { new: true });
 
         if (!user) {

@@ -22,7 +22,7 @@ function ShoppingCartData() {
     }
 
     console.log("carts data here " + JSON.stringify(data))
-    const getUserOrderDetail = async () => {
+    const getUserCartDetail = async () => {
         console.log("thi is called")
         try {
 
@@ -41,9 +41,9 @@ function ShoppingCartData() {
     }
 
     useEffect(() => {
-        console.log("user id in get user oreder detail " + user._id)
+        
         if (user && user._id) {
-            getUserOrderDetail();
+            getUserCartDetail();
         }
     }, [user]);
 
@@ -56,7 +56,7 @@ function ShoppingCartData() {
             };
             const res = await axios.post('http://localhost:2000/api/removeProductFromCart', payload)
             console.log("remove product from cart" + JSON.stringify(res));
-            getUserOrderDetail();
+            getUserCartDetail();
         }
         catch (error) {
             console.log("error = " + error)
@@ -78,7 +78,7 @@ function ShoppingCartData() {
             });
 
             console.log("Response from backend:", res.data);
-            getUserOrderDetail(); // re-fetch updated cart
+            getUserCartDetail(); // re-fetch updated cart
         } catch (error) {
             console.error("Failed to update quantity", error);
         }
@@ -105,7 +105,7 @@ function ShoppingCartData() {
                     (<div className="pt-4 pb-4 container" >
                         <h1 className='text-center'>Cart Items</h1>
                         <div className="mt-5 gap-3 gap-lg-0 row">
-                            <div className="col-lg-8 col-md-7" >
+                            <div className="col-lg-8 col-md-12" >
                                 <div className="card">
                                     {
                                         cartOrdersData.map((item) => {
@@ -166,7 +166,7 @@ function ShoppingCartData() {
                                     }
                                 </div>
                             </div>
-                            <div className="col-lg-4 col-md-5">
+                            <div className="col-lg-4 col-md-12">
                                 <div className="gap-3 row">
                                     <div>
                                         <div className="card">
@@ -229,7 +229,7 @@ function ShoppingCartData() {
                                                         <button type="button" className="w-100 btn btn-md btn-primary btn-block" onClick={navigateToConfirmOrderPage}>Check Confirm Orders</button>
                                                     </div>
                                                 </div>
-                                                <CheckOutModal isOpen={showModal} handleClose={() => setShowModal(false)} ></CheckOutModal>
+                                                <CheckOutModal orderData={cartOrdersData} isOpen={showModal} handleClose={() => setShowModal(false)} ></CheckOutModal>
                                             </div>
                                         </div>
                                     </div>

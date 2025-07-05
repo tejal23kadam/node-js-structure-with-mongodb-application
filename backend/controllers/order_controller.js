@@ -52,9 +52,8 @@ const addOrder = async (req, res) => {
 
 const updateOrder = async (req, res) => {
     try {
-        const UserId = req.body.userId;
 
-        const data1 = req.body;
+        const UserId = req.body.userId;
         const data = {
             $addToSet: { products: { $each: req.body.products } }
         };
@@ -74,89 +73,59 @@ const updateOrder = async (req, res) => {
 
 const getUserOrderDetail = async (req, res) => {
     const userId = req.query.userId;
-    const userObjectId = new mongoose.Types.ObjectId(userId);
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ status: false, message: "Invalid user ID" });
+    }
 
     try {
-        const products = await OrderModel.aggregate([
-            { $match: { userId: userObjectId } },
-            {
-                $lookup: {
-                    from: 'users',
-                    localField: 'userId',
-                    foreignField: '_id',
-                    as: 'userDetails',
-                },
-            },
-            { $unwind: '$userDetails' },
-            {
-                $lookup: {
-                    from: 'products',
-                    localField: 'products.product',
-                    foreignField: '_id',
-                    as: 'productDetails',
-                },
-            },
-            {
-                $project: {
-                    name: 1,
-                    phoneNo: 1,
-                    address: 1,
-                    city: 1,
-                    state: 1,
-                    zip: 1,
-                    userDetails: {
-                        name: 1,
-                        email: 1,
-                    },
-                    products: {
-                        $map: {
-                            input: '$products',
-                            as: 'p',
-                            in: {
-                                $let: {
-                                    vars: {
-                                        matchedProduct: {
-                                            $arrayElemAt: [
-                                                {
-                                                    $filter: {
-                                                        input: '$productDetails',
-                                                        cond: { $eq: ['$$this._id', '$$p.product'] },
-                                                    },
-                                                },
-                                                0,
-                                            ],
-                                        },
-                                    },
-                                    in: {
+        const orders = await OrderModel.find({ userId })
+            .populate('products.product') // joins product details
+            .populate('userId', 'name email') // joins user details
+            .sort({ createdAt: -1 })
+            .lean();
 
-                                        product_id: '$$p.product',
-                                        title: '$$matchedProduct.title',
-                                        image: '$$matchedProduct.image',
-                                        price: '$$matchedProduct.price',
-                                        description: '$$matchedProduct.description',
-                                        brand: '$$matchedProduct.brand',
-                                        color: '$$matchedProduct.color',
-                                        category: '$$matchedProduct.category',
-                                        quantity: '$$p.quantity',
-                                        discount: '$$matchedProduct.discount',
-                                        totalPrice: { $multiply: ['$$p.quantity', '$$matchedProduct.price'] },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                },
-            }
-            ,
-        ]);
+        if (!orders || orders.length === 0) {
+            return res.status(404).json({ status: false, message: 'No orders found' });
+        }
 
-        return res.status(200).json({ status: true, data: { message: "all data get", data: products } })
+        const formatted = orders.map(order => ({
+            _id: order._id,
+            createdAt: order.createdAt,
+            phoneNo: order.phoneNo,
+            address: order.address,
+            city: order.city,
+            state: order.state,
+            zip: order.zip,
+            userDetails: {
+                name: order.userId.name,
+                email: order.userId.email,
+            },
+            products: order.products
+                .filter(p => p.product !== null)
+                .map(p => ({
+                    product: p.product._id,
+                    title: p.product.title,
+                    image: p.product.image,
+                    price: p.product.price,
+                    description: p.product.description,
+                    brand: p.product.brand,
+                    color: p.product.color,
+                    category: p.product.category,
+                    discount: p.product.discount,
+                    quantity: p.quantity,
+                    totalPrice: p.quantity * p.product.price,
+                }))
+        }));
+
+        return res.status(200).json({ status: true, message: "Orders retrieved", data: formatted });
+
+    } catch (error) {
+        console.error("Error in getUserOrderDetail:", error);
+        return res.status(500).json({ status: false, message: "Internal server error", error });
     }
-    catch (error) {
-        console.log(error)
-        return res.status(500).json({ status: false, data: { message: "Internal server error", error: error } })
-    }
-}
+};
+
 
 const getUserLastOrder = async (req, res) => {
     try {
