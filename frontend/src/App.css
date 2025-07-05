@@ -881,7 +881,25 @@ ul {
   padding: 3px 8px;
   font-size: 10px;
 }
+.search-bar-container {
+  position: relative;
+  z-index: 1000;
+}
 
+ul.list-group {
+  z-index: 2000 !important;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+.image {
+  position: relative;
+  z-index: 1;
+}
 .discount {
   background-color: red;
   border-radius: 50%;

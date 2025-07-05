@@ -77,44 +77,45 @@ function IndividualCategoryDetailPageNew(props) {
     };
 
     const handleOpen = (id) => {
-        //  console.log("current id" + currentProductId)
+        console.log("current id" + currentProductId)
         setShowModal(true);
         setCurrentProductId(id);
     };
 
     const handleAddToCart = async (productId) => {
         console.log("add cart")
-        if (user && user._id){ 
-        try {
-            console.log("this is the product id " + productId)
-            setCart((prev) => ({
-                ...prev,
-                [productId]: 1,
-            }));
+        if (user && user._id) {
+            try {
+                console.log("this is the product id " + productId)
+                setCart((prev) => ({
+                    ...prev,
+                    [productId]: 1,
+                }));
 
-            const tokenStr = localStorage.getItem('token');
-            const config = {
-                headers: {
-                    "Authorization": `Bearer ${tokenStr}`
+                const tokenStr = localStorage.getItem('token');
+                const config = {
+                    headers: {
+                        "Authorization": `Bearer ${tokenStr}`
+                    }
                 }
+                const payload = {
+                    userId: user._id,
+                    products: [{
+                        product: productId,
+                        quantity: 1,
+                    }]
+                };
+
+
+                const res = await axios.post('http://localhost:2000/api/addCart', payload, config)
+                //  const res = await axios.post('http://localhost:2000/api/updateOrder', payload, config)
+                console.log("response for add cart api  " + JSON.stringify(res))
             }
-            const payload = {
-                userId: user._id,
-                products: [{
-                    product: productId,
-                    quantity: 1,
-                }]
-            };
-
-
-            const res = await axios.post('http://localhost:2000/api/addCart', payload, config)
-            //  const res = await axios.post('http://localhost:2000/api/updateOrder', payload, config)
-            console.log("response for add cart api  " + JSON.stringify(res))
+            catch (error) {
+                console.log(error)
+            }
         }
-        catch (error) {
-            console.log(error)
-        }}
-        else{
+        else {
             alert("Login required to continue. Please sign in.")
         }
     };
@@ -207,41 +208,44 @@ function IndividualCategoryDetailPageNew(props) {
                         <div className='col-lg-2 col-xl-2 col-md-4 advance-search align-self-center'>
                             <button type="submit" className="btn btn-primary active w-100" onClick={() => handleSearchClick()}>Search Now</button>
                         </div> */}
-                        <form className="position-relative w-100" onSubmit={(e) => {
-                            e.preventDefault();
-                            if (searchText.trim()) {
-                                navigate("/searchProduct", { state: { title: searchText } })
-                                setShowSuggestions(false);
-                            }
-                        }}>
-                            <input
-                                className="form-control"
-                                type="text"
-                                placeholder="Search products..."
-                                value={searchText}
-                                onChange={handleChange}
-                                onFocus={() => searchText && setShowSuggestions(true)}
-                                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                            />
+                        <div className="position-relative w-100" style={{ zIndex: 1000 }}>
+                            <form onSubmit={(e) => {
+                                e.preventDefault();
+                                if (searchText.trim()) {
+                                    navigate("/searchProduct", { state: { title: searchText } });
+                                    setShowSuggestions(false);
+                                }
+                            }}>
+                                <input
+                                    className="form-control"
+                                    type="text"
+                                    placeholder="Search products..."
+                                    value={searchText}
+                                    onChange={handleChange}
+                                    onFocus={() => searchText && setShowSuggestions(true)}
+                                    // onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                                />
 
-                            {showSuggestions && suggestions.length > 0 && (
-                                <ul className="list-group position-absolute w-100 z-3">
-                                    {suggestions.map(item => (
-                                        <li
-                                            key={item._id}
-                                            className="list-group-item list-group-item-action"
-                                            onClick={() => {
-                                                navigate("/searchProduct", { state: { title: item } })
-                                                setShowSuggestions(false);
-                                                setSearchText('');
-                                            }}
-                                        >
-                                            {item.title}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                        </form>
+                                {showSuggestions && suggestions.length > 0 && (
+                                    <ul className="list-group position-absolute w-100" style={{ zIndex: 2000 }}>
+                                        {suggestions.filter(datas => datas.category.toLowerCase() === props.category.toLowerCase()).map(item => (
+                                            <li
+                                                key={item._id}
+                                                className="list-group-item list-group-item-action"
+                                                onClick={() => {
+                                                    handleOpen(item._id);
+                                                    setShowSuggestions(false);
+                                                    setSearchText('');
+                                                }}
+                                            >
+                                                {item.title}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </form>
+                        </div>
+
                     </div>
                 </div>
             </section>

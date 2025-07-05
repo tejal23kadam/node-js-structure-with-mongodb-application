@@ -3,17 +3,20 @@ import Marquee from "react-fast-marquee";
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
+import SingleProductDetailPage from './SingleProductDetailPage';
 //import './Slider.css'; // optional for custom styles
 
 function Slider() {
     const [searchText, setSearchText] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [currentProductId, setCurrentProductId] = useState(1);
     //const [allProducts, setAllProducts] = useState([]);
     const navigate = useNavigate();
     const allProducts = useSelector((state) => state.allData.data);
 
-    
+
     const handleChange = (e) => {
         const value = e.target.value;
         setSearchText(value);
@@ -31,6 +34,12 @@ function Slider() {
         setSuggestions(matches.slice(0, 8)); // limit to 5 suggestions
         setShowSuggestions(true);
     };
+    const handleOpen = (id) => {
+        
+        console.log("current id" + id)
+        setShowModal(true);
+        setCurrentProductId(id);
+    };
 
     return (
         <section className='sliders-container mt-4'>
@@ -42,10 +51,11 @@ function Slider() {
             </div>
 
             {/* Search Bar */}
-            <div className="container mt-3">
+            <div className="search-bar-container position-relative z-3 mt-3">
                 <div className="row justify-content-center">
                     <div className="col-12 col-sm-10 col-md-6 text-center">
-                        <form className="position-relative w-100" onSubmit={(e) => {
+
+                        <form className=" w-100" onSubmit={(e) => {
                             e.preventDefault();
                             if (searchText.trim()) {
                                 navigate("/searchProduct", { state: { title: searchText } })
@@ -59,17 +69,22 @@ function Slider() {
                                 value={searchText}
                                 onChange={handleChange}
                                 onFocus={() => searchText && setShowSuggestions(true)}
-                                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                                // onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                             />
 
                             {showSuggestions && suggestions.length > 0 && (
-                                <ul className="list-group position-absolute w-100 z-3">
+                                <ul className="list-group position-absolute w-100 ">
                                     {suggestions.map(item => (
                                         <li
                                             key={item._id}
                                             className="list-group-item list-group-item-action"
+                                            // onClick={() => {
+                                            //     navigate("/searchProduct", { state: { title: item } })
+                                            //     setShowSuggestions(false);
+                                            //     setSearchText('');
+                                            // }}
                                             onClick={() => {
-                                                navigate("/searchProduct", { state: { title: item } })
+                                                handleOpen(item._id);
                                                 setShowSuggestions(false);
                                                 setSearchText('');
                                             }}
@@ -83,6 +98,7 @@ function Slider() {
 
                     </div>
                 </div>
+
             </div>
 
             {/* Marquee Row 1 */}
@@ -122,14 +138,15 @@ function Slider() {
                         <div
                             key={i}
                             className="image mx-2"
-                            style={{ backgroundImage: `url('${section.url}')` }}
-                        >
+                            style={{ backgroundImage: `url('${section.url}')` }}                        >
                             <div className="overlay" />
                         </div>
                     ))}
                 </Marquee>
             </div>
-        </section>
+
+            <SingleProductDetailPage isOpen={showModal} handleClose={() => setShowModal(false)} productId={currentProductId} ></SingleProductDetailPage>
+        </section >
     );
 }
 
